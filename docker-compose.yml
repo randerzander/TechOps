@@ -1,0 +1,39 @@
+version: '2'
+services:
+  monitor.dev:
+    build:
+     context: containers/base
+     args:
+      - NIFI_URL=${NIFI_URL}
+      - HDF_HOME=${HDF_HOME}
+    image: base
+    networks:
+     - dev
+    hostname: monitor
+    domainname: dev
+    environment:
+     - MODE=master
+    ports:
+     - "8080:8080"
+     - "8500:8500"
+  web.dev:
+    depends_on:
+     - monitor.dev
+    build: 
+      context: containers/web
+    image: web
+    networks:
+     - dev
+    hostname: web
+    domainname: dev
+    environment:
+     - MODE=slave
+     - SCRIPT=web.sh
+    ports:
+     - "8000:8000"
+    volumes:
+     - ~/demos/techops/data:/data
+
+networks:
+  dev:
+    driver: bridge
