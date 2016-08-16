@@ -1,6 +1,7 @@
 This project's intent is to demonstrate the use of Apache NiFi (and NiFi MiNiFi) to collect and make available application and device information.
 
 The containers are pre-configured to run:
+
 1. Hashicorp's Consul for application and host registration, discovery, and basic health monitoring
 2. A basic Python HTTP server
 3. nmon for generating snapshots of host performance and configuration data
@@ -19,7 +20,7 @@ In a Zeppelin instance, import the two notebooks in 'zeppelin-notebooks'. Since 
 
 For example, on my MacBook, the project lives under /Users/randy/demos/techops, thus:
 ```
-val fs = "/Users/randy/demos/techops/data"
+val fs = "/Users/randy/demos/TechOps/data"
 ```
 
 Use Zeppelin's "Run All" feature to run all notes in DeviceRegistry-Setup before you can generate the charts in the DeviceRegistry notebook.
