@@ -1,0 +1,111 @@
+Flow Controller:
+  name: MiNiFi-Flow
+  comment: ''
+Core Properties:
+  flow controller graceful shutdown period: 10 sec 
+  flow service write delay interval: 500 ms
+  administrative yield duration: 30 sec 
+  bored yield duration: 10 millis
+  max concurrent threads: 1
+FlowFile Repository:
+  partitions: 256 
+  checkpoint interval: 2 mins
+  always sync: false
+  Swap:
+    threshold: 20000
+    in period: 5 sec 
+    in threads: 1
+    out period: 5 sec 
+    out threads: 4
+Content Repository:
+  content claim max appendable size: 10 MB
+  content claim max flow files: 100 
+  always sync: false
+Provenance Repository:
+  provenance rollover time: 1 min 
+Component Status Repository:
+  buffer size: 1440
+  snapshot frequency: 1 min 
+Security Properties:
+  keystore: ''
+  keystore type: ''
+  keystore password: ''
+  key password: ''
+  truststore: ''
+  truststore type: ''
+  truststore password: ''
+  ssl protocol: ''
+  Sensitive Props:
+    key:
+    algorithm: PBEWITHMD5AND256BITAES-CBC-OPENSSL
+    provider: BC
+Processors:
+- name: GetFile
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 15 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    #Batch Size:
+    #File Filter:
+    #Ignore Hidden Files:
+    Input Directory: /host-data
+    Keep Source File: false
+    #Maximum File Age:
+    #Maximum File Size:
+    Minimum File Age: 10 sec
+    #Minimum File Size:
+    #Path Filter:
+    #Polling Interval:
+    Recurse Subdirectories: true
+- name: TailFile
+  class: org.apache.nifi.processors.standard.TailFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 1 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    #File Location:
+    File to Tail: /logs/log.log
+    State File: state.log
+    #Initial Start Position:
+    #Rolling Filename Pattern:
+Connections:
+- name: GetFile/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: GetFile
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- name: TailFile/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: TailFile
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+Remote Processing Groups:
+- name: http://localhost:8080/nifi
+  url: http://localhost:8080/nifi
+  comment: ''
+  timeout: 30 sec
+  yield period: 10 sec
+  Input Ports:
+  - id: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+    name: MiNiFiInput
+    comment: ''
+    max concurrent tasks: 1
+    use compression: false
+    Properties: # Deviates from spec and will later be removed when this is autonegotiated
+        Port: 1026
+        Host Name: monitor.dev

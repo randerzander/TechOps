@@ -16,6 +16,8 @@ services:
     ports:
      - "8080:8080"
      - "8500:8500"
+    volumes:
+     - ~/demos/TechOps/data:/data
   web.dev:
     depends_on:
      - monitor.dev
@@ -24,15 +26,9 @@ services:
     image: web
     networks:
      - dev
-    hostname: web
-    domainname: dev
     environment:
      - MODE=slave
      - SCRIPT=web.sh
-    ports:
-     - "8000:8000"
-    volumes:
-     - ~/demos/techops/data:/data
 
 networks:
   dev:
