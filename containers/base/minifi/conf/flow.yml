@@ -73,7 +73,7 @@ Processors:
   auto-terminated relationships list: []
   Properties:
     #File Location:
-    File to Tail: /logs/log.log
+    File to Tail: TAILFILE
     State File: state.log
     #Initial Start Position:
     #Rolling Filename Pattern:
