@@ -1,0 +1,10 @@
+{
+    "service": {
+      "id": "web",
+      "Name": "web",
+      "tags": ["standalone"],
+      "Service": "web",
+      "ServiceID": "web",
+      "Port": 8000
+    }
+}

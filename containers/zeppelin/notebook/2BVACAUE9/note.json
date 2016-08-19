@@ -1,0 +1,3617 @@
+{
+  "paragraphs": [
+    {
+      "title": "HTML/Javascript setup",
+      "text": "%angular\n\u003c!-- External libraries --\u003e\n\u003cscript type\u003d\"text/javascript\" src\u003d\"http://dygraphs.com/dygraph-combined.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/highcharts.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/modules/exporting.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://cdn.plot.ly/plotly-latest.min.js\"\u003e\u003c/script\u003e\n\n\u003cdiv id\u003d\"dummy\" vars\u003d\"data1,data1Schema,data2,data2Schema\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\n  var div \u003d $(\u0027#dummy\u0027);\n  //Given an element in the note \u0026 list of values to fetch from Spark\n  //window.angularVars.myVal will be current value of backend Spark val of same name\n  function hoist(element, varNames){\n    window.angularVars \u003d {};\n    var scope \u003d angular.element(element.parent(\u0027.ng-scope\u0027)).scope().compiledScope;\n    $.each(varNames, function(i, v){\n      window[v+\u0027-watcher\u0027] \u003d scope.$watch(v, function(newVal, oldVal){\n        console.log(\u0027Setting \u0027 + v + \u0027 to:\\n\u0027);\n        console.log(newVal);\n        window.angularVars[v] \u003d newVal;\n      });\n    });\n  }\n  hoist(div, div.attr(\u0027vars\u0027).split(\u0027,\u0027));\n\u003c/script\u003e",
+      "dateUpdated": "Aug 18, 2016 1:04:39 AM",
+      "config": {
+        "tableHide": true,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160704-174503_870280567",
+      "result": {
+        "code": "SUCCESS",
+        "type": "ANGULAR",
+        "msg": "\u003c!-- External libraries --\u003e\n\u003cscript type\u003d\"text/javascript\" src\u003d\"http://dygraphs.com/dygraph-combined.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/highcharts.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/modules/exporting.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://cdn.plot.ly/plotly-latest.min.js\"\u003e\u003c/script\u003e\n\n\u003cdiv id\u003d\"dummy\" vars\u003d\"data1,data1Schema,data2,data2Schema\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\n  var div \u003d $(\u0027#dummy\u0027);\n  //Given an element in the note \u0026 list of values to fetch from Spark\n  //window.angularVars.myVal will be current value of backend Spark val of same name\n  function hoist(element, varNames){\n    window.angularVars \u003d {};\n    var scope \u003d angular.element(element.parent(\u0027.ng-scope\u0027)).scope().compiledScope;\n    $.each(varNames, function(i, v){\n      window[v+\u0027-watcher\u0027] \u003d scope.$watch(v, function(newVal, oldVal){\n        console.log(\u0027Setting \u0027 + v + \u0027 to:\\n\u0027);\n        console.log(newVal);\n        window.angularVars[v] \u003d newVal;\n      });\n    });\n  }\n  hoist(div, div.attr(\u0027vars\u0027).split(\u0027,\u0027));\n\u003c/script\u003e"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:04:39 AM",
+      "dateFinished": "Aug 18, 2016 1:04:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load Metrics",
+      "text": "val data1 \u003d sqlContext.sql(\"select * from metrics\")\nz.angularBind(\"data1\", data1.collect())\nz.angularBind(\"data1Schema\", data1.schema)",
+      "dateUpdated": "Aug 18, 2016 1:04:39 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160703-224943_2118529814",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ndata1: org.apache.spark.sql.DataFrame \u003d [time: string, cpuused: double ... 6 more fields]\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:04:39 AM",
+      "dateFinished": "Aug 18, 2016 1:04:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Device Registry Meta",
+      "text": "%sql\nselect Datetime, Address as IP, Node, TaggedAddresses\nfrom nodes\nlimit 7",
+      "dateUpdated": "Aug 18, 2016 1:04:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "Datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "IP",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "Datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160808-144321_1602171126",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "Datetime\tIP\tNode\tTaggedAddresses\n2016-08-17 21:25:13\t172.18.0.8\t138dc9438438\t[172.18.0.8]\n2016-08-17 21:25:13\t172.18.0.3\t1813e5980e00\t[172.18.0.3]\n2016-08-17 21:25:13\t172.18.0.11\t1fc206df41fb\t[172.18.0.11]\n2016-08-17 21:25:13\t172.18.0.5\t2f3b4ceecbd3\t[172.18.0.5]\n2016-08-17 21:25:13\t172.18.0.12\t393a7c63bcba\t[172.18.0.12]\n2016-08-17 21:25:13\t172.18.0.9\t57736e96c90f\t[172.18.0.9]\n2016-08-17 21:25:13\t172.18.0.4\t7493dd68250b\t[172.18.0.4]\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:04:40 AM",
+      "dateFinished": "Aug 18, 2016 1:04:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Select Host",
+      "text": "val nodes \u003d sqlContext.sql(\"select distinct node from nodes where node !\u003d \u0027monitor.dev\u0027\").collect().map(x \u003d\u003e (x(0).asInstanceOf[String], x(0).asInstanceOf[String]))\n\nval query \u003d \"\"\"\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(unknown.requests, 0) as string))) as ExternalRequests,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(known.requests, 0) as string))) as InternalRequests,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(known.requests, 0) + greatest(unknown.requests, 0) as string))) as TotalRequests,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom node_monitoring\nleft outer join (\n  select date_format(datetime, \u0027HH:mm\u0027) as time, app_host, count(*) as requests\n  from web_logs_enriched\n  where source_host is not null or source_ip \u003d \u0027127.0.0.1\u0027\n  group by date_format(datetime, \u0027HH:mm\u0027), app_host\n) known\non node_monitoring.node \u003d known.app_host and date_format(node_monitoring.datetime, \u0027HH:mm\u0027) \u003d known.time\nleft outer join (\n  select date_format(datetime, \u0027HH:mm\u0027) as time, app_host, count(*) as requests\n  from web_logs_enriched\n  where source_host is null\n  group by date_format(datetime, \u0027HH:mm\u0027), app_host\n) unknown\non node_monitoring.node \u003d unknown.app_host and date_format(node_monitoring.datetime, \u0027HH:mm\u0027) \u003d unknown.time\nwhere node \u003d \u0027\"\"\" + z.select(\"node\", nodes) + \"\"\"\u0027\ngroup by node\n\"\"\"\nval data2 \u003d sqlContext.sql(query)\nz.angularBind(\"data2\", data2.collect())\nz.angularBind(\"data2Schema\", data2.schema)\nz.run(\"20160706-130128_836809999\")",
+      "dateUpdated": "Aug 18, 2016 1:04:39 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {
+          "node": "7493dd68250b"
+        },
+        "forms": {
+          "node": {
+            "name": "node",
+            "displayName": "node",
+            "type": "select",
+            "defaultValue": "",
+            "options": [
+              {
+                "value": "138dc9438438",
+                "displayName": "138dc9438438"
+              },
+              {
+                "value": "97ac9411824c",
+                "displayName": "97ac9411824c"
+              },
+              {
+                "value": "1813e5980e00",
+                "displayName": "1813e5980e00"
+              },
+              {
+                "value": "1fc206df41fb",
+                "displayName": "1fc206df41fb"
+              },
+              {
+                "value": "d1c6cd8cb8a9",
+                "displayName": "d1c6cd8cb8a9"
+              },
+              {
+                "value": "57736e96c90f",
+                "displayName": "57736e96c90f"
+              },
+              {
+                "value": "9df4774d1fc7",
+                "displayName": "9df4774d1fc7"
+              },
+              {
+                "value": "393a7c63bcba",
+                "displayName": "393a7c63bcba"
+              },
+              {
+                "value": "2f3b4ceecbd3",
+                "displayName": "2f3b4ceecbd3"
+              },
+              {
+                "value": "7493dd68250b",
+                "displayName": "7493dd68250b"
+              }
+            ],
+            "hidden": false
+          }
+        }
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160706-125955_1152872728",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nnodes: Array[(String, String)] \u003d Array((138dc9438438,138dc9438438), (97ac9411824c,97ac9411824c), (1813e5980e00,1813e5980e00), (1fc206df41fb,1fc206df41fb), (d1c6cd8cb8a9,d1c6cd8cb8a9), (57736e96c90f,57736e96c90f), (9df4774d1fc7,9df4774d1fc7), (393a7c63bcba,393a7c63bcba), (2f3b4ceecbd3,2f3b4ceecbd3), (7493dd68250b,7493dd68250b))\n\n\n\n\n\n\n\n\n\n\n\n\nquery: String \u003d\n\"\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(unknown.requests, 0) as string))) as ExternalRequests,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(known.requests, 0) as string))) as InternalRequests,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(known.requests, 0) + greatest(unknown.requests, 0) as string))) as TotalRequests,\n concat_ws(\u0027,\u0027...\ndata2: org.apache.spark.sql.DataFrame \u003d [time: string, Disk: string ... 8 more fields]\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:04:43 AM",
+      "dateFinished": "Aug 18, 2016 1:04:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Host/Device View",
+      "text": "%angular\n\u003cdiv id\u003d\"chart2\" style\u003d\"min-width: 100%; height: 500px; margin: 0 auto\" data\u003d\"data2\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart2\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)][0].values;\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\nvar series \u003d [];\n$.each(schema.fields, function(i, v){\n  if (i \u003e 0){\n    series.push({\n      name: v.name, type: \u0027spline\u0027, yAxis: 0,\n      tooltip: { valueSuffix: \u0027 %\u0027 },\n      data: JSON.parse(\u0027[\u0027+data[i].split(\u0027,\u0027)+\u0027]\u0027)\n    });\n  }\n});\n\nseries[series.length-1].dashStyle \u003d \u0027dot\u0027;\nseries[series.length-1].yAxis \u003d 1;\nseries[series.length-1].tooltip.valueSuffix \u003d \u0027 MB\u0027;\n\nfunction adjustSeries(index, dot){\n  series[index].dashStyle \u003d dot;\n  series[index].yAxis \u003d 2;\n  series[index].tooltip.valueSuffix \u003d \u0027 Hits\u0027;\n}\n\nadjustSeries(series.length - 2, \u0027longDash\u0027);\nadjustSeries(series.length - 3, \u0027shortDash\u0027);\nadjustSeries(series.length - 4, \u0027shortDash\u0027);\n\nvar xAxis \u003d {categories: data[0].split(\u0027,\u0027), crosshair: true};\n\nvar yAxis1 \u003d {\n  labels: { format: \u0027{value} %\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  title: { text: \u0027Percentage Consumed\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  opposite: true\n};\n\nvar yAxis2 \u003d {\n  labels: { format: \u0027{value} MB\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027Memory Available\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0\n};\n\nvar yAxis3 \u003d {\n  labels: { format: \u0027{value}\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027HTTP Requests\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0,\n  opposite: true\n};\n\nvar legend \u003d {\n  layout: \u0027vertical\u0027, align: \u0027left\u0027, verticalAlign: \u0027top\u0027, floating: true,\n  backgroundColor: (Highcharts.theme \u0026\u0026 Highcharts.theme.legendBackgroundColor) || \u0027#FFFFFF\u0027,\n  x: 80, y: 55\n};\n\n$(\u0027#chart2\u0027).highcharts({\n  chart: { zoomType: \u0027xy\u0027 },\n  title: { text: \u0027Node Metrics:\u0027},\n  xAxis: [xAxis],\n  yAxis: [yAxis1, yAxis2, yAxis3],\n  series: series,\n  legend: legend,\n  tooltip: { shared: true }\n});\n\u003c/script\u003e",
+      "dateUpdated": "Aug 18, 2016 1:05:04 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160706-130128_836809999",
+      "result": {
+        "code": "SUCCESS",
+        "type": "ANGULAR",
+        "msg": "\u003cdiv id\u003d\"chart2\" style\u003d\"min-width: 100%; height: 500px; margin: 0 auto\" data\u003d\"data2\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart2\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)][0].values;\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\nvar series \u003d [];\n$.each(schema.fields, function(i, v){\n  if (i \u003e 0){\n    series.push({\n      name: v.name, type: \u0027spline\u0027, yAxis: 0,\n      tooltip: { valueSuffix: \u0027 %\u0027 },\n      data: JSON.parse(\u0027[\u0027+data[i].split(\u0027,\u0027)+\u0027]\u0027)\n    });\n  }\n});\n\nseries[series.length-1].dashStyle \u003d \u0027dot\u0027;\nseries[series.length-1].yAxis \u003d 1;\nseries[series.length-1].tooltip.valueSuffix \u003d \u0027 MB\u0027;\n\nfunction adjustSeries(index, dot){\n  series[index].dashStyle \u003d dot;\n  series[index].yAxis \u003d 2;\n  series[index].tooltip.valueSuffix \u003d \u0027 Hits\u0027;\n}\n\nadjustSeries(series.length - 2, \u0027longDash\u0027);\nadjustSeries(series.length - 3, \u0027shortDash\u0027);\nadjustSeries(series.length - 4, \u0027shortDash\u0027);\n\nvar xAxis \u003d {categories: data[0].split(\u0027,\u0027), crosshair: true};\n\nvar yAxis1 \u003d {\n  labels: { format: \u0027{value} %\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  title: { text: \u0027Percentage Consumed\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  opposite: true\n};\n\nvar yAxis2 \u003d {\n  labels: { format: \u0027{value} MB\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027Memory Available\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0\n};\n\nvar yAxis3 \u003d {\n  labels: { format: \u0027{value}\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027HTTP Requests\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0,\n  opposite: true\n};\n\nvar legend \u003d {\n  layout: \u0027vertical\u0027, align: \u0027left\u0027, verticalAlign: \u0027top\u0027, floating: true,\n  backgroundColor: (Highcharts.theme \u0026\u0026 Highcharts.theme.legendBackgroundColor) || \u0027#FFFFFF\u0027,\n  x: 80, y: 55\n};\n\n$(\u0027#chart2\u0027).highcharts({\n  chart: { zoomType: \u0027xy\u0027 },\n  title: { text: \u0027Node Metrics:\u0027},\n  xAxis: [xAxis],\n  yAxis: [yAxis1, yAxis2, yAxis3],\n  series: series,\n  legend: legend,\n  tooltip: { shared: true }\n});\n\u003c/script\u003e"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:05:04 AM",
+      "dateFinished": "Aug 18, 2016 1:05:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enterprise-Wide Application Metrics",
+      "text": "%angular\n\u003cdiv id\u003d\"chart1\" title\u003d\"Node Metrics\" data\u003d\"data1\" yAxes\u003d\"MemAvail,Percentage Consumed,HTTP Requests\" height\u003d\"400px\" width\u003d\"2000\"\u003e\u003c/div\u003e\n\u003cinput id\u003d\"x0\" type\u003d\"text\" ng-model\u003d\"x0\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cinput id\u003d\"x1\" type\u003d\"text\" ng-model\u003d\"x1\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart1\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)];\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\n//Convert query results into Plotly traces: https://plot.ly/javascript/multiple-axes/#multiple-yaxes\nvar traces \u003d [];\n$.each(schema.fields.slice(1), function(i, field){ //Setup trace metadata\n  var trace \u003d {x: [], y: [], name: field.name, type: \u0027scatter\u0027, yaxis: \u0027y\u0027};\n  if (field.name.toLowerCase().indexOf(\u0027used\u0027) \u003e 0) trace.yaxis \u003d \u0027y2\u0027;\n  else if (field.name.toLowerCase().indexOf(\u0027requests\u0027) \u003e 0) trace.yaxis \u003d \u0027y3\u0027;\n  traces.push(trace);\n});\n//Load query results into trace arrays\n$.each(data, function(i,row){\n  //First value is a date\n  var date \u003d new Date(row.values[0]);\n  $.each(row.values.slice(1), function(v, cell){\n    traces[v].x.push(date);\n    traces[v].y.push(cell);\n  });\n});\n\nvar layout \u003d { title: \u0027MultiHost App View\u0027, legend: {orientation: \u0027h\u0027}};\n$.each(div.attr(\u0027yAxes\u0027).split(\u0027,\u0027), function(i, v){\n  var axis \u003d {title: v};\n  var key \u003d \u0027yaxis\u0027;\n  if (i \u003e 0){\n    key +\u003d i+1;\n    axis.side \u003d \u0027right\u0027;\n    axis.overlaying \u003d \u0027y\u0027;\n    axis.position \u003d 1-.04*(i-1);\n  }\n  layout[key] \u003d axis;\n});\n\nvar config \u003d {displaylogo: div.attr(\u0027showLinks\u0027), showLinks: div.attr(\u0027showLinks\u0027), modeBarButtonsToRemove: [\u0027sendDataToCloud\u0027]};\nPlotly.newPlot(\u0027chart1\u0027, traces, layout, config);\n\ndiv.bind(\u0027plotly_relayout\u0027, function(event,eventdata){\n  alert(new Date(eventdata[\u0027xaxis.range[0]\u0027]) + \u0027\\n\u0027 + new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  /*\n  $(\u0027#x0\u0027).val(new Date(eventdata[\u0027xaxis.range[0]\u0027]));\n  $(\u0027#x1\u0027).val(new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  $(\u0027#x0\u0027).trigger(\u0027input\u0027);\n  $(\u0027#x1\u0027).trigger(\u0027input\u0027);\n  */\n});\n\u003c/script\u003e",
+      "dateUpdated": "Aug 18, 2016 6:31:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160807-021500_806175985",
+      "result": {
+        "code": "SUCCESS",
+        "type": "ANGULAR",
+        "msg": "\u003cdiv id\u003d\"chart1\" title\u003d\"Node Metrics\" data\u003d\"data1\" yAxes\u003d\"MemAvail,Percentage Consumed,HTTP Requests\" height\u003d\"400px\" width\u003d\"2000\"\u003e\u003c/div\u003e\n\u003cinput id\u003d\"x0\" type\u003d\"text\" ng-model\u003d\"x0\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cinput id\u003d\"x1\" type\u003d\"text\" ng-model\u003d\"x1\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart1\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)];\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\n//Convert query results into Plotly traces: https://plot.ly/javascript/multiple-axes/#multiple-yaxes\nvar traces \u003d [];\n$.each(schema.fields.slice(1), function(i, field){ //Setup trace metadata\n  var trace \u003d {x: [], y: [], name: field.name, type: \u0027scatter\u0027, yaxis: \u0027y\u0027};\n  if (field.name.toLowerCase().indexOf(\u0027used\u0027) \u003e 0) trace.yaxis \u003d \u0027y2\u0027;\n  else if (field.name.toLowerCase().indexOf(\u0027requests\u0027) \u003e 0) trace.yaxis \u003d \u0027y3\u0027;\n  traces.push(trace);\n});\n//Load query results into trace arrays\n$.each(data, function(i,row){\n  //First value is a date\n  var date \u003d new Date(row.values[0]);\n  $.each(row.values.slice(1), function(v, cell){\n    traces[v].x.push(date);\n    traces[v].y.push(cell);\n  });\n});\n\nvar layout \u003d { title: \u0027MultiHost App View\u0027, legend: {orientation: \u0027h\u0027}};\n$.each(div.attr(\u0027yAxes\u0027).split(\u0027,\u0027), function(i, v){\n  var axis \u003d {title: v};\n  var key \u003d \u0027yaxis\u0027;\n  if (i \u003e 0){\n    key +\u003d i+1;\n    axis.side \u003d \u0027right\u0027;\n    axis.overlaying \u003d \u0027y\u0027;\n    axis.position \u003d 1-.04*(i-1);\n  }\n  layout[key] \u003d axis;\n});\n\nvar config \u003d {displaylogo: div.attr(\u0027showLinks\u0027), showLinks: div.attr(\u0027showLinks\u0027), modeBarButtonsToRemove: [\u0027sendDataToCloud\u0027]};\nPlotly.newPlot(\u0027chart1\u0027, traces, layout, config);\n\ndiv.bind(\u0027plotly_relayout\u0027, function(event,eventdata){\n  alert(new Date(eventdata[\u0027xaxis.range[0]\u0027]) + \u0027\\n\u0027 + new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  /*\n  $(\u0027#x0\u0027).val(new Date(eventdata[\u0027xaxis.range[0]\u0027]));\n  $(\u0027#x1\u0027).val(new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  $(\u0027#x0\u0027).trigger(\u0027input\u0027);\n  $(\u0027#x1\u0027).trigger(\u0027input\u0027);\n  */\n});\n\u003c/script\u003e"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:05:31 AM",
+      "dateFinished": "Aug 18, 2016 1:05:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Timestamped Host Process Metadata",
+      "text": "%sql select * from ps_raw limit 5",
+      "dateUpdated": "Aug 18, 2016 1:04:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "ts",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "ts",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160810-044954_1805943913",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "node\tts\tuser\tpid\tCPU\tMem\tVSZ\tRSS\tTTY\tSTAT\tStart\tTime\tCommand\n138dc9438438\t1471483\troot\t1\t3.0\t0.0\t11648\t2556\t?\tSs\t01:24\t0:00\tsh /scripts/start.sh\n138dc9438438\t1471483\troot\t20\t0.0\t0.0\t59828\t7880\t?\tR\t01:24\t0:00\tpython /server.py 8000\n138dc9438438\t1471483\troot\t23\t0.0\t0.0\t183036\t3736\t?\tSl\t01:24\t0:00\t\n138dc9438438\t1471483\troot\t24\t0.0\t0.0\t11644\t2604\t?\tS\t01:24\t0:00\tsh /scripts/ps.sh\n138dc9438438\t1471483\troot\t25\t0.0\t0.0\t11644\t2424\t?\tS\t01:24\t0:00\tsh /scripts/netstat.sh\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:04:43 AM",
+      "dateFinished": "Aug 18, 2016 1:05:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Heaviest Processes by CPU",
+      "text": "%sql\nselect * from (\nselect node, split(command, \u0027 \u0027)[0], avg(cpu) as avg\nfrom ps_raw\ngroup by node, split(command, \u0027 \u0027)[0]\norder by avg desc\n) a\nwhere avg \u003e 0",
+      "dateUpdated": "Aug 18, 2016 1:04:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "helium": {},
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "split(command,  )[0]",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "avg",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [
+            {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "scatter": {
+            "xAxis": {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "split(command,  )[0]",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160810-125443_900198444",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "node\tsplit(command,  )[0]\tavg\nmonitor.dev\t/usr/lib/jvm/java-1.8.0-openjdk/bin/java\t14.379475982532837\nmonitor.dev\tconsul\t4.236681222707422\n2f3b4ceecbd3\tconsul\t0.9600000000000027\n1813e5980e00\tconsul\t0.9528888888888917\n7493dd68250b\tconsul\t0.9487179487179513\nd1c6cd8cb8a9\tconsul\t0.8967532467532482\n1fc206df41fb\tconsul\t0.8954248366013078\n57736e96c90f\tconsul\t0.8941176470588252\n97ac9411824c\tconsul\t0.8908496732026154\n138dc9438438\tconsul\t0.88235294117647\n9df4774d1fc7\tconsul\t0.8784313725490195\n393a7c63bcba\tconsul\t0.8584415584415569\n1813e5980e00\t\t0.5961038961038952\n2f3b4ceecbd3\t\t0.5899497487437185\n7493dd68250b\t\t0.5844999999999999\nmonitor.dev\t\t0.4493506493506517\nd1c6cd8cb8a9\t\t0.4459119496855346\n97ac9411824c\t\t0.44203821656050934\n393a7c63bcba\t\t0.44125\n138dc9438438\t\t0.440880503144654\n57736e96c90f\t\t0.43734177215189846\n9df4774d1fc7\t\t0.4362499999999998\n1fc206df41fb\t\t0.4352201257861632\n393a7c63bcba\tpython\t0.03037974683544303\n9df4774d1fc7\tpython\t0.022929936305732493\n138dc9438438\tpython\t0.022929936305732493\n1fc206df41fb\tpython\t0.022292993630573257\n138dc9438438\tnmon\t0.02\n97ac9411824c\tpython\t0.019745222929936312\nd1c6cd8cb8a9\tpython\t0.01455696202531646\n2f3b4ceecbd3\tpython\t0.013567839195979902\n57736e96c90f\tpython\t0.01210191082802548\n7493dd68250b\tpython\t0.010050251256281409\n1813e5980e00\tpython\t0.010043668122270746\nmonitor.dev\tping\t0.007894736842105263\n138dc9438438\tsh\t0.006309148264984227\n1fc206df41fb\tsh\t0.006309148264984227\n9df4774d1fc7\tsh\t0.006299212598425197\n393a7c63bcba\tsh\t0.006259780907668232\n7493dd68250b\tsh\t0.004993757802746567\n2f3b4ceecbd3\tsh\t0.0049813200498132005\n57736e96c90f\tsh\t0.0037854889589905368\n1813e5980e00\tsh\t0.0027144408251900108\nd1c6cd8cb8a9\tsh\t0.0021875\nmonitor.dev\tsh\t0.0019522776572668116\n97ac9411824c\tsh\t0.001257861635220126\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:04:57 AM",
+      "dateFinished": "Aug 18, 2016 1:06:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Timestamped Host Network Activity",
+      "text": "%sql select * from netstat_raw limit 5",
+      "dateUpdated": "Aug 18, 2016 1:04:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "ts",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "ts",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216527_234748010",
+      "id": "20160810-053759_255179982",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "node\tts\tProto\tRecvQ\tSendQ\tLocalAddress\tForeignAddress\tState\tUser\tInode\tpid\tProgramName\n138dc9438438\t1471483\ttcp\t0\t0\t127.0.0.11:38599\t0.0.0.0:*\tLISTEN\troot\t806450\t\t\n138dc9438438\t1471483\tudp\t0\t0\t127.0.0.11:45596\t0.0.0.0:*\troot\t806449\t-\t\t\n138dc9438438\t1471483\ttcp\t0\t0\t127.0.0.11:38599\t0.0.0.0:*\tLISTEN\troot\t806450\t\t\n138dc9438438\t1471483\ttcp\t0\t0\t0.0.0.0:irdmi\t0.0.0.0:*\tLISTEN\troot\t811415\t\t\n138dc9438438\t1471483\tudp\t0\t0\t127.0.0.11:45596\t0.0.0.0:*\troot\t806449\t-\t\t\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:05:19 AM",
+      "dateFinished": "Aug 18, 2016 1:06:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Most Frequent Net Activity by Host",
+      "text": "%sql\nselect node, foreignaddress, count(*) as count\nfrom netstat_raw group by node, foreignaddress\norder by count desc\nlimit 15",
+      "dateUpdated": "Aug 18, 2016 1:04:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "helium": {},
+        "title": true,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "foreignaddress",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [
+            {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "scatter": {
+            "yAxis": {
+              "name": "count",
+              "index": 2.0,
+              "aggr": "sum"
+            },
+            "group": {
+              "name": "foreignaddress",
+              "index": 1.0,
+              "aggr": "sum"
+            },
+            "xAxis": {
+              "name": "node",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216528_245136231",
+      "id": "20160810-124941_1867977815",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "node\tforeignaddress\tcount\nmonitor.dev\t[::]:*\t2270\nmonitor.dev\tlocalhost:fmtp\t1927\n1813e5980e00\t0.0.0.0:*\t1579\n7493dd68250b\t0.0.0.0:*\t1369\n2f3b4ceecbd3\t0.0.0.0:*\t1369\nmonitor.dev\t0.0.0.0:*\t1167\n1813e5980e00\t[::]:*\t1120\n138dc9438438\t0.0.0.0:*\t1082\n1fc206df41fb\t0.0.0.0:*\t1082\nd1c6cd8cb8a9\t0.0.0.0:*\t1082\n97ac9411824c\t0.0.0.0:*\t1082\n393a7c63bcba\t0.0.0.0:*\t1082\n57736e96c90f\t0.0.0.0:*\t1075\n9df4774d1fc7\t0.0.0.0:*\t1075\n2f3b4ceecbd3\t[::]:*\t970\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:06:10 AM",
+      "dateFinished": "Aug 18, 2016 1:07:24 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.zeppelin.display.angular.notebookscope._\nimport AngularElem._",
+      "dateUpdated": "Aug 18, 2016 1:04:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216528_245136231",
+      "id": "20160810-125144_1208192331",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.zeppelin.display.angular.notebookscope._\n\nimport AngularElem._\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:06:31 AM",
+      "dateFinished": "Aug 18, 2016 1:07:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Aug 18, 2016 1:04:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482216528_245136231",
+      "id": "20160815-124555_255216493",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Aug 17, 2016 9:03:36 PM",
+      "dateStarted": "Aug 18, 2016 1:07:26 AM",
+      "dateFinished": "Aug 18, 2016 1:07:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "DeviceRegistry",
+  "id": "2BVACAUE9",
+  "lastReplName": {
+    "value": "angular"
+  },
+  "angularObjects": {
+    "2BQ4DA89C:shared_process": [],
+    "2BQ2F53M6:shared_process": [],
+    "2BSY8XK83:shared_process": [],
+    "2BQQW1DA2:shared_process": [],
+    "2BTD7M9Z7:shared_process": [
+      {
+        "name": "data2Schema",
+        "object": {
+          "fields": [
+            {
+              "name": "time",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "Disk",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "CPUUser",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "CPUSys",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "CPU",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "Mem",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "ExternalRequests",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "InternalRequests",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "TotalRequests",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "MemAvail",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": false,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            }
+          ],
+          "_hashCode": 0.0,
+          "bitmap$0": 0.0
+        },
+        "noteId": "2BVACAUE9"
+      },
+      {
+        "name": "data2",
+        "object": [
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "Disk",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "CPUUser",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "CPUSys",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "CPU",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "Mem",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ExternalRequests",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "InternalRequests",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "TotalRequests",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "MemAvail",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": false,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": -2.14462183E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "01:20,01:21,01:22,01:23,01:24,01:25,01:26,01:27,01:28,01:29,01:30,01:31,01:32,01:33,01:34,01:35,01:36,01:37",
+              "0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0",
+              "1.6,2.4,1.0,1.5,1.9,2.4,2.4,1.5,2.1,3.0,2.1,1.8,2.4,2.3,2.5,2.5,2.9,2.9",
+              "2.2,3.8,2.2,4.0,2.3,3.9,3.7,2.8,4.7,3.2,3.5,5.1,3.4,4.7,2.9,4.3,4.8,2.8",
+              "3.8,6.2,3.2,5.5,4.2,6.3,6.1,4.3,6.8,6.2,5.6,6.9,5.8,7.0,5.4,6.8,7.7,5.7",
+              "92.28,92.01,91.98,91.96,91.95,90.68,90.57,90.48,90.43,90.23,90.04,90.03,90.02,90.01,89.98,89.96,89.88,89.87",
+              "0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3",
+              "0,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,7",
+              "0,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,10",
+              "13239.0,13200.0,13196.0,13193.0,13191.0,13010.0,12994.0,12981.0,12974.0,12946.0,12918.0,12916.0,12915.0,12913.0,12909.0,12906.0,12895.0,12894.0"
+            ]
+          }
+        ],
+        "noteId": "2BVACAUE9"
+      },
+      {
+        "name": "data1",
+        "object": [
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:18:00",
+              16.0,
+              0.0,
+              96.0,
+              13731.0,
+              16.0,
+              16.0,
+              32.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:19:00",
+              3.0,
+              0.0,
+              93.0,
+              13303.0,
+              144.0,
+              144.0,
+              288.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:20:00",
+              4.0,
+              0.0,
+              92.0,
+              13261.0,
+              288.0,
+              288.0,
+              576.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:21:00",
+              5.0,
+              0.0,
+              92.0,
+              13202.0,
+              2592.0,
+              2592.0,
+              5184.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:22:00",
+              3.0,
+              0.0,
+              92.0,
+              13198.0,
+              2592.0,
+              2592.0,
+              5184.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:23:00",
+              5.0,
+              0.0,
+              92.0,
+              13194.0,
+              2592.0,
+              2592.0,
+              5184.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:24:00",
+              11.0,
+              2.0,
+              92.0,
+              13131.0,
+              19140.0,
+              19140.0,
+              38280.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:25:00",
+              9.0,
+              0.0,
+              91.0,
+              13012.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:26:00",
+              9.0,
+              0.0,
+              91.0,
+              12995.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:27:00",
+              8.0,
+              0.0,
+              90.0,
+              12981.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:28:00",
+              9.0,
+              0.0,
+              90.0,
+              12975.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:29:00",
+              8.0,
+              0.0,
+              90.0,
+              12949.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:30:00",
+              8.0,
+              0.0,
+              90.0,
+              12921.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:31:00",
+              8.0,
+              1.0,
+              90.0,
+              12917.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:32:00",
+              8.0,
+              0.0,
+              90.0,
+              12916.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:33:00",
+              12.0,
+              0.0,
+              90.0,
+              12914.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:34:00",
+              8.0,
+              0.0,
+              90.0,
+              12911.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:35:00",
+              8.0,
+              0.0,
+              90.0,
+              12907.0,
+              77231.0,
+              77231.0,
+              154462.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:36:00",
+              9.0,
+              0.0,
+              90.0,
+              12896.0,
+              79200.0,
+              79200.0,
+              158400.0
+            ]
+          },
+          {
+            "schema": {
+              "fields": [
+                {
+                  "name": "time",
+                  "dataType": {
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "cpuused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "diskused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "ramused",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "memavailable",
+                  "dataType": {
+                    "numeric": {},
+                    "fractional": {},
+                    "asIntegral": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "internalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "externalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                },
+                {
+                  "name": "totalrequests",
+                  "dataType": {
+                    "numeric": {},
+                    "integral": {},
+                    "ordering": {}
+                  },
+                  "nullable": true,
+                  "metadata": {
+                    "map": {},
+                    "_hashCode": -1.60932692E9,
+                    "bitmap$0": true
+                  }
+                }
+              ],
+              "_hashCode": 3.66288873E8,
+              "bitmap$0": 8.0
+            },
+            "values": [
+              "2016-08-18 01:37:00",
+              9.0,
+              4.0,
+              90.0,
+              12895.0,
+              32604.0,
+              32604.0,
+              65208.0
+            ]
+          }
+        ],
+        "noteId": "2BVACAUE9"
+      },
+      {
+        "name": "data1Schema",
+        "object": {
+          "fields": [
+            {
+              "name": "time",
+              "dataType": {
+                "ordering": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "cpuused",
+              "dataType": {
+                "numeric": {},
+                "fractional": {},
+                "asIntegral": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "diskused",
+              "dataType": {
+                "numeric": {},
+                "fractional": {},
+                "asIntegral": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "ramused",
+              "dataType": {
+                "numeric": {},
+                "fractional": {},
+                "asIntegral": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "memavailable",
+              "dataType": {
+                "numeric": {},
+                "fractional": {},
+                "asIntegral": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "internalrequests",
+              "dataType": {
+                "numeric": {},
+                "integral": {},
+                "ordering": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "externalrequests",
+              "dataType": {
+                "numeric": {},
+                "integral": {},
+                "ordering": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            },
+            {
+              "name": "totalrequests",
+              "dataType": {
+                "numeric": {},
+                "integral": {},
+                "ordering": {}
+              },
+              "nullable": true,
+              "metadata": {
+                "map": {},
+                "_hashCode": -1.60932692E9,
+                "bitmap$0": true
+              }
+            }
+          ],
+          "_hashCode": 0.0,
+          "bitmap$0": 0.0
+        },
+        "noteId": "2BVACAUE9"
+      }
+    ],
+    "2BRQE418G:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

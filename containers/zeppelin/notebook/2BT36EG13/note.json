@@ -1,0 +1,604 @@
+{
+  "paragraphs": [
+    {
+      "text": "val keyId \u003d \"dummy\"\nval secret \u003d \"dummy\"\nsc.hadoopConfiguration.set(\"fs.s3n.awsAccessKeyId\", keyId)\nsc.hadoopConfiguration.set(\"fs.s3n.awsSecretAccessKey\", secret)\nsc.hadoopConfiguration.set(\"fs.s3.impl\", \"org.apache.hadoop.fs.s3native.NativeS3FileSystem\")\n//val fs \u003d \"s3n://hwx-randy/\"\nval fs \u003d \"/Users/randy/demos/techops/data/\"\n\nimport sqlContext.implicits._\nimport org.apache.spark.sql.Row;\nimport org.apache.spark.sql.types.{StructType,StructField,StringType};\nimport java.text.SimpleDateFormat\n\ndef cacheJSON(table: String) :Unit \u003d{\n  val name \u003d table.replace(\"-\", \"_\") + \"_raw\"\n  sqlContext.sql(\"drop table if exists \" + name)\n  sqlContext.read.json(fs+table+\"/*\").createOrReplaceTempView(name+\"_tmp\")\n  sqlContext.sql(\"select input_file_name() as fn, * from \" + name + \"_tmp\").coalesce(1).write.format(\"parquet\")\n    .mode(\"overwrite\").option(\"path\", fs+\"derived/\"+name).saveAsTable(name)\n  println(\"Wrote \" + name + \" to \" + fs+\"derived/\"+name)\n  sqlContext.cacheTable(name)\n  println(\"Cached \" + name)\n  sqlContext.sql(\"drop table \" + name + \"_tmp\")\n}\n\ndef cacheTable(query: String, table: String) :Unit \u003d {\n  sqlContext.sql(\"drop table if exists \" + table)\n  sqlContext.sql(query).coalesce(1).write.format(\"parquet\")\n    .mode(\"overwrite\").option(\"path\", fs+\"derived/\"+table).saveAsTable(table)\n  println(\"Wrote \" + table + \" to \"+fs+\"derived/\"+table)\n  sqlContext.cacheTable(table)\n  println(\"Cached table \"+table)\n}",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160613-132547_1349290144",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nkeyId: String \u003d dummy\n\nsecret: String \u003d dummy\n\nfs: String \u003d /Users/randy/demos/techops/data/\n\nimport sqlContext.implicits._\n\nimport org.apache.spark.sql.Row\n\nimport org.apache.spark.sql.types.{StructType, StructField, StringType}\n\nimport java.text.SimpleDateFormat\n\ncacheJSON: (table: String)Unit\n\ncacheTable: (query: String, table: String)Unit\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 17, 2016 10:24:38 PM",
+      "dateFinished": "Aug 17, 2016 10:24:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Parse Raw JSON",
+      "text": "cacheJSON(\"nodes\")\ncacheJSON(\"node-health\")\ncacheJSON(\"services\")\ncacheJSON(\"service-health\")",
+      "dateUpdated": "Aug 17, 2016 10:27:19 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160618-181558_825401827",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Wrote nodes_raw to /Users/randy/demos/techops/data/derived/nodes_raw\nCached nodes_raw\nWrote node_health_raw to /Users/randy/demos/techops/data/derived/node_health_raw\nCached node_health_raw\nWrote services_raw to /Users/randy/demos/techops/data/derived/services_raw\nCached services_raw\nWrote service_health_raw to /Users/randy/demos/techops/data/derived/service_health_raw\nCached service_health_raw\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 17, 2016 10:24:38 PM",
+      "dateFinished": "Aug 17, 2016 10:29:01 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "cacheTable(\"\"\"\nselect\n  from_unixtime(split(split(fn, \u0027/\u0027)[size(split(fn, \u0027/\u0027))-1], \u0027\\\\.\u0027)[0]/1000) as datetime,\n  *\nfrom nodes_raw\n\"\"\", \"nodes\")",
+      "dateUpdated": "Aug 17, 2016 10:32:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160623-025313_2076088888",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Wrote nodes to /Users/randy/demos/techops/data/derived/nodes\nCached table nodes\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 17, 2016 10:24:52 PM",
+      "dateFinished": "Aug 17, 2016 10:39:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "cacheTable(\"\"\"\nselect datetime, service.service, service.id, b.address, service.port, check.node, check.checkid, check.name, check.status\nfrom\n(select\n  from_unixtime(split(split(fn, \u0027/\u0027)[size(split(fn, \u0027/\u0027))-1], \u0027\\\\.\u0027)[0]/1000) as datetime,\n  explode(checks) as check,\n  node,\n  service\nfrom service_health_raw) a\nleft outer join (\n  select distinct node, address from nodes\n) b on check.node \u003d b.node\n\"\"\", \"services\")",
+      "dateUpdated": "Aug 17, 2016 11:12:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160621-040857_468046896",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Wrote services to /Users/randy/demos/techops/data/derived/services\nCached table services\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 17, 2016 10:29:03 PM",
+      "dateFinished": "Aug 18, 2016 12:25:56 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//val IP_PATTERN \u003d \"(([01]?\\\\d\\\\d?|2[0-4]\\\\d|25[0-5])\\\\.){3}([01]?\\\\d\\\\d?|2[0-4]\\\\d|25[0-5])\"\ncase class Log(ts: String, IP: String, log: String)\nval logType \u003d \"web\"\n\nval query \u003d \"\"\"\nselect\n  distinct service, collect_set(concat(\u0027?LOCATION\u0027, node))\nfrom services\nwhere service \u003d \u0027?SERVICE\u0027\ngroup by service\n\"\"\".replace(\"?LOCATION\", fs+\"host-data/logs/\"+logType+\"/\").replace(\"?SERVICE\", logType)\nsqlContext.sql(query).collect()\n  .map(x \u003d\u003e (x.getString(0), x.getSeq[String](1).mkString(\"/*,\"))).map(y \u003d\u003e {\n    val name \u003d y._1+\"_logs_raw\"\n    //this represents a source-specific parser for \u0027web\u0027 logs. Supply your own parser for other type logs\n    sc.textFile(y._2).map(_.split(\"\\t\").map(_.trim)).map(z \u003d\u003e Log(z(0), z(1), z(2))).coalesce(1).toDF().createOrReplaceTempView(\"web_logs_raw\")\n  })",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160620-071620_1752966747",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ndefined class Log\n\nlogType: String \u003d web\n\n\n\n\n\n\n\n\nquery: String \u003d\n\"\nselect\n  distinct service, collect_set(concat(\u0027/Users/randy/demos/techops/data/host-data/logs/web/\u0027, node))\nfrom services\nwhere service \u003d \u0027web\u0027\ngroup by service\n\"\n\nres336: Array[Unit] \u003d Array(())\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 17, 2016 10:39:07 PM",
+      "dateFinished": "Aug 18, 2016 12:26:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "cacheTable(\"\"\"\nselect\n  from_unixtime(unix_timestamp(ts, \"dd/MMM/yyyy HH:mm:ss\")) as datetime,\n  split(input_file_name(), \"/\")[size(split(input_file_name(), \"/\"))-2] as node,\n  ip as source_ip,\n  log \nfrom web_logs_raw\n\"\"\", \"web_logs\")",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "node",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160622-231929_821088003",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Wrote web_logs to /Users/randy/demos/techops/data/derived/web_logs\nCached table web_logs\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:25:56 AM",
+      "dateFinished": "Aug 18, 2016 12:26:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "cacheTable(\"\"\"\nselect web_logs.datetime, web_logs.node as app_host, source_ip, b.node as source_host, log\nfrom web_logs\nleft outer join (select distinct node, address from nodes) b on source_ip \u003d address\n\"\"\", \"web_logs_enriched\")",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": true,
+          "keys": [
+            {
+              "name": "datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160621-120438_1014423901",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Wrote web_logs_enriched to /Users/randy/demos/techops/data/derived/web_logs_enriched\nCached table web_logs_enriched\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:02 AM",
+      "dateFinished": "Aug 18, 2016 12:26:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val nmon_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/nmon/*\")\ncase class nmonRec(node: String, ts: String, CPUUser: Double, CPUSys: Double, MemFree: Long, MemAvailable: Long, MemTotal: Long, DiskBusy: Double)\n\nnmon_raw.filter(_._2 contains \"ZZZZ\").map(x \u003d\u003e {\n    val lines \u003d x._2.split(\"\\n\")\n    nmonRec(\n      x._1.split(\"/\").last.split(\"_\").head, //node\n      lines.filter(_ contains \"ZZZZ\")(0).split(\",\")(3) + \" \" +\n      lines.filter(_ contains \"ZZZZ\")(0).split(\",\")(2), //timestamp\n      lines.filter(y \u003d\u003e y.contains(\"T0001\") \u0026\u0026 y.startsWith(\"CPU_ALL\"))(0).split(\",\")(2).trim.toDouble, // User CPU\n      lines.filter(y \u003d\u003e y.contains(\"T0001\") \u0026\u0026 y.startsWith(\"CPU_ALL\"))(0).split(\",\")(3).trim.toDouble, // Sys CPU\n      lines.filter(y \u003d\u003e y.contains(\"MemFree\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"MemAvailable\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"MemTotal\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"DISKBUSY\"))(1).split(\",\")(2).trim.toDouble\n    )\n}).toDF().coalesce(1).createOrReplaceTempView(\"nmon_raw\")",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160702-193941_1940694652",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nnmon_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /Users/randy/demos/techops/data/host-data/metrics/nmon/* MapPartitionsRDD[3595] at wholeTextFiles at \u003cconsole\u003e:175\n\ndefined class nmonRec\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:07 AM",
+      "dateFinished": "Aug 18, 2016 12:26:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "cacheTable(\"\"\"\nselect from_unixtime(unix_timestamp(ts, \"dd-MMM-yyyy HH:mm:ss\")) as datetime, node, cpuuser, cpusys, memfree, memavailable, memtotal, diskbusy from nmon_raw\n\"\"\", \"node_monitoring\")",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": true,
+          "keys": [
+            {
+              "name": "datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "node",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "datetime",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "node",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160618-183604_920305267",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Wrote node_monitoring to /Users/randy/demos/techops/data/derived/node_monitoring\nCached table node_monitoring\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:10 AM",
+      "dateFinished": "Aug 18, 2016 12:26:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val ps_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/ps/*\")\ncase class Process(node: String, ts: Long, user: String, pid: String, CPU: Double, Mem: Double, VSZ: Int, RSS: Int, TTY: String, STAT: String, Start: String, Time: String, Command: String)\n\n//Take the timestamp from filename and prepend it to each row of \"ps\" output\nps_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).map(y \u003d\u003e { \n  val x \u003d y.split(\"\\\\s+\")\n  Process(\n    x(0), x(1).toLong/1000, x(2), x(3), x(4).toDouble, x(5).toDouble, x(6).toInt, x(7).toInt, x(8), x(9), x(10), x(11), x.slice(12, x.size-1).mkString(\" \")\n  )\n}).toDF().coalesce(1).createOrReplaceTempView(\"ps_raw\")\n  \n//TODO - fix timestamp issue",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160711-091209_1121889648",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nps_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /Users/randy/demos/techops/data/host-data/metrics/ps/* MapPartitionsRDD[3611] at wholeTextFiles at \u003cconsole\u003e:175\n\ndefined class Process\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:13 AM",
+      "dateFinished": "Aug 18, 2016 12:26:24 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val ns_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/netstat/*\")\ncase class Socket(node: String, ts: Long, Proto: String, RecvQ: Int, SendQ: Int, LocalAddress: String, ForeignAddress: String, State: String, User: String, Inode: String, pid: String, ProgramName: String)\n\n//Take the timestamp from filename and prepend it to each row of \"netstat\" output\nns_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).filter(x \u003d\u003e !(x contains \"Recv-Q\") \u0026\u0026 !(x contains \"Active UNIX\") \u0026\u0026 !(x contains \"RefCnt\") \u0026\u0026 !(x.split(\"\\\\s+\")(2) contains \"unix\") \u0026\u0026 !(x contains \"Active Internet\"))\n  .map(y \u003d\u003e {\n  val x \u003d y.split(\"\\\\s+\")\n  Socket(\n    x(0), x(1).toLong/1000, x(2), x(3).toInt, x(4).toInt, x(5), x(6), x(7), x(8), x(9), if (x.size \u003e 11) x(10) else \"\", if (x.size \u003e 12) x(11) else \"\"\n  )\n})\n.toDF().coalesce(1).createOrReplaceTempView(\"netstat_raw\")\n\ncase class IPCSocket(node: String, ts: Long, Proto: String, RefCnt: Int, Flags: String, Type: String, State: String, Inode: String, pid: String, ProgamName: String, Path: String)\nns_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).filter(x \u003d\u003e x contains \"unix\")\n  .map(y \u003d\u003e {\n  val x \u003d y.split(\"\\\\s+\")\n  IPCSocket(\n    x(0), x(1).toLong/1000, x(2), x(3).toInt, x.slice(4,x.size-4).mkString(\" \"), x(x.size-4), x(x.size-3), x(x.size-2), x.last.split(\"/\")(0), x.last.split(\"/\")(1), \"\"\n  )\n})\n.toDF().coalesce(1).createOrReplaceTempView(\"ipcsocket_raw\")\n//TODO - fix timestamp issue",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "helium": {},
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "ts",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "_c1",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "ts",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "_c1",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160711-094650_1171392473",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nns_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /Users/randy/demos/techops/data/host-data/metrics/netstat/* MapPartitionsRDD[3617] at wholeTextFiles at \u003cconsole\u003e:175\n\ndefined class Socket\n\ndefined class IPCSocket\n"
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:23 AM",
+      "dateFinished": "Aug 18, 2016 12:26:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql drop table if exists metrics",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160817-204939_2135731253",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:24 AM",
+      "dateFinished": "Aug 18, 2016 12:26:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\ncreate table if not exists metrics as\nselect\n  concat(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), \u0027:00\u0027) as time,\n  round(avg(cpuuser + cpusys)) as CPUUsed,\n  round(avg(diskbusy)) as DISKUsed,\n  round(avg(memavailable/memtotal)*100) as RAMUsed,\n  round(avg(memavailable)/1000) as MemAvailable,\n  sum(b.requests) as InternalRequests,\n  sum(c.requests) as ExternalRequests,\n  sum((b.requests + c.requests)) as TotalRequests\nfrom node_monitoring a\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_logs_enriched\n  where source_host is not null or source_ip \u003d \u0027127.0.0.1\u0027\n) b on date_format(a.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d b.time\njoin (\n  select \n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_logs_enriched\n  where source_host is null  \n) c on date_format(a.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d c.time\ngroup by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027)\norder by time asc",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160703-012345_2004558290",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:28 AM",
+      "dateFinished": "Aug 18, 2016 12:26:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Aug 17, 2016 10:24:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1471482211777_-362782356",
+      "id": "20160809-190436_699902842",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Aug 17, 2016 9:03:31 PM",
+      "dateStarted": "Aug 18, 2016 12:26:29 AM",
+      "dateFinished": "Aug 18, 2016 12:26:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "DeviceRegistry-Setup",
+  "id": "2BT36EG13",
+  "lastReplName": {
+    "value": "sql"
+  },
+  "angularObjects": {
+    "2BQ4DA89C:shared_process": [],
+    "2BQ2F53M6:shared_process": [],
+    "2BSY8XK83:shared_process": [],
+    "2BQQW1DA2:shared_process": [],
+    "2BTD7M9Z7:shared_process": [],
+    "2BRQE418G:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

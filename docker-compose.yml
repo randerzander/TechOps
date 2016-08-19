@@ -5,7 +5,7 @@ services:
      context: containers/base
      args:
       - NIFI_URL=${NIFI_URL}
-      - HDF_HOME=${HDF_HOME}
+      - NIFI_SUBFOLDER=${NIFI_SUBFOLDER}
     image: base
     networks:
      - dev
@@ -17,18 +17,43 @@ services:
      - "8080:8080"
      - "8500:8500"
     volumes:
-     - ~/demos/TechOps/data:/data
-  web.dev:
+     - ./data:/data
+  web-static.dev:
     depends_on:
      - monitor.dev
     build: 
-      context: containers/web
+      context: containers/web-static
     image: web
     networks:
      - dev
     environment:
      - MODE=slave
      - SCRIPT=web.sh
+  web-service.dev:
+    depends_on:
+     - monitor.dev
+    build: 
+      context: containers/web-AccountBalance
+    image: web
+    networks:
+     - dev
+    environment:
+     - MODE=slave
+     - SCRIPT=web.sh
+  zeppelin.dev:
+    build:
+     context: containers/zeppelin
+     args:
+      - SPARK_URL=${SPARK_URL}
+      - SPARK_SUBFOLDER=${SPARK_SUBFOLDER}
+      - ZEPPELIN_URL=${ZEPPELIN_URL}
+      - ZEPPELIN_SUBFOLDER=${ZEPPELIN_SUBFOLDER}
+    image: zeppelin
+    ports:
+     - "8079:8080"
+     - "4040:4040"
+    volumes:
+     - ./data:/data
 
 networks:
   dev:

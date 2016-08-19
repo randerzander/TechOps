@@ -1,6 +1,6 @@
 FROM centos
 ARG NIFI_URL
-ARG HDF_HOME
+ARG NIFI_SUBFOLDER
 RUN yum install -y java-1.8.0-openjdk-devel net-tools wget unzip
 
 RUN mkdir /etc/consul.d
@@ -8,7 +8,7 @@ ADD bin/consul /usr/bin/consul
 
 RUN wget -nv ${NIFI_URL} -O /nifi.tgz
 RUN tar -xzvf /nifi.tgz
-RUN mv ${HDF_HOME}/nifi /
+RUN mv ${NIFI_SUBFOLDER}/nifi /nifi
 
 ADD bin/minifi /usr/bin/minifi
 ADD minifi /minifi
