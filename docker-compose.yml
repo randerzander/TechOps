@@ -49,8 +49,10 @@ services:
       - ZEPPELIN_URL=${ZEPPELIN_URL}
       - ZEPPELIN_SUBFOLDER=${ZEPPELIN_SUBFOLDER}
     image: zeppelin
+    networks:
+     - dev
     ports:
-     - "8079:8080"
+     - "8081:8080"
      - "4040:4040"
     volumes:
      - ./data:/data

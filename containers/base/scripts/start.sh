@@ -33,23 +33,22 @@ fi
 # Start web app script
 source /scripts/$SCRIPT
 
-# Start MiNiFi-cpp
-sed -i "s/is\.node=false/is\.node=true/g" $NIFI_HOME/conf/nifi.properties
-sed -i "s/nifi\.server\.report\.interval=1000 ms/nifi\.server\.report\.interval=0 ms/g" $MINIFI_HOME/conf/minifi.properties
-cd $MINIFI_HOME
-minifi &
-
-# Start metrics scripts
-sh /scripts/ps.sh 5 &
-sh /scripts/netstat.sh 5 &
-sh /scripts/nmon.sh 15 &
-
-# Start Consul
 echo "I am MODE: $HOSTNAME, $MODE"
 if [ $MODE = "master" ]; then
   consul agent -server -dev -bootstrap-expect 1 -bind 0.0.0.0 -client 0.0.0.0 -ui
 else
   # Let mmonitor start consul and NiFi collector
-  sleep 20
+  sleep 35
+  # Start MiNiFi-cpp
+  sed -i "s/is\.node=false/is\.node=true/g" $NIFI_HOME/conf/nifi.properties
+  sed -i "s/nifi\.server\.report\.interval=1000 ms/nifi\.server\.report\.interval=0 ms/g" $MINIFI_HOME/conf/minifi.properties
+  cd $MINIFI_HOME
+  minifi &
+
+  # Start metrics scripts
+  sh /scripts/ps.sh 5 &
+  sh /scripts/netstat.sh 5 &
+  sh /scripts/nmon.sh 15 &
+
   consul agent -config-dir /etc/consul.d -dev -retry-join $MASTER_FQDN
 fi
