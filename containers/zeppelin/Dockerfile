@@ -24,4 +24,4 @@ RUN echo "spark.sql.warehouse.dir /data/derived" >> /spark/conf/spark-defaults.c
 RUN cp /zeppelin/conf/zeppelin-env.sh.template /zeppelin/conf/zeppelin-env.sh
 RUN echo "export SPARK_HOME=/spark" >> /zeppelin/conf/zeppelin-env.sh
 
-CMD sh /zeppelin/bin/zeppelin-daemon.sh start; tail -f /zeppelin/logs/zeppelin-*.log
+CMD sh /zeppelin/bin/zeppelin-daemon.sh start; sleep 5; tail -f /zeppelin/logs/zeppelin-*.log

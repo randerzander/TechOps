@@ -6,5 +6,6 @@ TAILFILE=$DIR/web.log
 mkdir -p $DIR
 
 sed -ie "s@TAILFILE@$TAILFILE@g" /minifi/conf/flow.yml
+sed -ie "s@HOSTNAME@$HOSTNAME@g" /minifi/conf/flow.yml
 
 python /server.py 8000 $TAILFILE &

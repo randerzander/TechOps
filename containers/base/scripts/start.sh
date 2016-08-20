@@ -35,6 +35,10 @@ source /scripts/$SCRIPT
 
 echo "I am MODE: $HOSTNAME, $MODE"
 if [ $MODE = "master" ]; then
+  #mkdir -p /data/host-data/metrics/nmon
+  #mkdir -p /data/host-data/metrics/netstat
+  #mkdir -p /data/host-data/metrics/ps
+  #mkdir -p /data/host-data/logs/web
   consul agent -server -dev -bootstrap-expect 1 -bind 0.0.0.0 -client 0.0.0.0 -ui
 else
   # Let mmonitor start consul and NiFi collector
