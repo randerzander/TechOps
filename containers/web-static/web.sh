@@ -1,8 +1,8 @@
 #!/bin/bash
 
 HOSTNAME=$(hostname -f)
-DIR=/host-data/logs/web/$HOSTNAME
-TAILFILE=$DIR/web.log
+DIR=/host-data/logs/web-static/$HOSTNAME
+TAILFILE=$DIR/log.txt
 mkdir -p $DIR
 
 sed -ie "s@TAILFILE@$TAILFILE@g" /minifi/conf/flow.yml

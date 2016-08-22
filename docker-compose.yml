@@ -23,7 +23,7 @@ services:
      - monitor.dev
     build: 
       context: containers/web-static
-    image: web
+    image: web-static
     networks:
      - dev
     environment:
@@ -33,8 +33,8 @@ services:
     depends_on:
      - monitor.dev
     build: 
-      context: containers/web-AccountBalance
-    image: web
+      context: containers/web-service
+    image: web-service
     networks:
      - dev
     environment:

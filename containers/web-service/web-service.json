@@ -1,0 +1,10 @@
+{
+    "service": {
+      "id": "web-service",
+      "Name": "web-service",
+      "tags": ["AccountBalance"],
+      "Service": "web-service",
+      "ServiceID": "web-service",
+      "Port": 8000
+    }
+}

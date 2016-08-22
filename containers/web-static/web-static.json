@@ -1,0 +1,10 @@
+{
+    "service": {
+      "id": "web-static",
+      "Name": "web-static",
+      "tags": ["StaticFiles"],
+      "Service": "web-static",
+      "ServiceID": "web-static",
+      "Port": 8000
+    }
+}

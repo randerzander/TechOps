@@ -33,7 +33,6 @@ fi
 # Start web app script
 source /scripts/$SCRIPT
 
-echo "I am MODE: $HOSTNAME, $MODE"
 if [ $MODE = "master" ]; then
   #mkdir -p /data/host-data/metrics/nmon
   #mkdir -p /data/host-data/metrics/netstat

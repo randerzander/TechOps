@@ -1,0 +1,12 @@
+{
+  "check": {
+    "id": "service:web-service",
+    "CheckId": "service:web-service",
+    "Name": "Service 'web-service' check",
+    "service": "web-service",
+    "ServiceID": "web-service",
+    "ServiceName": "web-service",
+    "HTTP": "http://localhost:8000",
+    "Interval": "10s"
+  }
+}

@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "/*\n// Placeholder for S3 use instead of local FS\nval keyId \u003d \"dummy\"\nval secret \u003d \"dummy\"\nsc.hadoopConfiguration.set(\"fs.s3n.awsAccessKeyId\", keyId)\nsc.hadoopConfiguration.set(\"fs.s3n.awsSecretAccessKey\", secret)\nsc.hadoopConfiguration.set(\"fs.s3.impl\", \"org.apache.hadoop.fs.s3native.NativeS3FileSystem\")\nval fs \u003d \"s3n://hwx-randy/\"\n*/\nval fs \u003d \"/data/\"\n\nimport sqlContext.implicits._\nimport org.apache.spark.sql.Row;\nimport org.apache.spark.sql.types.{StructType,StructField,StringType};\nimport java.text.SimpleDateFormat\n\ndef cacheJSON(table: String) :Unit \u003d{\n  val name \u003d table.replace(\"-\", \"_\") + \"_raw\"\n  sqlContext.sql(\"drop table if exists \" + name)\n  sqlContext.read.json(fs+table+\"/*\").createOrReplaceTempView(name+\"_tmp\")\n  sqlContext.sql(\"select input_file_name() as fn, * from \" + name + \"_tmp\").coalesce(1).write.format(\"parquet\")\n    .mode(\"overwrite\").option(\"path\", fs+\"derived/\"+name).saveAsTable(name)\n  println(\"Wrote \" + name + \" to \" + fs+\"derived/\"+name)\n  sqlContext.cacheTable(name)\n  println(\"Cached \" + name)\n  sqlContext.sql(\"drop table \" + name + \"_tmp\")\n}\n\ndef cacheTable(query: String, table: String) :Unit \u003d {\n  sqlContext.sql(\"drop table if exists \" + table)\n  sqlContext.sql(query).coalesce(1).write.format(\"parquet\")\n    .mode(\"overwrite\").option(\"path\", fs+\"derived/\"+table).saveAsTable(table)\n  println(\"Wrote \" + table + \" to \"+fs+\"derived/\"+table)\n  sqlContext.cacheTable(table)\n  println(\"Cached table \"+table)\n}",
-      "dateUpdated": "Aug 20, 2016 5:22:00 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:09 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -28,18 +28,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\nkeyId: String \u003d dummy\n\nsecret: String \u003d dummy\n\nfs: String \u003d /data/\n\nimport sqlContext.implicits._\n\nimport org.apache.spark.sql.Row\n\nimport org.apache.spark.sql.types.{StructType, StructField, StringType}\n\nimport java.text.SimpleDateFormat\n\ncacheJSON: (table: String)Unit\n\ncacheTable: (query: String, table: String)Unit\n"
+        "msg": "\nfs: String \u003d /data/\n\nimport sqlContext.implicits._\n\nimport org.apache.spark.sql.Row\n\nimport org.apache.spark.sql.types.{StructType, StructField, StringType}\n\nimport java.text.SimpleDateFormat\n\ncacheJSON: (table: String)Unit\n\ncacheTable: (query: String, table: String)Unit\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:20:41 PM",
-      "dateFinished": "Aug 20, 2016 5:20:59 PM",
+      "dateStarted": "Aug 21, 2016 1:31:06 AM",
+      "dateFinished": "Aug 21, 2016 1:31:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Parse Raw JSON",
       "text": "cacheJSON(\"nodes\")\ncacheJSON(\"node-health\")\ncacheJSON(\"services\")\ncacheJSON(\"service-health\")",
-      "dateUpdated": "Aug 20, 2016 5:20:41 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -69,14 +69,14 @@
         "msg": "Wrote nodes_raw to /data/derived/nodes_raw\nCached nodes_raw\nWrote node_health_raw to /data/derived/node_health_raw\nCached node_health_raw\nWrote services_raw to /data/derived/services_raw\nCached services_raw\nWrote service_health_raw to /data/derived/service_health_raw\nCached service_health_raw\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:20:44 PM",
-      "dateFinished": "Aug 20, 2016 5:22:39 PM",
+      "dateStarted": "Aug 21, 2016 1:31:06 AM",
+      "dateFinished": "Aug 21, 2016 1:31:54 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "cacheTable(\"\"\"\nselect\n  from_unixtime(split(split(fn, \u0027/\u0027)[size(split(fn, \u0027/\u0027))-1], \u0027\\\\.\u0027)[0]/1000) as datetime,\n  *\nfrom nodes_raw\n\"\"\", \"nodes\")",
-      "dateUpdated": "Aug 20, 2016 5:20:41 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -104,14 +104,14 @@
         "msg": "Wrote nodes to /data/derived/nodes\nCached table nodes\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:21:00 PM",
-      "dateFinished": "Aug 20, 2016 5:22:42 PM",
+      "dateStarted": "Aug 21, 2016 1:31:07 AM",
+      "dateFinished": "Aug 21, 2016 1:31:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "cacheTable(\"\"\"\nselect datetime, service.service, service.id, b.address, service.port, check.node, check.checkid, check.name, check.status\nfrom\n(select\n  from_unixtime(split(split(fn, \u0027/\u0027)[size(split(fn, \u0027/\u0027))-1], \u0027\\\\.\u0027)[0]/1000) as datetime,\n  explode(checks) as check,\n  node,\n  service\nfrom service_health_raw) a\nleft outer join (\n  select distinct node, address from nodes\n) b on check.node \u003d b.node\n\"\"\", \"services\")",
-      "dateUpdated": "Aug 20, 2016 5:20:41 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -139,14 +139,14 @@
         "msg": "Wrote services to /data/derived/services\nCached table services\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:22:39 PM",
-      "dateFinished": "Aug 20, 2016 5:22:50 PM",
+      "dateStarted": "Aug 21, 2016 1:31:55 AM",
+      "dateFinished": "Aug 21, 2016 1:31:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "//val IP_PATTERN \u003d \"(([01]?\\\\d\\\\d?|2[0-4]\\\\d|25[0-5])\\\\.){3}([01]?\\\\d\\\\d?|2[0-4]\\\\d|25[0-5])\"\ncase class Log(ts: String, IP: String, log: String)\nval logType \u003d \"web\"\n\nval query \u003d \"\"\"\nselect\n  distinct service, collect_set(concat(\u0027?LOCATION\u0027, node))\nfrom services\nwhere service \u003d \u0027?SERVICE\u0027\ngroup by service\n\"\"\".replace(\"?LOCATION\", fs+\"host-data/logs/\"+logType+\"/\").replace(\"?SERVICE\", logType)\nsqlContext.sql(query).collect()\n  .map(x \u003d\u003e (x.getString(0), x.getSeq[String](1).mkString(\"/*,\"))).map(y \u003d\u003e {\n    val name \u003d y._1+\"_logs_raw\"\n    //this represents a source-specific parser for \u0027web\u0027 logs. Supply your own parser for other type logs\n    sc.textFile(y._2).map(_.split(\"\\t\").map(_.trim)).map(z \u003d\u003e Log(z(0), z(1), z(2))).coalesce(1).toDF().createOrReplaceTempView(\"web_logs_raw\")\n  })",
-      "dateUpdated": "Aug 20, 2016 5:20:41 PM",
+      "text": "case class Log(ts: String, IP: String, log: String)\nval apps \u003d sqlContext.sql(\"select distinct service from services where service !\u003d \u0027consul\u0027\").collect\napps.map(row \u003d\u003e {\n  val app \u003d row(0).asInstanceOf[String]\n  val appTable \u003d app.replace(\"-\", \"_\")\n\n  sc.textFile(fs+\"host-data/logs/\"+app+\"/*/*\")\n    .map(_.split(\"\\t\").map(_.trim))\n    .map(z \u003d\u003e Log(z(0), z(1), z(2)))\n    .coalesce(1).toDF().createOrReplaceTempView(appTable+\"_logs_raw\")\n  //Extract proper datetime and app-host\n  val logQuery \u003d \"\"\"\n    select\n      from_unixtime(unix_timestamp(ts, \"dd/MMM/yyyy HH:mm:ss\")) as datetime,\n      split(input_file_name(), \"/\")[size(split(input_file_name(), \"/\"))-2] as node,\n      ip as source_ip,\n      log \n    from \"\"\"+appTable+\"_logs_raw\"\n  cacheTable(logQuery, appTable+\"_logs\")\n  //Enrich app logs with traffic source\n  val enrichedQuery \u003d \"\"\"\n    select ?TABLE.datetime, ?TABLE.node as app_host, source_ip, b.node as source_host, log\n    from ?TABLE\n    left outer join (\n       select distinct node, address from nodes\n    ) b on source_ip \u003d address\n  \"\"\".replace(\"?TABLE\", appTable+\"_logs\")\n  cacheTable(logQuery, appTable+\"_logs_enriched\")\n})",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -172,117 +172,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\ndefined class Log\n\nlogType: String \u003d web\n\n\n\n\n\n\n\n\nquery: String \u003d\n\"\nselect\n  distinct service, collect_set(concat(\u0027/data/host-data/logs/web/\u0027, node))\nfrom services\nwhere service \u003d \u0027web\u0027\ngroup by service\n\"\n\nres14: Array[Unit] \u003d Array(())\n"
+        "msg": "\ndefined class Log\n\napps: Array[org.apache.spark.sql.Row] \u003d Array([web-service], [web-static])\nWrote web_service_logs to /data/derived/web_service_logs\nCached table web_service_logs\nWrote web_service_logs_enriched to /data/derived/web_service_logs_enriched\nCached table web_service_logs_enriched\nWrote web_static_logs to /data/derived/web_static_logs\nCached table web_static_logs\nWrote web_static_logs_enriched to /data/derived/web_static_logs_enriched\nCached table web_static_logs_enriched\n\nres47: Array[Unit] \u003d Array((), ())\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:22:42 PM",
-      "dateFinished": "Aug 20, 2016 5:22:56 PM",
+      "dateStarted": "Aug 21, 2016 1:31:56 AM",
+      "dateFinished": "Aug 21, 2016 1:32:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "cacheTable(\"\"\"\nselect\n  from_unixtime(unix_timestamp(ts, \"dd/MMM/yyyy HH:mm:ss\")) as datetime,\n  split(input_file_name(), \"/\")[size(split(input_file_name(), \"/\"))-2] as node,\n  ip as source_ip,\n  log \nfrom web_logs_raw\n\"\"\", \"web_logs\")",
-      "dateUpdated": "Aug 20, 2016 5:23:03 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "editorHide": false,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "datetime",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "node",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "datetime",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1471482211777_-362782356",
-      "id": "20160622-231929_821088003",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job aborted.\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply$mcV$sp(InsertIntoHadoopFsRelationCommand.scala:149)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply(InsertIntoHadoopFsRelationCommand.scala:115)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply(InsertIntoHadoopFsRelationCommand.scala:115)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:115)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:60)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:58)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.doExecute(commands.scala:74)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:136)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:133)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:114)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd$lzycompute(QueryExecution.scala:86)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd(QueryExecution.scala:86)\n  at org.apache.spark.sql.execution.datasources.DataSource.write(DataSource.scala:487)\n  at org.apache.spark.sql.execution.command.CreateDataSourceTableAsSelectCommand.run(createDataSourceTables.scala:246)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:60)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:58)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.doExecute(commands.scala:74)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:136)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:133)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:114)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd$lzycompute(QueryExecution.scala:86)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd(QueryExecution.scala:86)\n  at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:378)\n  at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:354)\n  at cacheTable(\u003cconsole\u003e:38)\n  ... 48 elided\nCaused by: org.apache.hadoop.mapred.InvalidInputException: Input Pattern file:/data/host-data/logs/web/15c5bd030bae/* matches 0 files\nInput path does not exist: file:/data/host-data/logs/web/dd17d6447831\n  at org.apache.hadoop.mapred.FileInputFormat.singleThreadedListStatus(FileInputFormat.java:287)\n  at org.apache.hadoop.mapred.FileInputFormat.listStatus(FileInputFormat.java:229)\n  at org.apache.hadoop.mapred.FileInputFormat.getSplits(FileInputFormat.java:315)\n  at org.apache.spark.rdd.HadoopRDD.getPartitions(HadoopRDD.scala:200)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.getAllPrefLocs(CoalescedRDD.scala:191)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.\u003cinit\u003e(CoalescedRDD.scala:184)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer.coalesce(CoalescedRDD.scala:387)\n  at org.apache.spark.rdd.CoalescedRDD.getPartitions(CoalescedRDD.scala:87)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.getAllPrefLocs(CoalescedRDD.scala:191)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.\u003cinit\u003e(CoalescedRDD.scala:184)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer.coalesce(CoalescedRDD.scala:387)\n  at org.apache.spark.rdd.CoalescedRDD.getPartitions(CoalescedRDD.scala:87)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1904)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply$mcV$sp(InsertIntoHadoopFsRelationCommand.scala:143)\n  ... 79 more\n"
-      },
-      "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:22:51 PM",
-      "dateFinished": "Aug 20, 2016 5:22:57 PM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "cacheTable(\"\"\"\nselect web_logs.datetime, web_logs.node as app_host, source_ip, b.node as source_host, log\nfrom web_logs\nleft outer join (select distinct node, address from nodes) b on source_ip \u003d address\n\"\"\", \"web_logs_enriched\")",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "editorHide": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": true,
-          "keys": [
-            {
-              "name": "datetime",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "datetime",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1471482211777_-362782356",
-      "id": "20160621-120438_1014423901",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.sql.AnalysisException: Table or view not found: web_logs; line 3 pos 5\n  at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)\n  at org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.org$apache$spark$sql$catalyst$analysis$Analyzer$ResolveRelations$$lookupTableFromCatalog(Analyzer.scala:449)\n  at org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$8.applyOrElse(Analyzer.scala:468)\n  at org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$8.applyOrElse(Analyzer.scala:453)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:61)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:61)\n  at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:69)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:60)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:58)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:58)\n  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$5.apply(TreeNode.scala:321)\n  at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:179)\n  at org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:319)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:58)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:58)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:58)\n  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$5.apply(TreeNode.scala:321)\n  at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:179)\n  at org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:319)\n  at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:58)\n  at org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:453)\n  at org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:443)\n  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:85)\n  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:82)\n  at scala.collection.LinearSeqOptimized$class.foldLeft(LinearSeqOptimized.scala:124)\n  at scala.collection.immutable.List.foldLeft(List.scala:84)\n  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:82)\n  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:74)\n  at scala.collection.immutable.List.foreach(List.scala:381)\n  at org.apache.spark.sql.catalyst.rules.RuleExecutor.execute(RuleExecutor.scala:74)\n  at org.apache.spark.sql.execution.QueryExecution.analyzed$lzycompute(QueryExecution.scala:65)\n  at org.apache.spark.sql.execution.QueryExecution.analyzed(QueryExecution.scala:63)\n  at org.apache.spark.sql.execution.QueryExecution.assertAnalyzed(QueryExecution.scala:51)\n  at org.apache.spark.sql.Dataset$.ofRows(Dataset.scala:64)\n  at org.apache.spark.sql.SparkSession.sql(SparkSession.scala:582)\n  at org.apache.spark.sql.SQLContext.sql(SQLContext.scala:682)\n  at cacheTable(\u003cconsole\u003e:37)\n  ... 48 elided\n"
-      },
-      "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:22:57 PM",
-      "dateFinished": "Aug 20, 2016 5:22:58 PM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "text": "val nmon_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/nmon/*\")\ncase class nmonRec(node: String, ts: String, CPUUser: Double, CPUSys: Double, MemFree: Long, MemAvailable: Long, MemTotal: Long, DiskBusy: Double)\n\nnmon_raw.filter(_._2 contains \"ZZZZ\").map(x \u003d\u003e {\n    val lines \u003d x._2.split(\"\\n\")\n    nmonRec(\n      x._1.split(\"/\").last.split(\"_\").head, //node\n      lines.filter(_ contains \"ZZZZ\")(0).split(\",\")(3) + \" \" +\n      lines.filter(_ contains \"ZZZZ\")(0).split(\",\")(2), //timestamp\n      lines.filter(y \u003d\u003e y.contains(\"T0001\") \u0026\u0026 y.startsWith(\"CPU_ALL\"))(0).split(\",\")(2).trim.toDouble, // User CPU\n      lines.filter(y \u003d\u003e y.contains(\"T0001\") \u0026\u0026 y.startsWith(\"CPU_ALL\"))(0).split(\",\")(3).trim.toDouble, // Sys CPU\n      lines.filter(y \u003d\u003e y.contains(\"MemFree\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"MemAvailable\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"MemTotal\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"DISKBUSY\"))(1).split(\",\")(2).trim.toDouble\n    )\n}).toDF().coalesce(1).createOrReplaceTempView(\"nmon_raw\")",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -307,21 +207,21 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\nnmon_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/nmon/* MapPartitionsRDD[110] at wholeTextFiles at \u003cconsole\u003e:37\n\ndefined class nmonRec\n"
+        "msg": "\nnmon_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/nmon/* MapPartitionsRDD[666] at wholeTextFiles at \u003cconsole\u003e:43\n\ndefined class nmonRec\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:22:57 PM",
-      "dateFinished": "Aug 20, 2016 5:23:00 PM",
+      "dateStarted": "Aug 21, 2016 1:31:58 AM",
+      "dateFinished": "Aug 21, 2016 1:32:03 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "cacheTable(\"\"\"\nselect from_unixtime(unix_timestamp(ts, \"dd-MMM-yyyy HH:mm:ss\")) as datetime, node, cpuuser, cpusys, memfree, memavailable, memtotal, diskbusy from nmon_raw\n\"\"\", \"node_monitoring\")",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
-        "editorHide": false,
+        "editorHide": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -364,19 +264,19 @@
       "jobName": "paragraph_1471482211777_-362782356",
       "id": "20160618-183604_920305267",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job aborted.\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply$mcV$sp(InsertIntoHadoopFsRelationCommand.scala:149)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply(InsertIntoHadoopFsRelationCommand.scala:115)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply(InsertIntoHadoopFsRelationCommand.scala:115)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:115)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:60)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:58)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.doExecute(commands.scala:74)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:136)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:133)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:114)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd$lzycompute(QueryExecution.scala:86)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd(QueryExecution.scala:86)\n  at org.apache.spark.sql.execution.datasources.DataSource.write(DataSource.scala:487)\n  at org.apache.spark.sql.execution.command.CreateDataSourceTableAsSelectCommand.run(createDataSourceTables.scala:246)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:60)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:58)\n  at org.apache.spark.sql.execution.command.ExecutedCommandExec.doExecute(commands.scala:74)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:115)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:136)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:133)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:114)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd$lzycompute(QueryExecution.scala:86)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd(QueryExecution.scala:86)\n  at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:378)\n  at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:354)\n  at cacheTable(\u003cconsole\u003e:38)\n  ... 48 elided\nCaused by: org.apache.hadoop.mapreduce.lib.input.InvalidInputException: Input Pattern file:/data/host-data/metrics/nmon/* matches 0 files\n  at org.apache.hadoop.mapreduce.lib.input.FileInputFormat.singleThreadedListStatus(FileInputFormat.java:323)\n  at org.apache.hadoop.mapreduce.lib.input.FileInputFormat.listStatus(FileInputFormat.java:265)\n  at org.apache.spark.input.WholeTextFileInputFormat.setMinPartitions(WholeTextFileInputFormat.scala:55)\n  at org.apache.spark.rdd.WholeTextFileRDD.getPartitions(WholeTextFileRDD.scala:49)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.getAllPrefLocs(CoalescedRDD.scala:191)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.\u003cinit\u003e(CoalescedRDD.scala:184)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer.coalesce(CoalescedRDD.scala:387)\n  at org.apache.spark.rdd.CoalescedRDD.getPartitions(CoalescedRDD.scala:87)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.getAllPrefLocs(CoalescedRDD.scala:191)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer$PartitionLocations.\u003cinit\u003e(CoalescedRDD.scala:184)\n  at org.apache.spark.rdd.DefaultPartitionCoalescer.coalesce(CoalescedRDD.scala:387)\n  at org.apache.spark.rdd.CoalescedRDD.getPartitions(CoalescedRDD.scala:87)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:248)\n  at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:246)\n  at scala.Option.getOrElse(Option.scala:121)\n  at org.apache.spark.rdd.RDD.partitions(RDD.scala:246)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1904)\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand$$anonfun$run$1.apply$mcV$sp(InsertIntoHadoopFsRelationCommand.scala:143)\n  ... 79 more\n"
+        "msg": "Wrote node_monitoring to /data/derived/node_monitoring\nCached table node_monitoring\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:22:58 PM",
-      "dateFinished": "Aug 20, 2016 5:23:01 PM",
-      "status": "ERROR",
+      "dateStarted": "Aug 21, 2016 1:32:03 AM",
+      "dateFinished": "Aug 21, 2016 1:32:10 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ps_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/ps/*\")\ncase class Process(node: String, ts: Long, user: String, pid: String, CPU: Double, Mem: Double, VSZ: Int, RSS: Int, TTY: String, STAT: String, Start: String, Time: String, Command: String)\n\n//Take the timestamp from filename and prepend it to each row of \"ps\" output\nps_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).map(y \u003d\u003e { \n  val x \u003d y.split(\"\\\\s+\")\n  Process(\n    x(0), x(1).toLong/1000, x(2), x(3), x(4).toDouble, x(5).toDouble, x(6).toInt, x(7).toInt, x(8), x(9), x(10), x(11), x.slice(12, x.size-1).mkString(\" \")\n  )\n}).toDF().coalesce(1).createOrReplaceTempView(\"ps_raw\")\n  \n//TODO - fix timestamp issue",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -401,17 +301,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\nps_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/ps/* MapPartitionsRDD[121] at wholeTextFiles at \u003cconsole\u003e:37\n\ndefined class Process\n"
+        "msg": "\nps_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/ps/* MapPartitionsRDD[682] at wholeTextFiles at \u003cconsole\u003e:43\n\ndefined class Process\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:23:01 PM",
-      "dateFinished": "Aug 20, 2016 5:23:03 PM",
+      "dateStarted": "Aug 21, 2016 1:32:04 AM",
+      "dateFinished": "Aug 21, 2016 1:32:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ns_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/netstat/*\")\ncase class Socket(node: String, ts: Long, Proto: String, RecvQ: Int, SendQ: Int, LocalAddress: String, ForeignAddress: String, State: String, User: String, Inode: String, pid: String, ProgramName: String)\n\n//Take the timestamp from filename and prepend it to each row of \"netstat\" output\nns_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).filter(x \u003d\u003e !(x contains \"Recv-Q\") \u0026\u0026 !(x contains \"Active UNIX\") \u0026\u0026 !(x contains \"RefCnt\") \u0026\u0026 !(x.split(\"\\\\s+\")(2) contains \"unix\") \u0026\u0026 !(x contains \"Active Internet\"))\n  .map(y \u003d\u003e {\n  val x \u003d y.split(\"\\\\s+\")\n  Socket(\n    x(0), x(1).toLong/1000, x(2), x(3).toInt, x(4).toInt, x(5), x(6), x(7), x(8), x(9), if (x.size \u003e 11) x(10) else \"\", if (x.size \u003e 12) x(11) else \"\"\n  )\n})\n.toDF().coalesce(1).createOrReplaceTempView(\"netstat_raw\")\n\ncase class IPCSocket(node: String, ts: Long, Proto: String, RefCnt: Int, Flags: String, Type: String, State: String, Inode: String, pid: String, ProgamName: String, Path: String)\nns_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).filter(x \u003d\u003e x contains \"unix\")\n  .map(y \u003d\u003e {\n  val x \u003d y.split(\"\\\\s+\")\n  IPCSocket(\n    x(0), x(1).toLong/1000, x(2), x(3).toInt, x.slice(4,x.size-4).mkString(\" \"), x(x.size-4), x(x.size-3), x(x.size-2), x.last.split(\"/\")(0), x.last.split(\"/\")(1), \"\"\n  )\n})\n.toDF().coalesce(1).createOrReplaceTempView(\"ipcsocket_raw\")\n//TODO - fix timestamp issue",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -460,87 +360,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\nns_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/netstat/* MapPartitionsRDD[127] at wholeTextFiles at \u003cconsole\u003e:37\n\ndefined class Socket\n\ndefined class IPCSocket\n"
+        "msg": "\nns_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/netstat/* MapPartitionsRDD[688] at wholeTextFiles at \u003cconsole\u003e:43\n\ndefined class Socket\n\ndefined class IPCSocket\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:23:02 PM",
-      "dateFinished": "Aug 20, 2016 5:23:05 PM",
+      "dateStarted": "Aug 21, 2016 1:32:10 AM",
+      "dateFinished": "Aug 21, 2016 1:32:13 AM",
       "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%sql drop table if exists metrics",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/sql",
-        "editorHide": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1471482211777_-362782356",
-      "id": "20160817-204939_2135731253",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:23:03 PM",
-      "dateFinished": "Aug 20, 2016 5:23:05 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%sql\ncreate table if not exists metrics as\nselect\n  concat(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), \u0027:00\u0027) as time,\n  round(avg(cpuuser + cpusys)) as CPUUsed,\n  round(avg(diskbusy)) as DISKUsed,\n  round(avg(memavailable/memtotal)*100) as RAMUsed,\n  round(avg(memavailable)/1000) as MemAvailable,\n  sum(b.requests) as InternalRequests,\n  sum(c.requests) as ExternalRequests,\n  sum((b.requests + c.requests)) as TotalRequests\nfrom node_monitoring a\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_logs_enriched\n  where source_host is not null or source_ip \u003d \u0027127.0.0.1\u0027\n) b on date_format(a.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d b.time\njoin (\n  select \n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_logs_enriched\n  where source_host is null  \n) c on date_format(a.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d c.time\ngroup by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027)\norder by time asc",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/sql",
-        "editorHide": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1471482211777_-362782356",
-      "id": "20160703-012345_2004558290",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "Table or view not found: node_monitoring; line 11 pos 5\nset zeppelin.spark.sql.stacktrace \u003d true to see full stacktrace"
-      },
-      "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:23:05 PM",
-      "dateFinished": "Aug 20, 2016 5:23:05 PM",
-      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Aug 20, 2016 5:20:42 PM",
+      "dateUpdated": "Aug 21, 2016 1:31:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -567,8 +397,8 @@
         "msg": ""
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 20, 2016 5:23:06 PM",
-      "dateFinished": "Aug 20, 2016 5:23:06 PM",
+      "dateStarted": "Aug 21, 2016 1:32:11 AM",
+      "dateFinished": "Aug 21, 2016 1:32:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
@@ -576,24 +406,24 @@
   "name": "DeviceRegistry-Setup",
   "id": "2BT36EG13",
   "angularObjects": {
-    "2BW2WSESM:shared_process": [],
-    "2BU7WWKWF:shared_process": [],
-    "2BTD7TWGG:shared_process": [],
-    "2BUE85H9Y:shared_process": [],
-    "2BWC29C8C:shared_process": [],
-    "2BTK77BWW:shared_process": [],
-    "2BWA5F8HZ:shared_process": [],
-    "2BU965G85:shared_process": [],
-    "2BVD1RPQZ:shared_process": [],
-    "2BVQXHFR9:shared_process": [],
-    "2BTJCWDUW:shared_process": [],
-    "2BVSXQFKR:shared_process": [],
-    "2BU6NHD7T:shared_process": [],
-    "2BT8NV7PX:shared_process": [],
-    "2BVDDFV2Y:shared_process": [],
-    "2BV31UCJH:shared_process": [],
-    "2BVYMUP9R:shared_process": [],
-    "2BVB9NK53:shared_process": []
+    "2BU5KQMZJ:shared_process": [],
+    "2BSXST5Z5:shared_process": [],
+    "2BUZU6GVF:shared_process": [],
+    "2BW7ESVB3:shared_process": [],
+    "2BU34H24G:shared_process": [],
+    "2BU5XGSRQ:shared_process": [],
+    "2BTA3FUNF:shared_process": [],
+    "2BTSWA8Z1:shared_process": [],
+    "2BUBABM3W:shared_process": [],
+    "2BTQU3FKV:shared_process": [],
+    "2BVQ1NBDV:shared_process": [],
+    "2BUD3AHMW:shared_process": [],
+    "2BUDHWEBS:shared_process": [],
+    "2BVHDGFAH:shared_process": [],
+    "2BUE5NMN7:shared_process": [],
+    "2BUKFK1HU:shared_process": [],
+    "2BV3AQ8YQ:shared_process": [],
+    "2BVEAVZZ5:shared_process": []
   },
   "config": {},
   "info": {}
