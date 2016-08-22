@@ -3,7 +3,7 @@
     {
       "title": "HTML/Javascript setup",
       "text": "%angular\n\u003c!-- External libraries --\u003e\n\u003cscript type\u003d\"text/javascript\" src\u003d\"http://dygraphs.com/dygraph-combined.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/highcharts.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/modules/exporting.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://cdn.plot.ly/plotly-latest.min.js\"\u003e\u003c/script\u003e\n\n\u003cdiv id\u003d\"dummy\" vars\u003d\"data1,data1Schema,data2,data2Schema\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\n  var div \u003d $(\u0027#dummy\u0027);\n  //Given an element in the note \u0026 list of values to fetch from Spark\n  //window.angularVars.myVal will be current value of backend Spark val of same name\n  function hoist(element, varNames){\n    window.angularVars \u003d {};\n    var scope \u003d angular.element(element.parent(\u0027.ng-scope\u0027)).scope().compiledScope;\n    $.each(varNames, function(i, v){\n      window[v+\u0027-watcher\u0027] \u003d scope.$watch(v, function(newVal, oldVal){\n        console.log(\u0027Setting \u0027 + v + \u0027 to:\\n\u0027);\n        console.log(newVal);\n        window.angularVars[v] \u003d newVal;\n      });\n    });\n  }\n  hoist(div, div.attr(\u0027vars\u0027).split(\u0027,\u0027));\n\u003c/script\u003e",
-      "dateUpdated": "Aug 21, 2016 2:24:34 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:51 AM",
       "config": {
         "tableHide": true,
         "colWidth": 12.0,
@@ -33,15 +33,15 @@
         "msg": "\u003c!-- External libraries --\u003e\n\u003cscript type\u003d\"text/javascript\" src\u003d\"http://dygraphs.com/dygraph-combined.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/highcharts.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://code.highcharts.com/modules/exporting.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"https://cdn.plot.ly/plotly-latest.min.js\"\u003e\u003c/script\u003e\n\n\u003cdiv id\u003d\"dummy\" vars\u003d\"data1,data1Schema,data2,data2Schema\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\n  var div \u003d $(\u0027#dummy\u0027);\n  //Given an element in the note \u0026 list of values to fetch from Spark\n  //window.angularVars.myVal will be current value of backend Spark val of same name\n  function hoist(element, varNames){\n    window.angularVars \u003d {};\n    var scope \u003d angular.element(element.parent(\u0027.ng-scope\u0027)).scope().compiledScope;\n    $.each(varNames, function(i, v){\n      window[v+\u0027-watcher\u0027] \u003d scope.$watch(v, function(newVal, oldVal){\n        console.log(\u0027Setting \u0027 + v + \u0027 to:\\n\u0027);\n        console.log(newVal);\n        window.angularVars[v] \u003d newVal;\n      });\n    });\n  }\n  hoist(div, div.attr(\u0027vars\u0027).split(\u0027,\u0027));\n\u003c/script\u003e"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:24:34 AM",
-      "dateFinished": "Aug 21, 2016 2:24:34 AM",
+      "dateStarted": "Aug 21, 2016 3:56:51 AM",
+      "dateFinished": "Aug 21, 2016 3:56:52 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Device Registry Meta",
       "text": "%sql\nselect Datetime, Address as IP, Node, TaggedAddresses\nfrom nodes\nlimit 7",
-      "dateUpdated": "Aug 21, 2016 2:24:34 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:51 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/sql",
@@ -88,15 +88,15 @@
         "msg": "Datetime\tIP\tNode\tTaggedAddresses\n2016-08-20 23:45:18\t172.21.0.5\t01705047a658\t[172.21.0.5]\n2016-08-20 23:45:18\t172.21.0.4\tcb27db12062a\t[172.21.0.4]\n2016-08-20 23:45:18\t172.21.0.3\tmonitor.dev\t[172.21.0.3]\n2016-08-20 23:45:28\t172.21.0.5\t01705047a658\t[172.21.0.5]\n2016-08-20 23:45:28\t172.21.0.4\tcb27db12062a\t[172.21.0.4]\n2016-08-20 23:45:28\t172.21.0.3\tmonitor.dev\t[172.21.0.3]\n2016-08-20 23:45:38\t172.21.0.5\t01705047a658\t[172.21.0.5]\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:24:34 AM",
-      "dateFinished": "Aug 21, 2016 2:24:35 AM",
+      "dateStarted": "Aug 21, 2016 3:56:51 AM",
+      "dateFinished": "Aug 21, 2016 3:56:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Select Host",
-      "text": "val nodes \u003d sqlContext.sql(\"select distinct node from nodes\").collect().map(x \u003d\u003e (x(0).asInstanceOf[String], x(0).asInstanceOf[String]))\nval node \u003d z.select(\"node\", nodes)\nval nodeApps \u003d sqlContext.sql(\"select distinct service from services where service !\u003d \u0027consul\u0027 and node \u003d \u0027\"+node+\"\u0027\")\n  .collect().map(x \u003d\u003e (x(0).asInstanceOf[String], x(0).asInstanceOf[String]))\nval app \u003d z.select(\"app\", nodeApps)\nval appTable \u003d app.asInstanceOf[String].replace(\"-\", \"_\")+\"_logs_enriched\"\n\nvar query \u003d \"\"\"\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(app.requests, 0) as string))) as AppEvents,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom node_monitoring\nleft outer join (\n  select date_format(datetime, \u0027HH:mm\u0027) as time, node, count(*) as requests\n  from \"\"\"+appTable+\"\"\"\n  group by date_format(datetime, \u0027HH:mm\u0027), node\n) app\non node_monitoring.node \u003d app.node and date_format(node_monitoring.datetime, \u0027HH:mm\u0027) \u003d app.time\nwhere node_monitoring.node \u003d \u0027\"\"\"+node+\"\"\"\u0027\ngroup by node_monitoring.node\norder by time asc\n\"\"\"\nprintln(query)\nval data2 \u003d sqlContext.sql(query)\nz.angularBind(\"data2\", data2.collect())\nz.angularBind(\"data2Schema\", data2.schema)\nz.run(\"20160706-130128_836809999\")",
-      "dateUpdated": "Aug 21, 2016 3:15:13 AM",
+      "text": "val nodes \u003d sqlContext.sql(\"select distinct node from nodes\").collect().map(x \u003d\u003e (x(0).asInstanceOf[String], x(0).asInstanceOf[String]))\nval node \u003d z.select(\"node\", nodes)\nval nodeApps \u003d sqlContext.sql(\"select distinct service from services where service !\u003d \u0027consul\u0027 and node \u003d \u0027\"+node+\"\u0027\")\n  .collect().map(x \u003d\u003e (x(0).asInstanceOf[String], x(0).asInstanceOf[String]))\nval app \u003d z.select(\"app\", nodeApps)\nval appTable \u003d app.asInstanceOf[String].replace(\"-\", \"_\")+\"_logs_enriched\"\n\nvar query \u003d \"\"\"\nselect\n concat_ws(\u0027,\u0027, collect_list(time)) as time,\n concat_ws(\u0027,\u0027, collect_list(disk)) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cpuuser)) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cpusys as string)) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cpu)) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(app.requests, 0) as string))) as AppEvents,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    cast(diskbusy as string) as Disk,\n    cast(cpuuser as string) as CPUUser,\n    cast(cpusys as string) as CPUSys,\n    cast(round(100*memavailable/memtotal, 2) as string) as Mem,\n    cast(greatest(app.requests, 0) as string) as AppEvents,\n    cast(round(memavailable/1000, 0) as string) as MemAvail\n  from node_monitoring\n  left outer join (\n    select date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time, node, count(*) as requests\n    from \"\"\"+appTable+\"\"\"\n    group by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), node\n  ) app\n  on node_monitoring.node \u003d app.node and date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d app.time\n  where node_monitoring.node \u003d \u0027\"\"\"+node+\"\"\"\u0027\n) a\ngroup by node_monitoring.node\n\"\"\"\nprintln(query)\nval data2 \u003d sqlContext.sql(query)\nz.angularBind(\"data2\", data2.collect())\nz.angularBind(\"data2Schema\", data2.schema)\nz.run(\"20160706-130128_836809999\")",
+      "dateUpdated": "Aug 21, 2016 7:45:27 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -161,23 +161,23 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\nnodes: Array[(String, String)] \u003d Array((01705047a658,01705047a658), (monitor.dev,monitor.dev), (cb27db12062a,cb27db12062a))\n\nnode: Object \u003d cb27db12062a\n\nnodeApps: Array[(String, String)] \u003d Array((web-static,web-static))\n\napp: Object \u003d web-static\n\nappTable: String \u003d web_static_logs_enriched\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nquery: String \u003d\n\"\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(app.requests, 0) as string))) as AppEvents,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom node_monitoring\nleft outer join (\n  select date_format(datetime, \u0027HH:mm\u0027) as time, node, count(*) as requests\n  from web_static_logs_enriched\n  group by d...\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(app.requests, 0) as string))) as AppEvents,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom node_monitoring\nleft outer join (\n  select date_format(datetime, \u0027HH:mm\u0027) as time, node, count(*) as requests\n  from web_static_logs_enriched\n  group by date_format(datetime, \u0027HH:mm\u0027), node\n) app\non node_monitoring.node \u003d app.node and date_format(node_monitoring.datetime, \u0027HH:mm\u0027) \u003d app.time\nwhere node_monitoring.node \u003d \u0027cb27db12062a\u0027\ngroup by node_monitoring.node\norder by time asc\n\n\ndata2: org.apache.spark.sql.DataFrame \u003d [time: string, Disk: string ... 6 more fields]\n"
+        "msg": "\nnodes: Array[(String, String)] \u003d Array((01705047a658,01705047a658), (monitor.dev,monitor.dev), (cb27db12062a,cb27db12062a))\n\nnode: Object \u003d cb27db12062a\n\nnodeApps: Array[(String, String)] \u003d Array((web-static,web-static))\n\napp: Object \u003d web-static\n\nappTable: String \u003d web_static_logs_enriched\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nquery: String \u003d\n\"\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(app.requests, 0) as string))) as AppEvents,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom node_monitoring\nleft outer join (\n  select date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time, node, count(*) as requests\n  from web_static_logs...\nselect\n concat_ws(\u0027,\u0027, collect_list(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027))) as time,\n concat_ws(\u0027,\u0027, collect_list(cast(diskbusy as string))) as Disk,\n concat_ws(\u0027,\u0027, collect_list(cast(cpuuser as string))) as CPUUser,\n concat_ws(\u0027,\u0027, collect_list(cast(cpusys as string))) as CPUSys,\n concat_ws(\u0027,\u0027, collect_list(cast(round(cpusys+cpuuser, 2) as string))) as CPU,\n concat_ws(\u0027,\u0027, collect_list(cast(round(100*memavailable/memtotal, 2) as string))) as Mem,\n concat_ws(\u0027,\u0027, collect_list(cast(greatest(app.requests, 0) as string))) as AppEvents,\n concat_ws(\u0027,\u0027, collect_list(cast(round(memavailable/1000, 0) as string))) as MemAvail\nfrom node_monitoring\nleft outer join (\n  select date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time, node, count(*) as requests\n  from web_static_logs_enriched\n  group by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), node\n) app\non node_monitoring.node \u003d app.node and date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d app.time\nwhere node_monitoring.node \u003d \u0027cb27db12062a\u0027\ngroup by node_monitoring.node\norder by time asc\n\n\ndata2: org.apache.spark.sql.DataFrame \u003d [time: string, Disk: string ... 6 more fields]\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 3:15:13 AM",
-      "dateFinished": "Aug 21, 2016 3:15:17 AM",
+      "dateStarted": "Aug 21, 2016 7:35:21 AM",
+      "dateFinished": "Aug 21, 2016 7:35:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Host/Device View",
       "text": "%angular\n\u003cdiv id\u003d\"chart2\" style\u003d\"min-width: 100%; height: 500px; margin: 0 auto\" data\u003d\"data2\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart2\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)][0].values;\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\nvar series \u003d [];\n$.each(schema.fields, function(i, v){\n  if (i \u003e 0){\n    series.push({\n      name: v.name, type: \u0027spline\u0027, yAxis: 0,\n      tooltip: { valueSuffix: \u0027 %\u0027 },\n      data: JSON.parse(\u0027[\u0027+data[i].split(\u0027,\u0027)+\u0027]\u0027)\n    });\n  }\n});\n\nseries[series.length-1].dashStyle \u003d \u0027dot\u0027;\nseries[series.length-1].yAxis \u003d 1;\nseries[series.length-1].tooltip.valueSuffix \u003d \u0027 MB\u0027;\n\nfunction adjustSeries(index, dot){\n  series[index].dashStyle \u003d dot;\n  series[index].yAxis \u003d 2;\n  series[index].tooltip.valueSuffix \u003d \u0027 Hits\u0027;\n}\n\nadjustSeries(series.length - 2, \u0027longDash\u0027);\nadjustSeries(series.length - 3, \u0027shortDash\u0027);\nadjustSeries(series.length - 4, \u0027shortDash\u0027);\n\nvar xAxis \u003d {categories: data[0].split(\u0027,\u0027), crosshair: true};\n\nvar yAxis1 \u003d {\n  labels: { format: \u0027{value} %\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  title: { text: \u0027Percentage Consumed\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  opposite: true\n};\n\nvar yAxis2 \u003d {\n  labels: { format: \u0027{value} MB\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027Memory Available\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0\n};\n\nvar yAxis3 \u003d {\n  labels: { format: \u0027{value}\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027App Events\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0,\n  opposite: true\n};\n\nvar legend \u003d {\n  layout: \u0027vertical\u0027, align: \u0027left\u0027, verticalAlign: \u0027top\u0027, floating: true,\n  backgroundColor: (Highcharts.theme \u0026\u0026 Highcharts.theme.legendBackgroundColor) || \u0027#FFFFFF\u0027,\n  x: 80, y: 55\n};\n\n$(\u0027#chart2\u0027).highcharts({\n  chart: { zoomType: \u0027xy\u0027 },\n  title: { text: \u0027Node Metrics:\u0027},\n  xAxis: [xAxis],\n  yAxis: [yAxis1, yAxis2, yAxis3],\n  series: series,\n  legend: legend,\n  tooltip: { shared: true }\n});\n\u003c/script\u003e",
-      "dateUpdated": "Aug 21, 2016 2:30:07 AM",
+      "dateUpdated": "Aug 21, 2016 7:39:47 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
-        "editorHide": true,
+        "editorHide": false,
         "title": true,
         "graph": {
           "mode": "table",
@@ -202,15 +202,15 @@
         "msg": "\u003cdiv id\u003d\"chart2\" style\u003d\"min-width: 100%; height: 500px; margin: 0 auto\" data\u003d\"data2\"\u003e\u003c/div\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart2\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)][0].values;\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\nvar series \u003d [];\n$.each(schema.fields, function(i, v){\n  if (i \u003e 0){\n    series.push({\n      name: v.name, type: \u0027spline\u0027, yAxis: 0,\n      tooltip: { valueSuffix: \u0027 %\u0027 },\n      data: JSON.parse(\u0027[\u0027+data[i].split(\u0027,\u0027)+\u0027]\u0027)\n    });\n  }\n});\n\nseries[series.length-1].dashStyle \u003d \u0027dot\u0027;\nseries[series.length-1].yAxis \u003d 1;\nseries[series.length-1].tooltip.valueSuffix \u003d \u0027 MB\u0027;\n\nfunction adjustSeries(index, dot){\n  series[index].dashStyle \u003d dot;\n  series[index].yAxis \u003d 2;\n  series[index].tooltip.valueSuffix \u003d \u0027 Hits\u0027;\n}\n\nadjustSeries(series.length - 2, \u0027longDash\u0027);\nadjustSeries(series.length - 3, \u0027shortDash\u0027);\nadjustSeries(series.length - 4, \u0027shortDash\u0027);\n\nvar xAxis \u003d {categories: data[0].split(\u0027,\u0027), crosshair: true};\n\nvar yAxis1 \u003d {\n  labels: { format: \u0027{value} %\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  title: { text: \u0027Percentage Consumed\u0027, style: { color: Highcharts.getOptions().colors[2] } },\n  opposite: true\n};\n\nvar yAxis2 \u003d {\n  labels: { format: \u0027{value} MB\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027Memory Available\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0\n};\n\nvar yAxis3 \u003d {\n  labels: { format: \u0027{value}\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  title: { text: \u0027App Events\u0027, style: { color: Highcharts.getOptions().colors[0] } },\n  gridLineWidth: 0,\n  opposite: true\n};\n\nvar legend \u003d {\n  layout: \u0027vertical\u0027, align: \u0027left\u0027, verticalAlign: \u0027top\u0027, floating: true,\n  backgroundColor: (Highcharts.theme \u0026\u0026 Highcharts.theme.legendBackgroundColor) || \u0027#FFFFFF\u0027,\n  x: 80, y: 55\n};\n\n$(\u0027#chart2\u0027).highcharts({\n  chart: { zoomType: \u0027xy\u0027 },\n  title: { text: \u0027Node Metrics:\u0027},\n  xAxis: [xAxis],\n  yAxis: [yAxis1, yAxis2, yAxis3],\n  series: series,\n  legend: legend,\n  tooltip: { shared: true }\n});\n\u003c/script\u003e"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 3:15:17 AM",
-      "dateFinished": "Aug 21, 2016 3:15:17 AM",
+      "dateStarted": "Aug 21, 2016 7:39:47 AM",
+      "dateFinished": "Aug 21, 2016 7:39:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load Metrics",
       "text": "val apps \u003d sqlContext.sql(\"select distinct service from services where service !\u003d \u0027consul\u0027\").collect().map(x \u003d\u003e (x(0).asInstanceOf[String], x(0).asInstanceOf[String]))\nval app \u003d z.select(\"app\", apps)\nval appTable \u003d app.asInstanceOf[String].replace(\"-\", \"_\")+\"_logs_enriched\"\nval query \u003d \"\"\"\nselect\n  concat(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), \u0027:00\u0027) as time,\n  round(avg(cpuuser + cpusys)) as CPUUsed,\n  round(avg(diskbusy)) as DISKUsed,\n  round(avg(memavailable/memtotal)*100) as RAMUsed,\n  round(avg(memavailable)/1000) as MemAvailable,\n  sum(known.requests) as InternalRequests,\n  sum(unknown.requests) as ExternalRequests,\n  sum((known.requests + unknown.requests)) as TotalRequests\nfrom node_monitoring\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from \"\"\"+appTable+\"\"\"\n  where source_ip is not null or source_ip \u003d \u0027127.0.0.1\u0027\n) known on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d known.time\njoin (\n  select \n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from \"\"\"+appTable+\"\"\"\n  where source_ip is null  \n) unknown on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d unknown.time\nwhere node_monitoring.node in (\n  select nodes.node from nodes\n  join services on nodes.node \u003d services.node\n  where service \u003d \u0027\"\"\"+app+\"\"\"\u0027 \n)\ngroup by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027)\norder by time asc\n\"\"\"\nval data1 \u003d sqlContext.sql(query)\nprintln(data1.count)\nz.angularBind(\"data1\", data1.collect())\nz.angularBind(\"data1Schema\", data1.schema)\nz.run(\"20160807-021500_806175985\")",
-      "dateUpdated": "Aug 21, 2016 3:17:53 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:51 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -260,15 +260,15 @@
         "msg": "\napps: Array[(String, String)] \u003d Array((web-service,web-service), (web-static,web-static))\n\napp: Object \u003d web-service\n\nappTable: String \u003d web_service_logs_enriched\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nquery: String \u003d\n\"\nselect\n  concat(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), \u0027:00\u0027) as time,\n  round(avg(cpuuser + cpusys)) as CPUUsed,\n  round(avg(diskbusy)) as DISKUsed,\n  round(avg(memavailable/memtotal)*100) as RAMUsed,\n  round(avg(memavailable)/1000) as MemAvailable,\n  sum(known.requests) as InternalRequests,\n  sum(unknown.requests) as ExternalRequests,\n  sum((known.requests + unknown.requests)) as TotalRequests\nfrom node_monitoring\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_service_logs_enriched\n  where source_ip is not null or source_ip \u003d \u0027127.0.0.1\u0027\n) known on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d known.time\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  fro...\ndata1: org.apache.spark.sql.DataFrame \u003d [time: string, CPUUsed: double ... 6 more fields]\n0\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 3:16:12 AM",
-      "dateFinished": "Aug 21, 2016 3:16:21 AM",
+      "dateStarted": "Aug 21, 2016 3:56:51 AM",
+      "dateFinished": "Aug 21, 2016 3:57:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enterprise-Wide Application Metrics",
       "text": "%angular\n\u003cdiv id\u003d\"chart1\" title\u003d\"Node Metrics\" data\u003d\"data1\" yAxes\u003d\"MemAvail,Percentage Consumed,HTTP Requests\" height\u003d\"400px\" width\u003d\"2000\"\u003e\u003c/div\u003e\n\u003cinput id\u003d\"x0\" type\u003d\"text\" ng-model\u003d\"x0\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cinput id\u003d\"x1\" type\u003d\"text\" ng-model\u003d\"x1\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart1\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)];\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\n//Convert query results into Plotly traces: https://plot.ly/javascript/multiple-axes/#multiple-yaxes\nvar traces \u003d [];\n$.each(schema.fields.slice(1), function(i, field){ //Setup trace metadata\n  var trace \u003d {x: [], y: [], name: field.name, type: \u0027scatter\u0027, yaxis: \u0027y\u0027};\n  if (field.name.toLowerCase().indexOf(\u0027used\u0027) \u003e 0) trace.yaxis \u003d \u0027y2\u0027;\n  else if (field.name.toLowerCase().indexOf(\u0027requests\u0027) \u003e 0) trace.yaxis \u003d \u0027y3\u0027;\n  traces.push(trace);\n});\n//Load query results into trace arrays\n$.each(data, function(i,row){\n  //First value is a date\n  var date \u003d new Date(row.values[0]);\n  $.each(row.values.slice(1), function(v, cell){\n    traces[v].x.push(date);\n    traces[v].y.push(cell);\n  });\n});\n\nvar layout \u003d { title: \u0027MultiHost App View\u0027, legend: {orientation: \u0027h\u0027}};\n$.each(div.attr(\u0027yAxes\u0027).split(\u0027,\u0027), function(i, v){\n  var axis \u003d {title: v};\n  var key \u003d \u0027yaxis\u0027;\n  if (i \u003e 0){\n    key +\u003d i+1;\n    axis.side \u003d \u0027right\u0027;\n    axis.overlaying \u003d \u0027y\u0027;\n    axis.position \u003d 1-.04*(i-1);\n  }\n  layout[key] \u003d axis;\n});\n\nvar config \u003d {displaylogo: div.attr(\u0027showLinks\u0027), showLinks: div.attr(\u0027showLinks\u0027), modeBarButtonsToRemove: [\u0027sendDataToCloud\u0027]};\nPlotly.newPlot(\u0027chart1\u0027, traces, layout, config);\ndebugger;\n\ndiv.bind(\u0027plotly_relayout\u0027, function(event,eventdata){\n  alert(new Date(eventdata[\u0027xaxis.range[0]\u0027]) + \u0027\\n\u0027 + new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  /*\n  $(\u0027#x0\u0027).val(new Date(eventdata[\u0027xaxis.range[0]\u0027]));\n  $(\u0027#x1\u0027).val(new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  $(\u0027#x0\u0027).trigger(\u0027input\u0027);\n  $(\u0027#x1\u0027).trigger(\u0027input\u0027);\n  */\n});\n\u003c/script\u003e",
-      "dateUpdated": "Aug 21, 2016 2:24:35 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:51 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -297,15 +297,15 @@
         "msg": "\u003cdiv id\u003d\"chart1\" title\u003d\"Node Metrics\" data\u003d\"data1\" yAxes\u003d\"MemAvail,Percentage Consumed,HTTP Requests\" height\u003d\"400px\" width\u003d\"2000\"\u003e\u003c/div\u003e\n\u003cinput id\u003d\"x0\" type\u003d\"text\" ng-model\u003d\"x0\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cinput id\u003d\"x1\" type\u003d\"text\" ng-model\u003d\"x1\" class\u003d\"hide\"\u003e\u003c/input\u003e\n\u003cscript type\u003d\"text/javascript\"\u003e\nvar div \u003d $(\u0027#chart1\u0027);\nvar data \u003d window.angularVars[div.attr(\u0027data\u0027)];\nvar schema \u003d window.angularVars[div.attr(\u0027data\u0027)+\u0027Schema\u0027];\n\n//Convert query results into Plotly traces: https://plot.ly/javascript/multiple-axes/#multiple-yaxes\nvar traces \u003d [];\n$.each(schema.fields.slice(1), function(i, field){ //Setup trace metadata\n  var trace \u003d {x: [], y: [], name: field.name, type: \u0027scatter\u0027, yaxis: \u0027y\u0027};\n  if (field.name.toLowerCase().indexOf(\u0027used\u0027) \u003e 0) trace.yaxis \u003d \u0027y2\u0027;\n  else if (field.name.toLowerCase().indexOf(\u0027requests\u0027) \u003e 0) trace.yaxis \u003d \u0027y3\u0027;\n  traces.push(trace);\n});\n//Load query results into trace arrays\n$.each(data, function(i,row){\n  //First value is a date\n  var date \u003d new Date(row.values[0]);\n  $.each(row.values.slice(1), function(v, cell){\n    traces[v].x.push(date);\n    traces[v].y.push(cell);\n  });\n});\n\nvar layout \u003d { title: \u0027MultiHost App View\u0027, legend: {orientation: \u0027h\u0027}};\n$.each(div.attr(\u0027yAxes\u0027).split(\u0027,\u0027), function(i, v){\n  var axis \u003d {title: v};\n  var key \u003d \u0027yaxis\u0027;\n  if (i \u003e 0){\n    key +\u003d i+1;\n    axis.side \u003d \u0027right\u0027;\n    axis.overlaying \u003d \u0027y\u0027;\n    axis.position \u003d 1-.04*(i-1);\n  }\n  layout[key] \u003d axis;\n});\n\nvar config \u003d {displaylogo: div.attr(\u0027showLinks\u0027), showLinks: div.attr(\u0027showLinks\u0027), modeBarButtonsToRemove: [\u0027sendDataToCloud\u0027]};\nPlotly.newPlot(\u0027chart1\u0027, traces, layout, config);\ndebugger;\n\ndiv.bind(\u0027plotly_relayout\u0027, function(event,eventdata){\n  alert(new Date(eventdata[\u0027xaxis.range[0]\u0027]) + \u0027\\n\u0027 + new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  /*\n  $(\u0027#x0\u0027).val(new Date(eventdata[\u0027xaxis.range[0]\u0027]));\n  $(\u0027#x1\u0027).val(new Date(eventdata[\u0027xaxis.range[1]\u0027]));\n  $(\u0027#x0\u0027).trigger(\u0027input\u0027);\n  $(\u0027#x1\u0027).trigger(\u0027input\u0027);\n  */\n});\n\u003c/script\u003e"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 3:16:21 AM",
-      "dateFinished": "Aug 21, 2016 3:16:21 AM",
+      "dateStarted": "Aug 21, 2016 3:57:16 AM",
+      "dateFinished": "Aug 21, 2016 3:57:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Timestamped Host Process Metadata",
       "text": "%sql select * from ps_raw limit 5",
-      "dateUpdated": "Aug 21, 2016 2:24:35 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:51 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/sql",
@@ -357,15 +357,15 @@
         "msg": "node\tts\tuser\tpid\tCPU\tMem\tVSZ\tRSS\tTTY\tSTAT\tStart\tTime\tCommand\n01705047a658\t1471736\troot\t1\t0.0\t0.0\t11640\t1448\t?\tSs\t23:35\t0:00\tsh /scripts/start.sh\n01705047a658\t1471736\troot\t21\t0.0\t0.0\t93668\t9680\t?\tS\t23:35\t0:00\tpython /server.py 8000\n01705047a658\t1471736\troot\t25\t0.1\t0.0\t402552\t4600\t?\tSl\t23:36\t0:00\t\n01705047a658\t1471736\troot\t26\t0.0\t0.0\t11636\t1396\t?\tS\t23:36\t0:00\tsh /scripts/ps.sh\n01705047a658\t1471736\troot\t27\t0.0\t0.0\t11636\t1392\t?\tS\t23:36\t0:00\tsh /scripts/netstat.sh\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:24:39 AM",
-      "dateFinished": "Aug 21, 2016 2:25:12 AM",
+      "dateStarted": "Aug 21, 2016 3:57:04 AM",
+      "dateFinished": "Aug 21, 2016 3:57:59 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Heaviest Processes by CPU",
       "text": "%sql\nselect * from (\nselect node, split(command, \u0027 \u0027)[0], avg(cpu) as avg\nfrom ps_raw\ngroup by node, split(command, \u0027 \u0027)[0]\norder by avg desc\n) a\nwhere avg \u003e 0",
-      "dateUpdated": "Aug 21, 2016 2:24:35 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:51 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/sql",
@@ -421,18 +421,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "node\tsplit(command,  )[0]\tavg\ncb27db12062a\tconsul\t0.7227497527201092\n01705047a658\tconsul\t0.7158989598811575\n01705047a658\t\t0.10296589223924488\ncb27db12062a\t\t0.10202569169960106\ncb27db12062a\tnetstat\t0.058823529411764705\n01705047a658\tpython\t3.96235760277365E-4\ncb27db12062a\tpython\t3.4619188921859544E-4\n"
+        "msg": "node\tsplit(command,  )[0]\tavg\ncb27db12062a\tconsul\t0.715116661189637\n01705047a658\tconsul\t0.7105488005258187\n01705047a658\t\t0.10193569553805842\ncb27db12062a\t\t0.1013131976362448\ncb27db12062a\tnetstat\t0.06666666666666667\n01705047a658\tnetstat\t0.05217391304347826\n01705047a658\tpython\t2.628984554715741E-4\ncb27db12062a\tpython\t2.3003614853762733E-4\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:24:42 AM",
-      "dateFinished": "Aug 21, 2016 2:26:15 AM",
+      "dateStarted": "Aug 21, 2016 3:57:17 AM",
+      "dateFinished": "Aug 21, 2016 3:59:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Timestamped Host Network Activity",
       "text": "%sql select * from netstat_raw limit 5",
-      "dateUpdated": "Aug 21, 2016 2:24:35 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:52 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/sql",
@@ -484,15 +484,15 @@
         "msg": "node\tts\tProto\tRecvQ\tSendQ\tLocalAddress\tForeignAddress\tState\tUser\tInode\tpid\tProgramName\n01705047a658\t1471736\ttcp\t0\t0\tlocalhost:cvd\t0.0.0.0:*\tLISTEN\troot\t18315091\t\t\n01705047a658\t1471736\ttcp\t0\t0\tlocalhost:fmtp\t0.0.0.0:*\tLISTEN\troot\t18315092\t\t\n01705047a658\t1471736\ttcp\t0\t0\tlocalhost:asterix\t0.0.0.0:*\tLISTEN\troot\t18315098\t\t\n01705047a658\t1471736\ttcp\t0\t0\t127.0.0.11:43516\t0.0.0.0:*\tLISTEN\troot\t18313794\t\t\n01705047a658\t1471736\ttcp\t0\t0\t0.0.0.0:irdmi\t0.0.0.0:*\tLISTEN\troot\t18313102\t\t\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:25:13 AM",
-      "dateFinished": "Aug 21, 2016 2:26:47 AM",
+      "dateStarted": "Aug 21, 2016 3:57:59 AM",
+      "dateFinished": "Aug 21, 2016 4:00:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Most Frequent Net Activity by Host",
       "text": "%sql\nselect node, foreignaddress, count(*) as count\nfrom netstat_raw group by node, foreignaddress\norder by count desc\nlimit 15",
-      "dateUpdated": "Aug 21, 2016 2:24:35 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:52 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/sql",
@@ -553,17 +553,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "node\tforeignaddress\tcount\ncb27db12062a\t0.0.0.0:*\t14179\n01705047a658\t0.0.0.0:*\t14160\ncb27db12062a\t[::]:*\t10130\n01705047a658\t[::]:*\t10115\n01705047a658\tlocalhost:irdmi\t6406\ncb27db12062a\tlocalhost:irdmi\t6309\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:38464\t2025\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:38466\t2025\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:cap\t2025\n01705047a658\ttechops_monitor.dev_1.techops_dev:39582\t2023\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:tmi\t2022\n01705047a658\ttechops_monitor.dev_1.techops_dev:cap\t2022\n01705047a658\ttechops_monitor.dev_1.techops_dev:39590\t2022\n01705047a658\ttechops_monitor.dev_1.techops_dev:tmi\t2019\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:amberon\t980\n"
+        "msg": "node\tforeignaddress\tcount\n01705047a658\t0.0.0.0:*\t21139\ncb27db12062a\t0.0.0.0:*\t21123\n01705047a658\t[::]:*\t15100\ncb27db12062a\t[::]:*\t15090\n01705047a658\tlocalhost:irdmi\t9723\ncb27db12062a\tlocalhost:irdmi\t9398\n01705047a658\ttechops_monitor.dev_1.techops_dev:39590\t3021\n01705047a658\ttechops_monitor.dev_1.techops_dev:39582\t3020\n01705047a658\ttechops_monitor.dev_1.techops_dev:cap\t3019\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:38466\t3017\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:38464\t3017\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:cap\t3017\n01705047a658\ttechops_monitor.dev_1.techops_dev:tmi\t3016\ncb27db12062a\ttechops_monitor.dev_1.techops_dev:tmi\t3014\n01705047a658\ttechops_monitor.dev_1.techops_dev:amberon\t1527\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:26:15 AM",
-      "dateFinished": "Aug 21, 2016 2:27:49 AM",
+      "dateStarted": "Aug 21, 2016 3:59:31 AM",
+      "dateFinished": "Aug 21, 2016 4:01:48 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.zeppelin.display.angular.notebookscope._\nimport AngularElem._",
-      "dateUpdated": "Aug 21, 2016 2:24:35 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:52 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -590,14 +590,14 @@
         "msg": "\nimport org.apache.zeppelin.display.angular.notebookscope._\n\nimport AngularElem._\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:26:47 AM",
-      "dateFinished": "Aug 21, 2016 2:27:50 AM",
+      "dateStarted": "Aug 21, 2016 4:00:14 AM",
+      "dateFinished": "Aug 21, 2016 4:01:49 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%sql\nselect\n  concat(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), \u0027:00\u0027) as time,\n  round(avg(cpuuser + cpusys)) as CPUUsed,\n  round(avg(diskbusy)) as DISKUsed,\n  round(avg(memavailable/memtotal)*100) as RAMUsed,\n  round(avg(memavailable)/1000) as MemAvailable\n  sum(known.requests) as InternalRequests,\n  sum(unknown.requests) as ExternalRequests,\n  sum((known.requests + unknown.requests)) as TotalRequests\nfrom node_monitoring\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_service_logs_enriched\n  where source_ip is not null or source_ip \u003d \u0027127.0.0.1\u0027\n) known on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d known.time\njoin (\n  select \n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_service_logs_enriched\n  where source_ip is null  \n) unknown on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d unknown.time\nwhere node_monitoring.node in (\n  select nodes.node from nodes\n  join services on nodes.node \u003d services.node\n  where service \u003d \u0027web_service\u0027 \n)\ngroup by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027)\norder by time asc",
-      "dateUpdated": "Aug 21, 2016 2:34:52 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:52 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/sql",
@@ -642,19 +642,19 @@
       "jobName": "paragraph_1471482216528_245136231",
       "id": "20160815-124555_255216493",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "time\tCPUUsed\tDISKUsed\tRAMUsed\tMemAvailable\n2016-08-20 23:36:00\t11.0\t9.0\t92.0\t30098.0\n2016-08-20 23:37:00\t36.0\t80.0\t90.0\t29382.0\n2016-08-20 23:38:00\t9.0\t19.0\t89.0\t29095.0\n2016-08-20 23:39:00\t9.0\t9.0\t89.0\t29097.0\n2016-08-20 23:40:00\t8.0\t5.0\t89.0\t29095.0\n2016-08-20 23:41:00\t8.0\t11.0\t89.0\t29101.0\n2016-08-20 23:42:00\t9.0\t18.0\t89.0\t29101.0\n2016-08-20 23:43:00\t9.0\t11.0\t89.0\t29074.0\n2016-08-20 23:44:00\t8.0\t12.0\t89.0\t29056.0\n2016-08-20 23:45:00\t8.0\t10.0\t89.0\t29042.0\n2016-08-20 23:46:00\t10.0\t6.0\t89.0\t29042.0\n2016-08-20 23:47:00\t10.0\t6.0\t89.0\t29041.0\n2016-08-20 23:48:00\t10.0\t9.0\t88.0\t29005.0\n2016-08-20 23:49:00\t9.0\t4.0\t88.0\t28979.0\n2016-08-20 23:50:00\t8.0\t4.0\t88.0\t28954.0\n2016-08-20 23:51:00\t8.0\t8.0\t88.0\t28939.0\n2016-08-20 23:52:00\t9.0\t10.0\t88.0\t28939.0\n2016-08-20 23:53:00\t8.0\t7.0\t88.0\t28936.0\n2016-08-20 23:54:00\t9.0\t8.0\t88.0\t28935.0\n2016-08-20 23:55:00\t9.0\t14.0\t88.0\t28923.0\n2016-08-20 23:56:00\t11.0\t7.0\t88.0\t28924.0\n2016-08-20 23:57:00\t13.0\t9.0\t88.0\t28923.0\n2016-08-20 23:58:00\t10.0\t24.0\t88.0\t28921.0\n2016-08-20 23:59:00\t8.0\t16.0\t88.0\t28905.0\n2016-08-21 00:00:00\t8.0\t21.0\t88.0\t28878.0\n2016-08-21 00:01:00\t8.0\t9.0\t88.0\t28879.0\n2016-08-21 00:02:00\t8.0\t15.0\t88.0\t28878.0\n2016-08-21 00:03:00\t7.0\t1.0\t88.0\t28878.0\n2016-08-21 00:04:00\t7.0\t3.0\t88.0\t28878.0\n2016-08-21 00:05:00\t8.0\t12.0\t88.0\t28877.0\n2016-08-21 00:06:00\t8.0\t4.0\t88.0\t28877.0\n2016-08-21 00:07:00\t9.0\t1.0\t88.0\t28866.0\n2016-08-21 00:08:00\t9.0\t4.0\t88.0\t28870.0\n2016-08-21 00:09:00\t7.0\t2.0\t88.0\t28870.0\n2016-08-21 00:10:00\t7.0\t2.0\t88.0\t28867.0\n2016-08-21 00:11:00\t7.0\t4.0\t88.0\t28856.0\n2016-08-21 00:12:00\t8.0\t2.0\t88.0\t28847.0\n2016-08-21 00:13:00\t8.0\t2.0\t88.0\t28831.0\n2016-08-21 00:14:00\t8.0\t2.0\t88.0\t28824.0\n2016-08-21 00:15:00\t9.0\t0.0\t88.0\t28813.0\n2016-08-21 00:16:00\t7.0\t3.0\t88.0\t28802.0\n2016-08-21 00:17:00\t8.0\t0.0\t88.0\t28801.0\n2016-08-21 00:18:00\t9.0\t0.0\t88.0\t28800.0\n2016-08-21 00:19:00\t9.0\t0.0\t88.0\t28801.0\n2016-08-21 00:20:00\t7.0\t0.0\t88.0\t28801.0\n2016-08-21 00:21:00\t7.0\t0.0\t88.0\t28801.0\n2016-08-21 00:22:00\t9.0\t0.0\t88.0\t28800.0\n2016-08-21 00:23:00\t7.0\t2.0\t88.0\t28801.0\n2016-08-21 00:24:00\t8.0\t2.0\t88.0\t28800.0\n2016-08-21 00:25:00\t8.0\t0.0\t88.0\t28800.0\n2016-08-21 00:26:00\t7.0\t0.0\t88.0\t28800.0\n2016-08-21 00:27:00\t7.0\t4.0\t88.0\t28801.0\n2016-08-21 00:28:00\t52.0\t21.0\t88.0\t28779.0\n2016-08-21 00:29:00\t10.0\t0.0\t88.0\t28771.0\n2016-08-21 00:30:00\t7.0\t4.0\t88.0\t28771.0\n2016-08-21 00:31:00\t14.0\t16.0\t88.0\t28763.0\n2016-08-21 00:32:00\t7.0\t4.0\t88.0\t28760.0\n2016-08-21 00:33:00\t8.0\t7.0\t88.0\t28761.0\n2016-08-21 00:34:00\t8.0\t1.0\t88.0\t28761.0\n2016-08-21 00:35:00\t8.0\t0.0\t88.0\t28760.0\n2016-08-21 00:36:00\t7.0\t2.0\t88.0\t28759.0\n2016-08-21 00:37:00\t7.0\t15.0\t88.0\t28739.0\n2016-08-21 00:38:00\t8.0\t1.0\t88.0\t28739.0\n2016-08-21 00:39:00\t9.0\t19.0\t88.0\t28739.0\n2016-08-21 00:40:00\t9.0\t2.0\t88.0\t28739.0\n2016-08-21 00:41:00\t7.0\t2.0\t88.0\t28742.0\n2016-08-21 00:42:00\t7.0\t10.0\t88.0\t28736.0\n2016-08-21 00:43:00\t7.0\t4.0\t88.0\t28737.0\n2016-08-21 00:44:00\t8.0\t0.0\t88.0\t28737.0\n2016-08-21 00:45:00\t7.0\t0.0\t88.0\t28737.0\n2016-08-21 00:46:00\t7.0\t0.0\t88.0\t28737.0\n2016-08-21 00:47:00\t7.0\t0.0\t88.0\t28734.0\n2016-08-21 00:48:00\t7.0\t0.0\t88.0\t28734.0\n2016-08-21 00:49:00\t91.0\t0.0\t89.0\t29051.0\n2016-08-21 00:50:00\t10.0\t0.0\t88.0\t28802.0\n2016-08-21 00:51:00\t7.0\t0.0\t88.0\t28805.0\n2016-08-21 00:52:00\t7.0\t0.0\t88.0\t28803.0\n2016-08-21 00:53:00\t7.0\t9.0\t88.0\t28803.0\n2016-08-21 00:54:00\t7.0\t4.0\t88.0\t28803.0\n2016-08-21 00:55:00\t9.0\t0.0\t88.0\t28803.0\n2016-08-21 00:56:00\t7.0\t0.0\t88.0\t28804.0\n2016-08-21 00:57:00\t7.0\t0.0\t88.0\t28803.0\n2016-08-21 00:58:00\t7.0\t0.0\t88.0\t28802.0\n2016-08-21 00:59:00\t9.0\t0.0\t88.0\t28799.0\n2016-08-21 01:00:00\t8.0\t1.0\t88.0\t28787.0\n2016-08-21 01:01:00\t7.0\t0.0\t88.0\t28780.0\n2016-08-21 01:02:00\t7.0\t0.0\t88.0\t28766.0\n2016-08-21 01:03:00\t7.0\t0.0\t88.0\t28763.0\n2016-08-21 01:04:00\t7.0\t0.0\t88.0\t28761.0\n2016-08-21 01:05:00\t7.0\t0.0\t88.0\t28756.0\n2016-08-21 01:06:00\t8.0\t0.0\t88.0\t28749.0\n2016-08-21 01:07:00\t8.0\t0.0\t88.0\t28751.0\n2016-08-21 01:08:00\t8.0\t0.0\t88.0\t28750.0\n2016-08-21 01:09:00\t11.0\t12.0\t88.0\t28695.0\n2016-08-21 01:10:00\t9.0\t0.0\t88.0\t28696.0\n2016-08-21 01:11:00\t8.0\t0.0\t88.0\t28696.0\n2016-08-21 01:12:00\t6.0\t0.0\t88.0\t28696.0\n2016-08-21 01:13:00\t8.0\t0.0\t88.0\t28696.0\n2016-08-21 01:14:00\t7.0\t0.0\t88.0\t28696.0\n2016-08-21 01:15:00\t7.0\t17.0\t88.0\t28695.0\n2016-08-21 01:16:00\t8.0\t4.0\t88.0\t28695.0\n2016-08-21 01:17:00\t8.0\t31.0\t88.0\t28695.0\n2016-08-21 01:18:00\t8.0\t5.0\t88.0\t28695.0\n2016-08-21 01:19:00\t8.0\t0.0\t87.0\t28679.0\n2016-08-21 01:20:00\t9.0\t0.0\t88.0\t28680.0\n2016-08-21 01:21:00\t8.0\t0.0\t88.0\t28681.0\n2016-08-21 01:22:00\t7.0\t0.0\t87.0\t28680.0\n2016-08-21 01:23:00\t8.0\t0.0\t88.0\t28681.0\n2016-08-21 01:24:00\t7.0\t0.0\t88.0\t28681.0\n2016-08-21 01:25:00\t8.0\t0.0\t87.0\t28680.0\n2016-08-21 01:26:00\t8.0\t0.0\t87.0\t28678.0\n2016-08-21 01:27:00\t7.0\t0.0\t87.0\t28676.0\n2016-08-21 01:28:00\t7.0\t0.0\t87.0\t28653.0\n2016-08-21 01:29:00\t8.0\t0.0\t87.0\t28647.0\n2016-08-21 01:30:00\t8.0\t4.0\t87.0\t28648.0\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\nextraneous input \u0027sum\u0027 expecting {\u003cEOF\u003e, \u0027,\u0027, \u0027FROM\u0027, \u0027WHERE\u0027, \u0027GROUP\u0027, \u0027ORDER\u0027, \u0027HAVING\u0027, \u0027LIMIT\u0027, \u0027LATERAL\u0027, \u0027WINDOW\u0027, \u0027UNION\u0027, \u0027EXCEPT\u0027, \u0027INTERSECT\u0027, \u0027SORT\u0027, \u0027CLUSTER\u0027, \u0027DISTRIBUTE\u0027}(line 7, pos 2)\n\n\u003d\u003d SQL \u003d\u003d\nselect\n  concat(date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027), \u0027:00\u0027) as time,\n  round(avg(cpuuser + cpusys)) as CPUUsed,\n  round(avg(diskbusy)) as DISKUsed,\n  round(avg(memavailable/memtotal)*100) as RAMUsed,\n  round(avg(memavailable)/1000) as MemAvailable\n  sum(known.requests) as InternalRequests,\n--^^^\n  sum(unknown.requests) as ExternalRequests,\n  sum((known.requests + unknown.requests)) as TotalRequests\nfrom node_monitoring\njoin (\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_service_logs_enriched\n  where source_ip is not null or source_ip \u003d \u0027127.0.0.1\u0027\n) known on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d known.time\njoin (\n  select \n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    1 as requests\n  from web_service_logs_enriched\n  where source_ip is null  \n) unknown on date_format(node_monitoring.datetime, \u0027yyyy-MM-dd HH:mm\u0027) \u003d unknown.time\nwhere node_monitoring.node in (\n  select nodes.node from nodes\n  join services on nodes.node \u003d services.node\n  where service \u003d \u0027web_service\u0027 \n)\ngroup by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027)\norder by time asc\n\nset zeppelin.spark.sql.stacktrace \u003d true to see full stacktrace"
       },
       "dateCreated": "Aug 17, 2016 9:03:36 AM",
-      "dateStarted": "Aug 21, 2016 2:34:16 AM",
-      "dateFinished": "Aug 21, 2016 2:34:17 AM",
-      "status": "FINISHED",
+      "dateStarted": "Aug 21, 2016 4:01:48 AM",
+      "dateFinished": "Aug 21, 2016 4:01:49 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%sql\n  select\n    date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time,\n    count(1) as requests\n  from web_service_logs_enriched\n    where source_ip is not null or source_ip \u003d \u0027127.0.0.1\u0027\n  group by date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027)\n\n  ",
-      "dateUpdated": "Aug 21, 2016 2:37:09 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -701,50 +701,27 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "time\trequests\n2016-08-20 23:44\t12\n2016-08-21 01:26\t12\n2016-08-21 01:03\t12\n2016-08-21 00:25\t12\n2016-08-21 01:21\t12\n2016-08-20 23:46\t12\n2016-08-21 00:19\t12\n2016-08-21 01:28\t12\n2016-08-20 23:42\t12\n2016-08-20 23:55\t12\n2016-08-21 00:39\t12\n2016-08-21 01:02\t12\n2016-08-21 00:34\t12\n2016-08-21 00:31\t12\n2016-08-21 00:57\t12\n2016-08-20 23:59\t12\n2016-08-21 00:33\t12\n2016-08-21 01:01\t12\n2016-08-21 00:02\t12\n2016-08-21 00:44\t12\n2016-08-21 00:04\t12\n2016-08-21 00:49\t12\n2016-08-21 00:46\t12\n2016-08-21 00:10\t12\n2016-08-21 01:27\t12\n2016-08-21 00:41\t12\n2016-08-21 01:07\t12\n2016-08-21 00:53\t12\n2016-08-21 01:30\t12\n2016-08-20 23:40\t12\n2016-08-21 00:12\t11\n2016-08-21 00:24\t12\n2016-08-20 23:45\t12\n2016-08-20 23:54\t12\n2016-08-21 00:21\t12\n2016-08-21 01:18\t12\n2016-08-20 23:53\t12\n2016-08-21 00:56\t12\n2016-08-20 23:36\t11\n2016-08-20 23:49\t12\n2016-08-21 00:00\t12\n2016-08-21 01:23\t12\n2016-08-21 01:06\t12\n2016-08-21 00:36\t12\n2016-08-21 00:50\t12\n2016-08-21 00:52\t12\n2016-08-21 00:16\t12\n2016-08-21 00:27\t12\n2016-08-21 00:54\t12\n2016-08-21 00:35\t12\n2016-08-20 23:50\t12\n2016-08-21 00:17\t12\n2016-08-20 23:39\t12\n2016-08-21 00:18\t12\n2016-08-21 00:59\t12\n2016-08-21 00:05\t12\n2016-08-21 01:14\t12\n2016-08-21 00:14\t12\n2016-08-21 00:32\t12\n2016-08-21 01:11\t12\n2016-08-20 23:48\t12\n2016-08-21 00:42\t12\n2016-08-21 01:04\t12\n2016-08-20 23:43\t12\n2016-08-21 00:47\t12\n2016-08-21 00:15\t12\n2016-08-20 23:58\t12\n2016-08-21 00:38\t12\n2016-08-21 00:51\t12\n2016-08-21 01:22\t12\n2016-08-21 01:17\t12\n2016-08-21 01:09\t12\n2016-08-21 00:30\t12\n2016-08-21 00:11\t12\n2016-08-21 00:43\t12\n2016-08-21 00:22\t12\n2016-08-21 01:15\t12\n2016-08-21 01:12\t12\n2016-08-21 00:55\t12\n2016-08-21 01:00\t12\n2016-08-21 00:08\t12\n2016-08-21 00:07\t12\n2016-08-21 00:58\t12\n2016-08-21 01:05\t12\n2016-08-21 00:09\t12\n2016-08-21 01:19\t12\n2016-08-20 23:51\t12\n2016-08-21 00:28\t12\n2016-08-21 00:01\t12\n2016-08-21 00:03\t12\n2016-08-20 23:38\t12\n2016-08-21 01:24\t12\n2016-08-21 00:23\t12\n2016-08-21 00:48\t12\n2016-08-21 01:08\t12\n2016-08-20 23:52\t12\n2016-08-20 23:56\t12\n2016-08-21 01:31\t12\n2016-08-21 00:06\t12\n2016-08-21 00:29\t12\n2016-08-20 23:47\t12\n2016-08-21 00:26\t12\n2016-08-21 00:37\t12\n2016-08-20 23:37\t12\n2016-08-21 01:16\t12\n2016-08-21 01:13\t12\n2016-08-21 00:45\t12\n2016-08-21 00:40\t12\n2016-08-21 00:13\t12\n2016-08-21 01:25\t12\n2016-08-21 01:20\t12\n2016-08-20 23:57\t12\n2016-08-21 00:20\t12\n2016-08-20 23:41\t12\n2016-08-21 01:29\t12\n2016-08-21 01:10\t12\n"
+        "msg": "time\trequests\n2016-08-20 23:44\t12\n2016-08-21 01:26\t12\n2016-08-21 01:03\t12\n2016-08-21 02:27\t12\n2016-08-21 03:14\t12\n2016-08-21 02:25\t12\n2016-08-21 02:20\t12\n2016-08-21 03:02\t12\n2016-08-21 01:58\t12\n2016-08-21 02:14\t12\n2016-08-21 03:01\t12\n2016-08-21 03:04\t12\n2016-08-21 00:25\t12\n2016-08-21 01:21\t12\n2016-08-20 23:46\t12\n2016-08-21 00:19\t12\n2016-08-21 01:28\t12\n2016-08-21 01:38\t12\n2016-08-21 02:00\t12\n2016-08-21 02:10\t12\n2016-08-21 03:23\t12\n2016-08-21 03:25\t12\n2016-08-21 01:44\t12\n2016-08-21 02:55\t12\n2016-08-20 23:42\t12\n2016-08-20 23:55\t12\n2016-08-21 02:33\t12\n2016-08-21 03:48\t12\n2016-08-21 03:07\t12\n2016-08-21 02:24\t12\n2016-08-21 00:39\t12\n2016-08-21 01:02\t12\n2016-08-21 01:42\t12\n2016-08-21 00:34\t12\n2016-08-21 03:08\t12\n2016-08-21 03:20\t12\n2016-08-21 03:46\t12\n2016-08-21 00:31\t12\n2016-08-21 03:05\t12\n2016-08-21 03:38\t12\n2016-08-21 00:57\t12\n2016-08-20 23:59\t12\n2016-08-21 00:33\t12\n2016-08-21 01:01\t12\n2016-08-21 02:38\t12\n2016-08-21 02:50\t12\n2016-08-21 00:02\t12\n2016-08-21 00:44\t12\n2016-08-21 02:45\t12\n2016-08-21 00:04\t12\n2016-08-21 00:49\t12\n2016-08-21 03:17\t12\n2016-08-21 00:46\t12\n2016-08-21 02:22\t12\n2016-08-21 00:10\t12\n2016-08-21 01:27\t12\n2016-08-21 00:41\t12\n2016-08-21 03:26\t12\n2016-08-21 01:59\t12\n2016-08-21 01:07\t12\n2016-08-21 02:07\t12\n2016-08-21 01:46\t12\n2016-08-21 02:41\t12\n2016-08-21 00:53\t12\n2016-08-21 01:30\t12\n2016-08-21 03:18\t12\n2016-08-20 23:40\t12\n2016-08-21 00:12\t11\n2016-08-21 00:24\t12\n2016-08-21 03:00\t12\n2016-08-21 02:18\t12\n2016-08-20 23:45\t12\n2016-08-20 23:54\t12\n2016-08-21 00:21\t12\n2016-08-21 01:18\t12\n2016-08-21 03:36\t12\n2016-08-20 23:53\t12\n2016-08-21 00:56\t12\n2016-08-21 01:52\t12\n2016-08-21 03:11\t12\n2016-08-21 03:37\t12\n2016-08-20 23:36\t11\n2016-08-21 02:19\t12\n2016-08-21 02:43\t12\n2016-08-20 23:49\t12\n2016-08-21 03:15\t12\n2016-08-21 00:00\t12\n2016-08-21 01:23\t12\n2016-08-21 02:44\t12\n2016-08-21 01:06\t12\n2016-08-21 03:12\t12\n2016-08-21 00:36\t12\n2016-08-21 01:33\t12\n2016-08-21 02:02\t12\n2016-08-21 02:03\t12\n2016-08-21 02:12\t12\n2016-08-21 02:36\t12\n2016-08-21 02:15\t12\n2016-08-21 00:50\t12\n2016-08-21 00:52\t12\n2016-08-21 00:16\t12\n2016-08-21 03:34\t12\n2016-08-21 00:27\t12\n2016-08-21 00:54\t12\n2016-08-21 00:35\t12\n2016-08-20 23:50\t12\n2016-08-21 00:17\t12\n2016-08-21 01:35\t12\n2016-08-21 03:13\t12\n2016-08-21 01:53\t12\n2016-08-21 02:16\t12\n2016-08-21 02:37\t12\n2016-08-21 01:36\t12\n2016-08-21 01:49\t12\n2016-08-21 01:45\t12\n2016-08-21 01:43\t12\n2016-08-21 03:21\t12\n2016-08-21 03:30\t12\n2016-08-20 23:39\t12\n2016-08-21 00:18\t12\n2016-08-21 00:59\t12\n2016-08-21 02:53\t12\n2016-08-21 01:39\t12\n2016-08-21 02:48\t12\n2016-08-21 00:05\t12\n2016-08-21 01:14\t12\n2016-08-21 00:14\t12\n2016-08-21 01:47\t12\n2016-08-21 02:21\t12\n2016-08-21 01:56\t12\n2016-08-21 00:32\t12\n2016-08-21 02:06\t12\n2016-08-21 01:11\t12\n2016-08-21 03:44\t12\n2016-08-21 03:50\t4\n2016-08-21 02:40\t12\n2016-08-20 23:48\t12\n2016-08-21 02:47\t12\n2016-08-21 00:42\t12\n2016-08-21 02:56\t12\n2016-08-21 01:04\t12\n2016-08-21 01:32\t12\n2016-08-21 02:01\t12\n2016-08-20 23:43\t12\n2016-08-21 02:29\t12\n2016-08-21 00:47\t12\n2016-08-21 02:30\t12\n2016-08-21 00:15\t12\n2016-08-21 03:24\t12\n2016-08-20 23:58\t12\n2016-08-21 02:42\t12\n2016-08-21 03:39\t12\n2016-08-21 02:13\t12\n2016-08-21 02:52\t12\n2016-08-21 03:22\t12\n2016-08-21 03:43\t12\n2016-08-21 00:38\t12\n2016-08-21 00:51\t12\n2016-08-21 01:22\t12\n2016-08-21 02:32\t12\n2016-08-21 02:59\t12\n2016-08-21 01:17\t12\n2016-08-21 02:51\t12\n2016-08-21 01:09\t12\n2016-08-21 03:31\t12\n2016-08-21 00:30\t12\n2016-08-21 02:49\t12\n2016-08-21 03:06\t12\n2016-08-21 00:11\t12\n2016-08-21 02:26\t12\n2016-08-21 03:16\t12\n2016-08-21 00:43\t12\n2016-08-21 03:09\t12\n2016-08-21 01:50\t12\n2016-08-21 02:11\t12\n2016-08-21 00:22\t12\n2016-08-21 01:15\t12\n2016-08-21 03:33\t12\n2016-08-21 01:12\t12\n2016-08-21 00:55\t12\n2016-08-21 01:57\t12\n2016-08-21 01:00\t12\n2016-08-21 00:08\t12\n2016-08-21 00:07\t12\n2016-08-21 02:35\t12\n2016-08-21 03:27\t12\n2016-08-21 00:58\t12\n2016-08-21 01:05\t12\n2016-08-21 03:42\t12\n2016-08-21 03:03\t12\n2016-08-21 02:04\t12\n2016-08-21 02:17\t12\n2016-08-21 03:29\t12\n2016-08-21 00:09\t12\n2016-08-21 01:19\t12\n2016-08-21 02:31\t12\n2016-08-20 23:51\t12\n2016-08-21 00:28\t12\n2016-08-21 02:28\t12\n2016-08-21 03:40\t12\n2016-08-21 01:51\t12\n2016-08-21 00:01\t12\n2016-08-21 00:03\t12\n2016-08-20 23:38\t12\n2016-08-21 01:41\t12\n2016-08-21 02:39\t12\n2016-08-21 03:10\t12\n2016-08-21 03:47\t12\n2016-08-21 01:34\t12\n2016-08-21 01:24\t12\n2016-08-21 00:23\t12\n2016-08-21 02:05\t12\n2016-08-21 00:48\t12\n2016-08-21 01:08\t12\n2016-08-20 23:52\t12\n2016-08-21 02:57\t12\n2016-08-20 23:56\t12\n2016-08-21 01:31\t12\n2016-08-21 01:55\t12\n2016-08-21 00:06\t12\n2016-08-21 02:34\t12\n2016-08-21 01:48\t12\n2016-08-21 00:29\t12\n2016-08-21 03:19\t12\n2016-08-21 03:35\t12\n2016-08-20 23:47\t12\n2016-08-21 00:26\t12\n2016-08-21 01:40\t12\n2016-08-21 03:45\t12\n2016-08-21 02:09\t12\n2016-08-21 03:41\t12\n2016-08-21 00:37\t12\n2016-08-21 02:46\t12\n2016-08-21 03:49\t12\n2016-08-20 23:37\t12\n2016-08-21 01:54\t12\n2016-08-21 02:08\t12\n2016-08-21 02:23\t12\n2016-08-21 01:16\t12\n2016-08-21 02:54\t12\n2016-08-21 01:13\t12\n2016-08-21 00:45\t12\n2016-08-21 00:40\t12\n2016-08-21 03:32\t12\n2016-08-21 00:13\t12\n2016-08-21 01:25\t12\n2016-08-21 01:20\t12\n2016-08-21 03:28\t12\n2016-08-21 02:58\t12\n2016-08-20 23:57\t12\n2016-08-21 00:20\t12\n2016-08-20 23:41\t12\n2016-08-21 01:29\t12\n2016-08-21 01:37\t12\n2016-08-21 01:10\t12\n"
       },
       "dateCreated": "Aug 21, 2016 2:32:18 AM",
-      "dateStarted": "Aug 21, 2016 2:37:09 AM",
-      "dateFinished": "Aug 21, 2016 2:37:09 AM",
+      "dateStarted": "Aug 21, 2016 4:01:49 AM",
+      "dateFinished": "Aug 21, 2016 4:01:49 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%sql\n  select max(time) as max, min(time) as min, \u0027nodes\u0027 as type from (\n    select date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time\n    from node_monitoring\n  ) a",
-      "dateUpdated": "Aug 21, 2016 2:38:52 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:53 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
-          "keys": [
-            {
-              "name": "time",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "metrics",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
+          "keys": [],
+          "values": [],
           "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "time",
-              "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "metrics",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
+          "scatter": {}
         },
         "enabled": true,
         "editorMode": "ace/mode/sql"
@@ -758,17 +735,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "max\tmin\ttype\n2016-08-21 01:30\t2016-08-20 23:36\tnodes\n"
+        "msg": "max\tmin\ttype\n2016-08-21 03:49\t2016-08-20 23:36\tnodes\n"
       },
       "dateCreated": "Aug 21, 2016 2:35:16 AM",
-      "dateStarted": "Aug 21, 2016 2:38:52 AM",
-      "dateFinished": "Aug 21, 2016 2:38:52 AM",
+      "dateStarted": "Aug 21, 2016 4:01:49 AM",
+      "dateFinished": "Aug 21, 2016 4:01:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%sql\n  select max(time) as max, min(time) as min, \u0027web\u0027 as type from (\n    select date_format(datetime, \u0027yyyy-MM-dd HH:mm\u0027) as time\n    from web_service_logs_enriched\n  ) a",
-      "dateUpdated": "Aug 21, 2016 2:39:34 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:53 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -815,17 +792,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "max\tmin\ttype\n2016-08-21 01:31\t2016-08-20 23:36\tweb\n"
+        "msg": "max\tmin\ttype\n2016-08-21 03:50\t2016-08-20 23:36\tweb\n"
       },
       "dateCreated": "Aug 21, 2016 2:37:42 AM",
-      "dateStarted": "Aug 21, 2016 2:39:34 AM",
-      "dateFinished": "Aug 21, 2016 2:39:34 AM",
+      "dateStarted": "Aug 21, 2016 4:01:50 AM",
+      "dateFinished": "Aug 21, 2016 4:01:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Aug 21, 2016 2:39:24 AM",
+      "dateUpdated": "Aug 21, 2016 3:56:53 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -837,7 +814,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -845,27 +823,23 @@
       },
       "jobName": "paragraph_1471747154065_372515662",
       "id": "20160821-023914_380584805",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
       "dateCreated": "Aug 21, 2016 2:39:14 AM",
-      "status": "READY",
+      "dateStarted": "Aug 21, 2016 4:01:50 AM",
+      "dateFinished": "Aug 21, 2016 4:01:50 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
   "name": "DeviceRegistry",
   "id": "2BVACAUE9",
   "angularObjects": {
-    "2BU5KQMZJ:shared_process": [],
-    "2BSXST5Z5:shared_process": [],
-    "2BUZU6GVF:shared_process": [],
-    "2BW7ESVB3:shared_process": [],
-    "2BU34H24G:shared_process": [],
-    "2BU5XGSRQ:shared_process": [],
-    "2BTA3FUNF:shared_process": [],
-    "2BTSWA8Z1:shared_process": [],
-    "2BUBABM3W:shared_process": [],
-    "2BTQU3FKV:shared_process": [],
-    "2BVQ1NBDV:shared_process": [],
-    "2BUD3AHMW:shared_process": [],
-    "2BUDHWEBS:shared_process": [
+    "2BU3XFBJ3:shared_process": [],
+    "2BUYKPW2U:shared_process": [
       {
         "name": "data2Schema",
         "object": {
@@ -1079,14 +1053,14 @@
               "bitmap$0": 8.0
             },
             "values": [
-              "00:17,23:36,00:18,23:37,00:19,23:38,00:20,23:39,00:21,23:40,00:22,23:41,00:23,23:42,00:24,23:43,00:25,23:44,00:26,23:45,00:32,23:46,00:33,23:47,00:34,23:48,00:35,23:49,00:36,23:50,00:37,23:51,00:38,23:52,00:39,23:53,00:40,23:54,00:41,23:55,00:42,23:56,00:44,23:57,00:43,23:58,00:45,23:59,00:46,00:00,00:47,00:01,00:48,00:02,00:49,00:03,00:50,00:04,00:51,00:05,00:52,00:06,00:53,00:07,00:54,00:08,00:55,00:09,00:56,00:10,00:57,00:11,00:58,00:12,00:59,00:13,01:00,00:14,01:01,00:15,01:02,00:16,00:27,01:03,00:28,01:04,00:29,01:05,00:30,01:06,00:31,01:07,01:08,01:09,01:10,01:11,01:12,01:13,01:14,01:15,01:16,01:17,01:18,01:19,01:20,01:21,01:22,01:23,01:24,01:25,01:26,01:27,01:28,01:29,01:30",
-              "0.0,8.8,0.0,80.3,0.0,19.3,0.0,8.7,0.0,5.3,0.0,11.4,1.8,18.4,1.8,11.4,0.0,12.3,0.0,9.7,3.5,6.1,5.3,5.3,0.9,9.6,0.0,5.3,1.8,5.3,15.0,8.8,0.9,11.3,19.4,7.9,1.8,8.7,1.8,16.6,9.7,6.9,0.0,8.7,4.4,23.7,0.0,15.9,0.0,21.2,0.0,8.8,0.0,12.3,0.0,0.9,0.0,4.4,0.0,11.5,0.0,4.4,8.8,0.9,4.4,3.5,0.0,1.8,0.0,1.8,0.0,3.5,0.0,1.8,0.0,1.8,0.0,0.0,0.0,0.0,0.0,2.7,4.4,0.0,20.4,0.0,0.0,0.0,4.4,0.0,13.9,0.0,0.0,15.9,0.0,0.0,0.0,0.0,0.0,16.8,4.4,30.9,5.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.4",
-              "3.4,4.0,3.6,29.7,3.6,3.8,3.1,2.9,2.7,2.7,3.8,2.7,3.1,3.5,4.0,3.1,2.9,2.7,2.5,2.7,2.9,4.0,3.8,3.3,2.7,3.5,2.9,3.3,2.7,3.1,3.1,2.9,3.2,4.0,4.0,3.5,2.7,3.5,2.9,3.6,3.1,4.4,2.9,7.3,2.9,4.0,2.2,3.3,2.7,3.4,3.3,3.6,2.7,2.9,81.9,2.7,3.8,3.1,2.7,3.3,3.1,2.7,2.2,3.6,2.2,3.3,3.6,2.4,2.9,2.4,3.3,2.7,3.1,2.9,3.3,3.4,3.6,4.0,2.2,3.3,2.2,2.9,2.7,3.1,48.2,2.9,3.8,3.6,2.7,3.6,12.4,3.1,3.8,4.9,3.1,3.1,2.0,3.1,2.9,2.3,2.9,3.1,3.1,3.6,3.1,4.1,2.3,3.1,3.1,3.1,3.6,2.9,2.9,2.9,3.2",
-              "5.6,7.1,6.5,6.9,6.7,6.0,5.1,6.0,5.4,5.1,5.8,5.8,5.1,5.8,5.6,6.7,5.5,5.8,5.1,5.3,5.3,6.2,5.1,7.1,6.2,6.8,5.6,6.4,5.6,5.8,5.1,5.8,5.9,5.9,6.1,6.0,6.0,6.2,4.9,6.5,5.6,7.5,5.8,7.1,5.6,6.9,5.6,5.8,5.8,5.6,5.1,5.6,5.6,5.6,8.4,4.9,6.9,5.2,5.6,5.8,5.2,5.6,5.4,6.0,5.6,6.0,6.2,5.8,5.4,5.8,5.6,5.6,5.4,5.8,6.7,5.4,5.8,5.1,5.2,6.4,5.6,5.4,5.6,5.4,6.5,5.6,7.1,4.9,5.4,5.6,4.2,5.8,5.5,6.7,6.5,5.4,5.4,5.6,5.8,5.9,6.2,5.4,6.0,6.3,6.7,5.6,5.7,5.6,5.6,5.8,4.9,5.6,5.8,6.0,5.9",
-              "9.0,11.1,10.1,36.6,10.3,9.8,8.2,8.9,8.1,7.8,9.6,8.5,8.2,9.3,9.6,9.8,8.4,8.5,7.6,8.0,8.2,10.2,8.9,10.4,8.9,10.3,8.5,9.7,8.3,8.9,8.2,8.7,9.1,9.9,10.1,9.5,8.7,9.7,7.8,10.1,8.7,11.9,8.7,14.4,8.5,10.9,7.8,9.1,8.5,9.0,8.4,9.2,8.3,8.5,90.3,7.6,10.7,8.3,8.3,9.1,8.3,8.3,7.6,9.6,7.8,9.3,9.8,8.2,8.3,8.2,8.9,8.3,8.5,8.7,10.0,8.8,9.4,9.1,7.4,9.7,7.8,8.3,8.3,8.5,54.7,8.5,10.9,8.5,8.1,9.2,16.6,8.9,9.3,11.6,9.6,8.5,7.4,8.7,8.7,8.2,9.1,8.5,9.1,9.9,9.8,9.7,8.0,8.7,8.7,8.9,8.5,8.5,8.7,8.9,9.1",
-              "87.87,91.82,87.87,89.64,87.87,88.77,87.87,88.77,87.87,88.76,87.87,88.78,87.87,88.78,87.87,88.7,87.87,88.65,87.87,88.6,87.75,88.6,87.75,88.6,87.75,88.49,87.74,88.41,87.74,88.34,87.68,88.29,87.68,88.29,87.68,88.28,87.68,88.28,87.69,88.24,87.67,88.24,87.67,88.24,87.67,88.23,87.67,88.18,87.68,88.1,87.66,88.11,87.66,88.1,88.63,88.11,87.87,88.11,87.88,88.1,87.88,88.1,87.88,88.07,87.87,88.08,87.88,88.08,87.88,88.07,87.88,88.04,87.87,88.01,87.86,87.96,87.83,87.94,87.8,87.91,87.76,87.87,87.87,87.75,87.8,87.75,87.78,87.73,87.78,87.71,87.75,87.72,87.71,87.55,87.55,87.55,87.55,87.55,87.55,87.55,87.55,87.55,87.54,87.49,87.5,87.5,87.5,87.5,87.5,87.5,87.5,87.49,87.42,87.4,87.4",
-              "12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,11,12,12,12,12,12,12,12,12,12,12,11,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12",
-              "28801.0,30098.0,28800.0,29382.0,28802.0,29095.0,28801.0,29096.0,28801.0,29095.0,28800.0,29101.0,28801.0,29101.0,28801.0,29073.0,28800.0,29056.0,28800.0,29042.0,28761.0,29042.0,28761.0,29041.0,28761.0,29005.0,28760.0,28979.0,28760.0,28954.0,28739.0,28939.0,28739.0,28939.0,28740.0,28936.0,28739.0,28936.0,28742.0,28923.0,28736.0,28924.0,28737.0,28924.0,28737.0,28921.0,28737.0,28905.0,28738.0,28878.0,28734.0,28879.0,28734.0,28878.0,29051.0,28879.0,28802.0,28879.0,28805.0,28877.0,28803.0,28877.0,28803.0,28866.0,28802.0,28869.0,28803.0,28870.0,28804.0,28867.0,28803.0,28856.0,28803.0,28847.0,28800.0,28832.0,28787.0,28824.0,28780.0,28814.0,28766.0,28803.0,28802.0,28763.0,28779.0,28761.0,28771.0,28756.0,28771.0,28750.0,28763.0,28751.0,28750.0,28696.0,28696.0,28696.0,28696.0,28696.0,28696.0,28696.0,28695.0,28696.0,28695.0,28678.0,28681.0,28681.0,28680.0,28681.0,28681.0,28680.0,28679.0,28676.0,28653.0,28647.0,28648.0"
+              "2016-08-21 00:17,2016-08-20 23:36,2016-08-21 00:18,2016-08-20 23:37,2016-08-21 00:19,2016-08-20 23:38,2016-08-21 00:20,2016-08-20 23:39,2016-08-21 00:21,2016-08-20 23:40,2016-08-21 00:22,2016-08-20 23:41,2016-08-21 00:23,2016-08-20 23:42,2016-08-21 00:24,2016-08-20 23:43,2016-08-21 00:25,2016-08-20 23:44,2016-08-21 00:26,2016-08-20 23:45,2016-08-21 00:32,2016-08-20 23:46,2016-08-21 00:33,2016-08-20 23:47,2016-08-21 00:34,2016-08-20 23:48,2016-08-21 00:35,2016-08-20 23:49,2016-08-21 00:36,2016-08-20 23:50,2016-08-21 00:37,2016-08-20 23:51,2016-08-21 00:38,2016-08-20 23:52,2016-08-21 00:39,2016-08-20 23:53,2016-08-21 00:40,2016-08-20 23:54,2016-08-21 00:41,2016-08-20 23:55,2016-08-21 00:42,2016-08-20 23:56,2016-08-21 00:44,2016-08-20 23:57,2016-08-21 00:43,2016-08-20 23:58,2016-08-21 00:45,2016-08-20 23:59,2016-08-21 00:46,2016-08-21 00:00,2016-08-21 00:47,2016-08-21 00:01,2016-08-21 00:48,2016-08-21 00:02,2016-08-21 00:49,2016-08-21 00:03,2016-08-21 00:50,2016-08-21 00:04,2016-08-21 00:51,2016-08-21 00:05,2016-08-21 00:52,2016-08-21 00:06,2016-08-21 00:53,2016-08-21 00:07,2016-08-21 00:54,2016-08-21 00:08,2016-08-21 00:55,2016-08-21 00:09,2016-08-21 00:56,2016-08-21 00:10,2016-08-21 00:57,2016-08-21 00:11,2016-08-21 00:58,2016-08-21 00:12,2016-08-21 00:59,2016-08-21 00:13,2016-08-21 01:00,2016-08-21 00:14,2016-08-21 01:01,2016-08-21 00:15,2016-08-21 01:02,2016-08-21 00:16,2016-08-21 00:27,2016-08-21 01:03,2016-08-21 00:28,2016-08-21 01:04,2016-08-21 00:29,2016-08-21 01:05,2016-08-21 00:30,2016-08-21 01:06,2016-08-21 00:31,2016-08-21 01:07,2016-08-21 01:08,2016-08-21 01:09,2016-08-21 01:10,2016-08-21 01:11,2016-08-21 01:12,2016-08-21 01:13,2016-08-21 01:14,2016-08-21 01:15,2016-08-21 01:16,2016-08-21 01:17,2016-08-21 01:18,2016-08-21 01:19,2016-08-21 01:20,2016-08-21 01:21,2016-08-21 01:22,2016-08-21 01:23,2016-08-21 01:24,2016-08-21 01:25,2016-08-21 01:26,2016-08-21 01:27,2016-08-21 01:28,2016-08-21 01:29,2016-08-21 01:30,2016-08-21 01:31,2016-08-21 01:32,2016-08-21 01:33,2016-08-21 01:34,2016-08-21 01:35,2016-08-21 01:36,2016-08-21 01:37,2016-08-21 01:38,2016-08-21 01:39,2016-08-21 01:40,2016-08-21 01:41,2016-08-21 01:42,2016-08-21 01:43,2016-08-21 01:45,2016-08-21 01:46,2016-08-21 01:47,2016-08-21 01:48,2016-08-21 01:49,2016-08-21 01:50,2016-08-21 01:51,2016-08-21 01:52,2016-08-21 01:53,2016-08-21 01:54,2016-08-21 01:55,2016-08-21 01:56,2016-08-21 01:57,2016-08-21 01:58,2016-08-21 01:59,2016-08-21 02:00,2016-08-21 02:01,2016-08-21 02:02,2016-08-21 02:03,2016-08-21 02:04,2016-08-21 02:05,2016-08-21 02:06,2016-08-21 02:07,2016-08-21 02:08,2016-08-21 02:08,2016-08-21 02:09,2016-08-21 02:10,2016-08-21 02:11,2016-08-21 02:12,2016-08-21 02:13,2016-08-21 02:14,2016-08-21 02:15,2016-08-21 02:16,2016-08-21 02:17,2016-08-21 02:18,2016-08-21 02:19,2016-08-21 02:20,2016-08-21 02:21,2016-08-21 02:22,2016-08-21 02:23,2016-08-21 02:24,2016-08-21 02:25,2016-08-21 02:26,2016-08-21 02:27,2016-08-21 02:28,2016-08-21 02:29,2016-08-21 02:30,2016-08-21 02:31,2016-08-21 02:32,2016-08-21 02:33,2016-08-21 02:34,2016-08-21 02:35,2016-08-21 02:36,2016-08-21 02:37,2016-08-21 02:38,2016-08-21 02:39,2016-08-21 02:40,2016-08-21 02:41,2016-08-21 02:42,2016-08-21 02:43,2016-08-21 02:44,2016-08-21 02:45,2016-08-21 02:46,2016-08-21 02:47,2016-08-21 02:48,2016-08-21 02:49,2016-08-21 02:50,2016-08-21 02:51,2016-08-21 02:52,2016-08-21 02:53,2016-08-21 02:54,2016-08-21 02:55,2016-08-21 02:56,2016-08-21 02:57,2016-08-21 02:58,2016-08-21 02:59,2016-08-21 03:00,2016-08-21 03:01,2016-08-21 03:02,2016-08-21 03:03,2016-08-21 03:04,2016-08-21 03:05,2016-08-21 03:06,2016-08-21 03:07,2016-08-21 03:08,2016-08-21 03:09,2016-08-21 03:10,2016-08-21 03:11,2016-08-21 03:12,2016-08-21 03:13,2016-08-21 03:14,2016-08-21 03:15,2016-08-21 03:16,2016-08-21 03:17,2016-08-21 03:18,2016-08-21 03:19,2016-08-21 03:20,2016-08-21 03:21,2016-08-21 03:22,2016-08-21 03:23,2016-08-21 03:24,2016-08-21 03:25,2016-08-21 03:26,2016-08-21 03:27,2016-08-21 03:28,2016-08-21 03:29,2016-08-21 03:30,2016-08-21 03:31,2016-08-21 03:32,2016-08-21 03:33,2016-08-21 03:34,2016-08-21 03:35,2016-08-21 03:36,2016-08-21 03:37,2016-08-21 03:38,2016-08-21 03:39,2016-08-21 03:40,2016-08-21 03:41,2016-08-21 03:42,2016-08-21 03:43,2016-08-21 03:44,2016-08-21 03:45,2016-08-21 03:46,2016-08-21 03:47,2016-08-21 03:48,2016-08-21 03:49",
+              "0.0,8.8,0.0,80.3,0.0,19.3,0.0,8.7,0.0,5.3,0.0,11.4,1.8,18.4,1.8,11.4,0.0,12.3,0.0,9.7,3.5,6.1,5.3,5.3,0.9,9.6,0.0,5.3,1.8,5.3,15.0,8.8,0.9,11.3,19.4,7.9,1.8,8.7,1.8,16.6,9.7,6.9,0.0,8.7,4.4,23.7,0.0,15.9,0.0,21.2,0.0,8.8,0.0,12.3,0.0,0.9,0.0,4.4,0.0,11.5,0.0,4.4,8.8,0.9,4.4,3.5,0.0,1.8,0.0,1.8,0.0,3.5,0.0,1.8,0.0,1.8,0.0,0.0,0.0,0.0,0.0,2.7,4.4,0.0,20.4,0.0,0.0,0.0,4.4,0.0,13.9,0.0,0.0,15.9,0.0,0.0,0.0,0.0,0.0,16.8,4.4,30.9,5.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.4,1.7,0.0,0.0,0.0,5.3,0.0,1.8,0.0,3.5,0.0,0.0,0.0,0.0,0.9,0.0,0.0,0.0,0.0,0.0,1.8,0.0,9.7,0.0,0.0,0.0,0.0,0.0,31.8,0.0,0.0,15.0,0.0,0.0,15.1,0.0,0.0,0.0,4.4,3.5,5.3,4.4,0.9,0.0,1.7,9.5,18.9,16.0,14.1,15.0,12.3,13.0,14.0,15.9,23.8,13.3,12.3,2.7,0.0,8.0,0.0,0.0,0.0,0.0,0.0,0.0,7.1,0.0,2.6,0.0,0.0,0.0,2.7,2.6,2.6,4.4,1.8,5.3,2.6,2.7,2.6,2.6,1.7,0.9,0.0,4.4,10.5,2.6,0.0,0.0,0.0,0.0,19.3,20.8,3.5,0.0,2.6,0.0,2.6,2.6,0.0,0.0,0.0,10.5,15.8,4.4,10.4,2.7,13.1,2.6,8.7,0.9,4.3,2.6,3.5,0.0,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.4,0.0,0.0,18.6,0.0,0.0,5.2,0.0,2.6,15.7,0.0,4.3,0.0,0.0",
+              "3.4,4.0,3.6,29.7,3.6,3.8,3.1,2.9,2.7,2.7,3.8,2.7,3.1,3.5,4.0,3.1,2.9,2.7,2.5,2.7,2.9,4.0,3.8,3.3,2.7,3.5,2.9,3.3,2.7,3.1,3.1,2.9,3.2,4.0,4.0,3.5,2.7,3.5,2.9,3.6,3.1,4.4,2.9,7.3,2.9,4.0,2.2,3.3,2.7,3.4,3.3,3.6,2.7,2.9,81.9,2.7,3.8,3.1,2.7,3.3,3.1,2.7,2.2,3.6,2.2,3.3,3.6,2.4,2.9,2.4,3.3,2.7,3.1,2.9,3.3,3.4,3.6,4.0,2.2,3.3,2.2,2.9,2.7,3.1,48.2,2.9,3.8,3.6,2.7,3.6,12.4,3.1,3.8,4.9,3.1,3.1,2.0,3.1,2.9,2.3,2.9,3.1,3.1,3.6,3.1,4.1,2.3,3.1,3.1,3.1,3.6,2.9,2.9,2.9,3.2,59.1,3.1,2.9,3.1,3.3,2.7,2.9,2.9,2.7,4.0,4.2,2.7,2.9,60.7,2.7,9.6,2.7,2.9,2.9,3.8,3.3,4.7,2.7,3.1,3.4,2.7,2.7,4.2,2.9,3.8,5.2,3.4,3.4,3.6,3.1,2.7,2.7,2.7,2.9,2.7,3.3,3.6,3.4,3.5,4.8,60.3,3.8,3.8,3.8,3.8,32.7,4.4,4.7,13.2,27.8,10.2,28.3,3.8,2.5,2.7,2.9,2.7,3.8,3.8,3.1,2.7,3.4,2.7,2.5,2.5,2.7,2.9,3.8,4.0,2.7,2.4,2.7,3.1,2.5,7.2,10.8,8.6,12.8,11.3,10.1,9.6,12.4,8.4,11.2,8.7,9.3,8.7,9.4,12.7,10.2,9.7,10.4,11.7,10.8,12.0,8.9,9.6,12.0,51.9,10.6,10.1,11.2,10.0,8.7,8.3,8.5,12.4,10.0,10.5,12.1,13.5,9.9,12.3,12.1,10.4,12.0,12.0,11.3,11.9,10.3,10.3,12.3,13.0,9.0,8.4,9.2,12.4,8.9,8.9,12.6,13.4,13.6,9.3,8.5",
+              "5.6,7.1,6.5,6.9,6.7,6.0,5.1,6.0,5.4,5.1,5.8,5.8,5.1,5.8,5.6,6.7,5.5,5.8,5.1,5.3,5.3,6.2,5.1,7.1,6.2,6.8,5.6,6.4,5.6,5.8,5.1,5.8,5.9,5.9,6.1,6.0,6.0,6.2,4.9,6.5,5.6,7.5,5.8,7.1,5.6,6.9,5.6,5.8,5.8,5.6,5.1,5.6,5.6,5.6,8.4,4.9,6.9,5.2,5.6,5.8,5.2,5.6,5.4,6.0,5.6,6.0,6.2,5.8,5.4,5.8,5.6,5.6,5.4,5.8,6.7,5.4,5.8,5.1,5.2,6.4,5.6,5.4,5.6,5.4,6.5,5.6,7.1,4.9,5.4,5.6,4.2,5.8,5.5,6.7,6.5,5.4,5.4,5.6,5.8,5.9,6.2,5.4,6.0,6.3,6.7,5.6,5.7,5.6,5.6,5.8,4.9,5.6,5.8,6.0,5.9,7.5,6.0,5.8,5.4,5.3,5.6,5.6,6.0,5.6,5.3,5.6,5.4,5.6,6.6,5.1,5.1,5.3,5.4,5.4,5.4,6.5,6.7,5.8,5.1,5.6,5.1,5.4,6.0,4.7,6.0,6.3,6.0,6.3,5.2,5.2,5.8,5.4,6.1,5.4,5.2,5.8,6.2,6.1,6.4,5.9,8.7,5.9,6.3,5.6,5.6,5.9,6.9,7.1,28.2,5.9,28.1,5.8,6.2,5.6,5.8,5.1,5.2,6.4,6.4,5.3,5.6,4.9,5.6,5.4,5.6,5.3,5.2,6.0,6.7,5.6,6.0,5.4,4.7,5.6,10.0,11.4,10.9,11.4,10.6,12.8,11.2,11.3,10.0,11.0,11.3,11.8,11.2,12.8,11.6,11.8,11.5,10.7,10.1,11.3,10.4,12.1,11.8,11.3,10.9,11.5,12.8,10.7,11.8,11.2,11.0,11.2,10.8,12.0,10.5,11.4,11.5,11.7,11.4,11.0,11.3,10.0,11.1,10.2,11.2,12.1,12.3,10.7,10.3,11.3,10.9,11.0,11.0,11.0,11.0,12.3,11.4,10.0,11.8,11.0",
+              "9.0,11.1,10.1,36.6,10.3,9.8,8.2,8.9,8.1,7.8,9.6,8.5,8.2,9.3,9.6,9.8,8.4,8.5,7.6,8.0,8.2,10.2,8.9,10.4,8.9,10.3,8.5,9.7,8.3,8.9,8.2,8.7,9.1,9.9,10.1,9.5,8.7,9.7,7.8,10.1,8.7,11.9,8.7,14.4,8.5,10.9,7.8,9.1,8.5,9.0,8.4,9.2,8.3,8.5,90.3,7.6,10.7,8.3,8.3,9.1,8.3,8.3,7.6,9.6,7.8,9.3,9.8,8.2,8.3,8.2,8.9,8.3,8.5,8.7,10.0,8.8,9.4,9.1,7.4,9.7,7.8,8.3,8.3,8.5,54.7,8.5,10.9,8.5,8.1,9.2,16.6,8.9,9.3,11.6,9.6,8.5,7.4,8.7,8.7,8.2,9.1,8.5,9.1,9.9,9.8,9.7,8.0,8.7,8.7,8.9,8.5,8.5,8.7,8.9,9.1,66.6,9.1,8.7,8.5,8.6,8.3,8.5,8.9,8.3,9.3,9.8,8.1,8.5,67.3,7.8,14.7,8.0,8.3,8.3,9.2,9.8,11.4,8.5,8.2,9.0,7.8,8.1,10.2,7.6,9.8,11.5,9.4,9.7,8.8,8.3,8.5,8.1,8.8,8.3,7.9,9.1,9.8,9.5,9.9,10.7,69.0,9.7,10.1,9.4,9.4,38.6,11.3,11.8,41.4,33.7,38.3,34.1,10.0,8.1,8.5,8.0,7.9,10.2,10.2,8.4,8.3,8.3,8.3,7.9,8.1,8.0,8.1,9.8,10.7,8.3,8.4,8.1,7.8,8.1,17.2,22.2,19.5,24.2,21.9,22.9,20.8,23.7,18.4,22.2,20.0,21.1,19.9,22.2,24.3,22.0,21.2,21.1,21.8,22.1,22.4,21.0,21.4,23.3,62.8,22.1,22.9,21.9,21.8,19.9,19.3,19.7,23.2,22.0,21.0,23.5,25.0,21.6,23.7,23.1,21.7,22.0,23.1,21.5,23.1,22.4,22.6,23.0,23.3,20.3,19.3,20.2,23.4,19.9,19.9,24.9,24.8,23.6,21.1,19.5",
+              "87.87,91.82,87.87,89.64,87.87,88.77,87.87,88.77,87.87,88.76,87.87,88.78,87.87,88.78,87.87,88.7,87.87,88.65,87.87,88.6,87.75,88.6,87.75,88.6,87.75,88.49,87.74,88.41,87.74,88.34,87.68,88.29,87.68,88.29,87.68,88.28,87.68,88.28,87.69,88.24,87.67,88.24,87.67,88.24,87.67,88.23,87.67,88.18,87.68,88.1,87.66,88.11,87.66,88.1,88.63,88.11,87.87,88.11,87.88,88.1,87.88,88.1,87.88,88.07,87.87,88.08,87.88,88.08,87.88,88.07,87.88,88.04,87.87,88.01,87.86,87.96,87.83,87.94,87.8,87.91,87.76,87.87,87.87,87.75,87.8,87.75,87.78,87.73,87.78,87.71,87.75,87.72,87.71,87.55,87.55,87.55,87.55,87.55,87.55,87.55,87.55,87.55,87.54,87.49,87.5,87.5,87.5,87.5,87.5,87.5,87.5,87.49,87.42,87.4,87.4,87.13,87.09,87.09,87.08,87.08,87.08,87.08,87.07,87.04,87.02,87.03,87.03,87.02,86.93,86.9,86.89,86.85,86.84,86.62,86.6,86.6,86.59,86.58,86.57,86.57,86.58,86.57,86.57,86.57,86.57,86.57,86.57,86.57,86.56,86.56,86.56,86.55,86.55,86.55,86.55,86.55,86.55,86.55,86.55,86.54,86.53,86.54,86.53,86.52,86.52,86.52,86.49,86.43,86.04,85.95,85.85,85.8,85.44,85.44,85.43,85.43,85.43,85.41,85.42,85.42,85.42,85.42,85.42,85.42,85.41,85.37,85.37,85.37,85.37,85.37,85.37,85.37,85.37,85.37,85.13,85.1,85.08,85.07,85.05,85.04,85.0,84.99,84.97,84.95,84.93,84.91,84.89,84.86,84.84,84.83,84.81,84.79,84.77,84.74,84.72,84.7,84.68,84.61,84.58,84.54,84.41,84.4,84.34,84.33,84.33,84.33,84.33,84.32,84.33,84.33,84.32,84.33,84.33,84.33,84.32,84.33,84.33,84.33,84.33,84.33,84.32,84.33,84.33,84.33,84.33,84.33,84.33,84.33,84.3,84.3,84.32,84.32,84.32,84.32",
+              "12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,11,12,12,12,12,12,12,12,12,12,12,11,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12",
+              "28801.0,30098.0,28800.0,29382.0,28802.0,29095.0,28801.0,29096.0,28801.0,29095.0,28800.0,29101.0,28801.0,29101.0,28801.0,29073.0,28800.0,29056.0,28800.0,29042.0,28761.0,29042.0,28761.0,29041.0,28761.0,29005.0,28760.0,28979.0,28760.0,28954.0,28739.0,28939.0,28739.0,28939.0,28740.0,28936.0,28739.0,28936.0,28742.0,28923.0,28736.0,28924.0,28737.0,28924.0,28737.0,28921.0,28737.0,28905.0,28738.0,28878.0,28734.0,28879.0,28734.0,28878.0,29051.0,28879.0,28802.0,28879.0,28805.0,28877.0,28803.0,28877.0,28803.0,28866.0,28802.0,28869.0,28803.0,28870.0,28804.0,28867.0,28803.0,28856.0,28803.0,28847.0,28800.0,28832.0,28787.0,28824.0,28780.0,28814.0,28766.0,28803.0,28802.0,28763.0,28779.0,28761.0,28771.0,28756.0,28771.0,28750.0,28763.0,28751.0,28750.0,28696.0,28696.0,28696.0,28696.0,28696.0,28696.0,28696.0,28695.0,28696.0,28695.0,28678.0,28681.0,28681.0,28680.0,28681.0,28681.0,28680.0,28679.0,28676.0,28653.0,28647.0,28648.0,28560.0,28546.0,28546.0,28543.0,28542.0,28543.0,28542.0,28541.0,28529.0,28524.0,28526.0,28525.0,28523.0,28493.0,28484.0,28481.0,28468.0,28462.0,28392.0,28384.0,28385.0,28383.0,28378.0,28376.0,28377.0,28377.0,28376.0,28375.0,28375.0,28375.0,28374.0,28374.0,28374.0,28373.0,28372.0,28371.0,28369.0,28370.0,28369.0,28369.0,28369.0,28368.0,28369.0,28367.0,28366.0,28363.0,28365.0,28363.0,28360.0,28360.0,28360.0,28349.0,28329.0,28201.0,28172.0,28140.0,28123.0,28005.0,28004.0,28003.0,28003.0,28002.0,27996.0,27999.0,27999.0,27999.0,27997.0,27998.0,27998.0,27996.0,27982.0,27983.0,27983.0,27982.0,27983.0,27982.0,27982.0,27982.0,27982.0,27904.0,27895.0,27888.0,27883.0,27878.0,27873.0,27862.0,27858.0,27851.0,27844.0,27838.0,27830.0,27825.0,27816.0,27808.0,27805.0,27798.0,27791.0,27784.0,27777.0,27770.0,27764.0,27755.0,27734.0,27722.0,27710.0,27667.0,27665.0,27643.0,27643.0,27640.0,27640.0,27640.0,27639.0,27640.0,27641.0,27639.0,27640.0,27640.0,27640.0,27639.0,27640.0,27640.0,27641.0,27642.0,27641.0,27639.0,27642.0,27641.0,27641.0,27642.0,27643.0,27641.0,27641.0,27632.0,27632.0,27639.0,27638.0,27639.0,27639.0"
             ]
           }
         ],
@@ -1218,11 +1192,22 @@
         "noteId": "2BVACAUE9"
       }
     ],
-    "2BVHDGFAH:shared_process": [],
-    "2BUE5NMN7:shared_process": [],
-    "2BUKFK1HU:shared_process": [],
-    "2BV3AQ8YQ:shared_process": [],
-    "2BVEAVZZ5:shared_process": []
+    "2BUNQD7B6:shared_process": [],
+    "2BVNWTBPG:shared_process": [],
+    "2BVFBMUF5:shared_process": [],
+    "2BT36QJ6V:shared_process": [],
+    "2BUSFJEFE:shared_process": [],
+    "2BT56VU9S:shared_process": [],
+    "2BUQGVZHU:shared_process": [],
+    "2BTXERNCS:shared_process": [],
+    "2BUC7W5C4:shared_process": [],
+    "2BWJ97UPK:shared_process": [],
+    "2BUGPR1PD:shared_process": [],
+    "2BVS6MH6Y:shared_process": [],
+    "2BTQBYX63:shared_process": [],
+    "2BTFDQGPA:shared_process": [],
+    "2BU96EW67:shared_process": [],
+    "2BUYJUP64:shared_process": []
   },
   "config": {},
   "info": {}
