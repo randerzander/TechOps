@@ -8,6 +8,10 @@ The containers are pre-configured to run:
 4. [Apache NiFi](http://nifi.apache.org/) and [Apache NiFi subproject MiNiFi](https://nifi.apache.org/minifi/) to gather metadata from Consul, logs from HTTP server, nmon, 'netstat', and 'ps' output
 5. [Apache Zeppelin](https://zeppelin.apache.org/) to display a basic operational view of data gathered from containers by NiFi and MiNiFi
 
+Overview Diagram:
+
+![overview](/screenshots/overview.png?raw=true)
+
 Run containers and start generating data:
 ```
 docker-compose up
