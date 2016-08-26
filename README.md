@@ -10,7 +10,7 @@ The containers are pre-configured to run:
 
 Overview Diagram:
 
-![overview](/screenshots/overview.png?raw=true)
+![overview](/screenshots/overview.jpg?raw=true)
 
 Run containers and start generating data:
 ```
