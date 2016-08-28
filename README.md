@@ -40,3 +40,9 @@ docker-compose up zeppelin.dev
 You may then explore the sample data in Zeppelin.
 
 Use Zeppelin's "Run All" feature to run all notes in DeviceRegistry-Setup before you can generate the charts in the DeviceRegistry notebook.
+
+Sample Graphs:
+
+![one](/screenshots/one.png?raw=true)
+
+![two](/screenshots/two.png?raw=true)
