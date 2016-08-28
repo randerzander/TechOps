@@ -1,31 +1,31 @@
 Flow Controller:
-  name: MiNiFi-Flow
+  name: MiNiFi Flow
   comment: ''
 Core Properties:
-  flow controller graceful shutdown period: 10 sec 
+  flow controller graceful shutdown period: 10 sec
   flow service write delay interval: 500 ms
-  administrative yield duration: 30 sec 
+  administrative yield duration: 30 sec
   bored yield duration: 10 millis
   max concurrent threads: 1
 FlowFile Repository:
-  partitions: 256 
+  partitions: 256
   checkpoint interval: 2 mins
   always sync: false
   Swap:
     threshold: 20000
-    in period: 5 sec 
+    in period: 5 sec
     in threads: 1
-    out period: 5 sec 
+    out period: 5 sec
     out threads: 4
 Content Repository:
   content claim max appendable size: 10 MB
-  content claim max flow files: 100 
+  content claim max flow files: 100
   always sync: false
 Provenance Repository:
-  provenance rollover time: 1 min 
+  provenance rollover time: 1 min
 Component Status Repository:
   buffer size: 1440
-  snapshot frequency: 1 min 
+  snapshot frequency: 1 min
 Security Properties:
   keystore: ''
   keystore type: ''
@@ -40,90 +40,98 @@ Security Properties:
     algorithm: PBEWITHMD5AND256BITAES-CBC-OPENSSL
     provider: BC
 Processors:
-- name: GetNMON
+- name: GetNMon
   class: org.apache.nifi.processors.standard.GetFile
   max concurrent tasks: 1
   scheduling strategy: TIMER_DRIVEN
-  scheduling period: 15 sec
+  scheduling period: 0 sec
   penalization period: 30 sec
   yield period: 1 sec
   run duration nanos: 0
   auto-terminated relationships list: []
   Properties:
-    #Batch Size:
-    #File Filter:
-    #Ignore Hidden Files:
+    Batch Size:
+    File Filter:
+    Ignore Hidden Files:
     Input Directory: /host-data/metrics/nmon/HOSTNAME
-    Keep Source File: false
-    #Maximum File Age:
-    #Maximum File Size:
+    Keep Source File:
+    Maximum File Age:
+    Maximum File Size:
     Minimum File Age: 10 sec
-    #Minimum File Size:
-    #Path Filter:
-    #Polling Interval:
-    Recurse Subdirectories: true
+    Minimum File Size:
+    Path Filter:
+    Polling Interval:
+    Recurse Subdirectories:
+- name: GetNetStat
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size:
+    File Filter:
+    Ignore Hidden Files:
+    Input Directory: /host-data/metrics/netstat/HOSTNAME
+    Keep Source File:
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 10 sec
+    Minimum File Size:
+    Path Filter:
+    Polling Interval:
+    Recurse Subdirectories:
 - name: GetPS
   class: org.apache.nifi.processors.standard.GetFile
   max concurrent tasks: 1
   scheduling strategy: TIMER_DRIVEN
-  scheduling period: 15 sec
+  scheduling period: 0 sec
   penalization period: 30 sec
   yield period: 1 sec
   run duration nanos: 0
   auto-terminated relationships list: []
   Properties:
-    #Batch Size:
-    #File Filter:
-    #Ignore Hidden Files:
+    Batch Size:
+    File Filter:
+    Ignore Hidden Files:
     Input Directory: /host-data/metrics/ps/HOSTNAME
-    Keep Source File: false
-    #Maximum File Age:
-    #Maximum File Size:
+    Keep Source File:
+    Maximum File Age:
+    Maximum File Size:
     Minimum File Age: 10 sec
-    #Minimum File Size:
-    #Path Filter:
-    #Polling Interval:
-    Recurse Subdirectories: true
-- name: GetNetstat
-  class: org.apache.nifi.processors.standard.GetFile
-  max concurrent tasks: 1
-  scheduling strategy: TIMER_DRIVEN
-  scheduling period: 15 sec
-  penalization period: 30 sec
-  yield period: 1 sec
-  run duration nanos: 0
-  auto-terminated relationships list: []
-  Properties:
-    #Batch Size:
-    #File Filter:
-    #Ignore Hidden Files:
-    Input Directory: /host-data/metrics/netstat/HOSTNAME
-    Keep Source File: false
-    #Maximum File Age:
-    #Maximum File Size:
-    Minimum File Age: 10 sec
-    #Minimum File Size:
-    #Path Filter:
-    #Polling Interval:
-    Recurse Subdirectories: true
+    Minimum File Size:
+    Path Filter:
+    Polling Interval:
+    Recurse Subdirectories:
 - name: TailFile
   class: org.apache.nifi.processors.standard.TailFile
   max concurrent tasks: 1
   scheduling strategy: TIMER_DRIVEN
-  scheduling period: 1 sec
+  scheduling period: 0 sec
   penalization period: 30 sec
   yield period: 1 sec
   run duration nanos: 0
   auto-terminated relationships list: []
   Properties:
-    #File Location:
+    File Location:
     File to Tail: TAILFILE
     State File: state.log
-    #Initial Start Position:
-    #Rolling Filename Pattern:
+    Initial Start Position:
+    Rolling Filename Pattern:
 Connections:
-- name: GetNMON/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
-  source name: GetNMON
+- name: GetNMon/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: GetNMon
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- name: GetNetStat/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: GetNetStat
   source relationship name: success
   destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
   max work queue size: 10000
@@ -132,14 +140,6 @@ Connections:
   queue prioritizer class: ''
 - name: GetPS/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
   source name: GetPS
-  source relationship name: success
-  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
-  max work queue size: 10000
-  max work queue data size: 1 GB
-  flowfile expiration: 0 sec
-  queue prioritizer class: ''
-- name: GetNetstat/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
-  source name: GetNetstat
   source relationship name: success
   destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
   max work queue size: 10000
@@ -155,8 +155,8 @@ Connections:
   flowfile expiration: 0 sec
   queue prioritizer class: ''
 Remote Processing Groups:
-- name: http://localhost:8080/nifi
-  url: http://localhost:8080/nifi
+- name: http://monitor.dev:8080/nifi
+  url: http://monitor.dev:8080/nifi
   comment: ''
   timeout: 30 sec
   yield period: 10 sec

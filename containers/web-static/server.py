@@ -1,24 +1,25 @@
-import sys
-import SimpleHTTPServer
-import SocketServer
+import sys, time, os, SimpleHTTPServer, SocketServer
 
 PORT = int(sys.argv[1])
 LOGFILE = sys.argv[2]
 
-Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+# Computes current system time in millis
+current_milli_time = lambda: int(round(time.time() * 1000))
 
-def do_get(s):
-  s.send_response(200)
-  s.send_header("Content-type", "text/html")
-  s.end_headers()
-  s.wfile.write("<html>Welcome to myCompany!</html>")
+def do_GET(self):
+  self.t1 = current_milli_time()
+  self.send_response(200)
+  self.send_header("Content-type", "text/html")
+  self.end_headers()
+  self.wfile.write("<html>Welcome to myCompany!</html>")
 
 def log_message(self, format, *args): 
-  open(LOGFILE, "a").write("%s\t%s\t%s\n" %  (self.log_date_time_string(), self.client_address[0],  format%args)) 
+  t2 = current_milli_time()
+  open(LOGFILE, "a").write("%s\t%s\t%s\t%s\n" %  (self.log_date_time_string(), str(current_milli_time() - self.t1), self.client_address[0],  format%args)) 
 
+Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+Handler.do_GET = do_GET
 Handler.log_message = log_message
 
 httpd = SocketServer.TCPServer(("", PORT), Handler)
-
-print "serving at port", PORT
 httpd.serve_forever()

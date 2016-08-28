@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "/*\n// Placeholder for S3 use instead of local FS\nval keyId \u003d \"dummy\"\nval secret \u003d \"dummy\"\nsc.hadoopConfiguration.set(\"fs.s3n.awsAccessKeyId\", keyId)\nsc.hadoopConfiguration.set(\"fs.s3n.awsSecretAccessKey\", secret)\nsc.hadoopConfiguration.set(\"fs.s3.impl\", \"org.apache.hadoop.fs.s3native.NativeS3FileSystem\")\nval fs \u003d \"s3n://hwx-randy/\"\n*/\nval fs \u003d \"/data/\"\n\nimport sqlContext.implicits._\nimport org.apache.spark.sql.Row;\nimport org.apache.spark.sql.types.{StructType,StructField,StringType};\nimport java.text.SimpleDateFormat\n\ndef cacheJSON(table: String) :Unit \u003d{\n  val name \u003d table.replace(\"-\", \"_\") + \"_raw\"\n  sqlContext.sql(\"drop table if exists \" + name)\n  sqlContext.read.json(fs+table+\"/*\").createOrReplaceTempView(name+\"_tmp\")\n  sqlContext.sql(\"select input_file_name() as fn, * from \" + name + \"_tmp\").coalesce(1).write.format(\"parquet\")\n    .mode(\"overwrite\").option(\"path\", fs+\"derived/\"+name).saveAsTable(name)\n  println(\"Wrote \" + name + \" to \" + fs+\"derived/\"+name)\n  sqlContext.cacheTable(name)\n  println(\"Cached \" + name)\n  sqlContext.sql(\"drop table \" + name + \"_tmp\")\n}\n\ndef cacheTable(query: String, table: String) :Unit \u003d {\n  sqlContext.sql(\"drop table if exists \" + table)\n  sqlContext.sql(query).coalesce(1).write.format(\"parquet\")\n    .mode(\"overwrite\").option(\"path\", fs+\"derived/\"+table).saveAsTable(table)\n  println(\"Wrote \" + table + \" to \"+fs+\"derived/\"+table)\n  sqlContext.cacheTable(table)\n  println(\"Cached table \"+table)\n}",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:11:40 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -31,15 +31,15 @@
         "msg": "\nfs: String \u003d /data/\n\nimport sqlContext.implicits._\n\nimport org.apache.spark.sql.Row\n\nimport org.apache.spark.sql.types.{StructType, StructField, StringType}\n\nimport java.text.SimpleDateFormat\n\ncacheJSON: (table: String)Unit\n\ncacheTable: (query: String, table: String)Unit\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:21:31 PM",
-      "dateFinished": "Aug 26, 2016 8:21:44 PM",
+      "dateStarted": "Aug 28, 2016 8:07:52 PM",
+      "dateFinished": "Aug 28, 2016 8:10:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Parse Raw JSON",
       "text": "cacheJSON(\"nodes\")\ncacheJSON(\"node-health\")\ncacheJSON(\"services\")\ncacheJSON(\"service-health\")",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:52 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -69,14 +69,14 @@
         "msg": "Wrote nodes_raw to /data/derived/nodes_raw\nCached nodes_raw\nWrote node_health_raw to /data/derived/node_health_raw\nCached node_health_raw\nWrote services_raw to /data/derived/services_raw\nCached services_raw\nWrote service_health_raw to /data/derived/service_health_raw\nCached service_health_raw\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:21:32 PM",
-      "dateFinished": "Aug 26, 2016 8:23:05 PM",
+      "dateStarted": "Aug 28, 2016 8:08:05 PM",
+      "dateFinished": "Aug 28, 2016 8:14:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "cacheTable(\"\"\"\nselect\n  from_unixtime(split(split(fn, \u0027/\u0027)[size(split(fn, \u0027/\u0027))-1], \u0027\\\\.\u0027)[0]/1000) as datetime,\n  *\nfrom nodes_raw\n\"\"\", \"nodes\")",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:52 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -104,14 +104,14 @@
         "msg": "Wrote nodes to /data/derived/nodes\nCached table nodes\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:21:45 PM",
-      "dateFinished": "Aug 26, 2016 8:23:07 PM",
+      "dateStarted": "Aug 28, 2016 8:10:30 PM",
+      "dateFinished": "Aug 28, 2016 8:15:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "cacheTable(\"\"\"\nselect datetime, service.service, service.id, b.address, service.port, check.node, check.checkid, check.name, check.status\nfrom\n(select\n  from_unixtime(split(split(fn, \u0027/\u0027)[size(split(fn, \u0027/\u0027))-1], \u0027\\\\.\u0027)[0]/1000) as datetime,\n  explode(checks) as check,\n  node,\n  service\nfrom service_health_raw) a\nleft outer join (\n  select distinct node, address from nodes\n) b on check.node \u003d b.node\n\"\"\", \"services\")",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:52 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -139,14 +139,14 @@
         "msg": "Wrote services to /data/derived/services\nCached table services\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:23:06 PM",
-      "dateFinished": "Aug 26, 2016 8:23:12 PM",
+      "dateStarted": "Aug 28, 2016 8:14:58 PM",
+      "dateFinished": "Aug 28, 2016 8:16:05 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "case class Log(ts: String, IP: String, log: String)\nval apps \u003d sqlContext.sql(\"select distinct service from services where service !\u003d \u0027consul\u0027\").collect\napps.map(row \u003d\u003e {\n  val app \u003d row(0).asInstanceOf[String]\n  val appTable \u003d app.replace(\"-\", \"_\")\n\n  sc.textFile(fs+\"host-data/logs/\"+app+\"/*/*\")\n    .map(_.split(\"\\t\").map(_.trim))\n    .map(z \u003d\u003e Log(z(0), z(1), z(2)))\n    .coalesce(1).toDF().createOrReplaceTempView(appTable+\"_logs_raw\")\n  //Extract proper datetime and app-host\n  val logQuery \u003d \"\"\"\n    select\n      from_unixtime(unix_timestamp(ts, \"dd/MMM/yyyy HH:mm:ss\")) as datetime,\n      split(input_file_name(), \"/\")[size(split(input_file_name(), \"/\"))-2] as node,\n      ip as source_ip,\n      log \n    from \"\"\"+appTable+\"_logs_raw\"\n  cacheTable(logQuery, appTable+\"_logs\")\n  //Enrich app logs with traffic source\n  val enrichedQuery \u003d \"\"\"\n    select ?TABLE.datetime, ?TABLE.node as app_host, source_ip, b.node as source_host, log\n    from ?TABLE\n    left outer join (\n       select distinct node, address from nodes\n    ) b on source_ip \u003d address\n    order by ?TABLE.datetime asc\n  \"\"\".replace(\"?TABLE\", appTable+\"_logs\")\n  cacheTable(logQuery, appTable+\"_logs_enriched\")\n})",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "text": "case class Log(ts: String, latency: Int, IP: String, log: String)\nval apps \u003d sqlContext.sql(\"select distinct service from services where service !\u003d \u0027consul\u0027\").collect\napps.map(row \u003d\u003e {\n  val app \u003d row(0).asInstanceOf[String]\n  val appTable \u003d app.replace(\"-\", \"_\")\n\n  sc.textFile(fs+\"host-data/logs/\"+app+\"/*/*\")\n    .map(_.split(\"\\t\").map(_.trim))\n    .map(z \u003d\u003e Log(z(0), z(1).toInt, z(2), z(3)))\n    .coalesce(1).toDF().createOrReplaceTempView(appTable+\"_logs_raw\")\n  //Extract proper datetime and app-host\n  val logQuery \u003d \"\"\"\n    select\n      from_unixtime(unix_timestamp(ts, \"dd/MMM/yyyy HH:mm:ss\")) as datetime,\n      split(input_file_name(), \"/\")[size(split(input_file_name(), \"/\"))-2] as node,\n      latency,\n      ip as source_ip,\n      log \n    from \"\"\"+appTable+\"_logs_raw\"\n  cacheTable(logQuery, appTable+\"_logs\")\n  //Enrich app logs with traffic source\n  val enrichedQuery \u003d \"\"\"\n    select ?TABLE.datetime, ?TABLE.node as app_host, source_ip, b.node as source_host, log\n    from ?TABLE\n    left outer join (\n       select distinct node, address from nodes\n    ) b on source_ip \u003d address\n    order by ?TABLE.datetime asc\n  \"\"\".replace(\"?TABLE\", appTable+\"_logs\")\n  cacheTable(logQuery, appTable+\"_logs_enriched\")\n})",
+      "dateUpdated": "Aug 28, 2016 8:07:53 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -175,14 +175,14 @@
         "msg": "\ndefined class Log\n\napps: Array[org.apache.spark.sql.Row] \u003d Array([web-service], [web-static])\nWrote web_service_logs to /data/derived/web_service_logs\nCached table web_service_logs\nWrote web_service_logs_enriched to /data/derived/web_service_logs_enriched\nCached table web_service_logs_enriched\nWrote web_static_logs to /data/derived/web_static_logs\nCached table web_static_logs\nWrote web_static_logs_enriched to /data/derived/web_static_logs_enriched\nCached table web_static_logs_enriched\n\nres11: Array[Unit] \u003d Array((), ())\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:23:08 PM",
-      "dateFinished": "Aug 26, 2016 8:23:23 PM",
+      "dateStarted": "Aug 28, 2016 8:15:22 PM",
+      "dateFinished": "Aug 28, 2016 8:17:32 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val nmon_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/nmon/*\")\ncase class nmonRec(node: String, ts: String, CPUUser: Double, CPUSys: Double, MemFree: Long, MemAvailable: Long, MemTotal: Long, DiskBusy: Double)\n\nnmon_raw.filter(_._2 contains \"ZZZZ\").map(x \u003d\u003e {\n    val lines \u003d x._2.split(\"\\n\")\n    nmonRec(\n      x._1.split(\"/\").last.split(\"_\").head, //node\n      lines.filter(_ contains \"ZZZZ\")(0).split(\",\")(3) + \" \" +\n      lines.filter(_ contains \"ZZZZ\")(0).split(\",\")(2), //timestamp\n      lines.filter(y \u003d\u003e y.contains(\"T0001\") \u0026\u0026 y.startsWith(\"CPU_ALL\"))(0).split(\",\")(2).trim.toDouble, // User CPU\n      lines.filter(y \u003d\u003e y.contains(\"T0001\") \u0026\u0026 y.startsWith(\"CPU_ALL\"))(0).split(\",\")(3).trim.toDouble, // Sys CPU\n      lines.filter(y \u003d\u003e y.contains(\"MemFree\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"MemAvailable\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"MemTotal\"))(0).split(\": \")(1).split(\" kB\")(0).trim.toLong,\n      lines.filter(y \u003d\u003e y.contains(\"DISKBUSY\"))(1).split(\",\")(2).trim.toDouble\n    )\n}).toDF().coalesce(1).createOrReplaceTempView(\"nmon_raw\")",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:53 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -210,14 +210,14 @@
         "msg": "\nnmon_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/nmon/* MapPartitionsRDD[170] at wholeTextFiles at \u003cconsole\u003e:37\n\ndefined class nmonRec\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:23:12 PM",
-      "dateFinished": "Aug 26, 2016 8:23:25 PM",
+      "dateStarted": "Aug 28, 2016 8:16:06 PM",
+      "dateFinished": "Aug 28, 2016 8:17:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "cacheTable(\"\"\"\nselect from_unixtime(unix_timestamp(ts, \"dd-MMM-yyyy HH:mm:ss\")) as datetime, node, cpuuser, cpusys, memfree, memavailable, memtotal, diskbusy from nmon_raw\norder by datetime asc\n\"\"\", \"node_monitoring\")",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:54 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -269,14 +269,14 @@
         "msg": "Wrote node_monitoring to /data/derived/node_monitoring\nCached table node_monitoring\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:23:24 PM",
-      "dateFinished": "Aug 26, 2016 8:23:39 PM",
+      "dateStarted": "Aug 28, 2016 8:17:33 PM",
+      "dateFinished": "Aug 28, 2016 8:18:37 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ps_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/ps/*\")\ncase class Process(node: String, ts: Long, user: String, pid: String, CPU: Double, Mem: Double, VSZ: Int, RSS: Int, TTY: String, STAT: String, Start: String, Time: String, Command: String)\n\n//Take the timestamp from filename and prepend it to each row of \"ps\" output\nps_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).map(y \u003d\u003e { \n  val x \u003d y.split(\"\\\\s+\")\n  Process(\n    x(0), x(1).toLong/1000, x(2), x(3), x(4).toDouble, x(5).toDouble, x(6).toInt, x(7).toInt, x(8), x(9), x(10), x(11), x.slice(12, x.size-1).mkString(\" \")\n  )\n}).toDF().coalesce(1).createOrReplaceTempView(\"ps_raw\")\n  \n//TODO - fix timestamp issue",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:54 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -304,14 +304,14 @@
         "msg": "\nps_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/ps/* MapPartitionsRDD[186] at wholeTextFiles at \u003cconsole\u003e:37\n\ndefined class Process\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:23:26 PM",
-      "dateFinished": "Aug 26, 2016 8:23:40 PM",
+      "dateStarted": "Aug 28, 2016 8:17:57 PM",
+      "dateFinished": "Aug 28, 2016 8:18:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ns_raw \u003d sc.wholeTextFiles(fs+\"host-data/metrics/netstat/*\")\ncase class Socket(node: String, ts: Long, Proto: String, RecvQ: Int, SendQ: Int, LocalAddress: String, ForeignAddress: String, State: String, User: String, Inode: String, pid: String, ProgramName: String)\n\n//Take the timestamp from filename and prepend it to each row of \"netstat\" output\nns_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).filter(x \u003d\u003e !(x contains \"Recv-Q\") \u0026\u0026 !(x contains \"Active UNIX\") \u0026\u0026 !(x contains \"RefCnt\") \u0026\u0026 !(x.split(\"\\\\s+\")(2) contains \"unix\") \u0026\u0026 !(x contains \"Active Internet\"))\n  .map(y \u003d\u003e {\n  val x \u003d y.split(\"\\\\s+\")\n  Socket(\n    x(0), x(1).toLong/1000, x(2), x(3).toInt, x(4).toInt, x(5), x(6), x(7), x(8), x(9), if (x.size \u003e 11) x(10) else \"\", if (x.size \u003e 12) x(11) else \"\"\n  )\n})\n.toDF().coalesce(1).createOrReplaceTempView(\"netstat_raw\")\n\ncase class IPCSocket(node: String, ts: Long, Proto: String, RefCnt: Int, Flags: String, Type: String, State: String, Inode: String, pid: String, ProgamName: String, Path: String)\nns_raw.flatMap(x \u003d\u003e {\n  val node \u003d x._1.split(\"/\")(x._1.split(\"/\").size - 2)\n  val ts \u003d x._1.split(\"/\").last\n  x._2.split(\"\\n\").drop(1).map(node + \" \" + ts + \" \" + _)\n}).filter(x \u003d\u003e x contains \"unix\")\n  .map(y \u003d\u003e {\n  val x \u003d y.split(\"\\\\s+\")\n  IPCSocket(\n    x(0), x(1).toLong/1000, x(2), x(3).toInt, x.slice(4,x.size-4).mkString(\" \"), x(x.size-4), x(x.size-3), x(x.size-2), x.last.split(\"/\")(0), x.last.split(\"/\")(1), \"\"\n  )\n})\n.toDF().coalesce(1).createOrReplaceTempView(\"ipcsocket_raw\")\n//TODO - fix timestamp issue",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:54 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -363,14 +363,14 @@
         "msg": "\nns_raw: org.apache.spark.rdd.RDD[(String, String)] \u003d /data/host-data/metrics/netstat/* MapPartitionsRDD[192] at wholeTextFiles at \u003cconsole\u003e:37\n\ndefined class Socket\n\ndefined class IPCSocket\n"
       },
       "dateCreated": "Aug 17, 2016 9:03:31 AM",
-      "dateStarted": "Aug 26, 2016 8:23:40 PM",
-      "dateFinished": "Aug 26, 2016 8:23:42 PM",
+      "dateStarted": "Aug 28, 2016 8:18:37 PM",
+      "dateFinished": "Aug 28, 2016 8:19:22 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Aug 26, 2016 8:21:31 PM",
+      "dateUpdated": "Aug 28, 2016 8:07:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -396,9 +396,9 @@
         "type": "TEXT",
         "msg": ""
       },
-      "dateCreated": "Aug 25, 2016 10:50:07 PM",
-      "dateStarted": "Aug 26, 2016 8:23:40 PM",
-      "dateFinished": "Aug 26, 2016 8:23:42 PM",
+      "dateCreated": "Aug 25, 2016 10:50:07 AM",
+      "dateStarted": "Aug 28, 2016 8:18:55 PM",
+      "dateFinished": "Aug 28, 2016 8:19:22 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
@@ -406,12 +406,24 @@
   "name": "DeviceRegistry-Setup",
   "id": "2BT36EG13",
   "angularObjects": {
-    "2BU3XFBJ3:shared_process": [],
-    "2BUYKPW2U:shared_process": [],
-    "2BVFBMUF5:shared_process": [],
-    "2BU96EW67:shared_process": [],
-    "2BUYJUP64:shared_process": [],
-    "2BTXERNCS:shared_process": []
+    "2BVH4Q2PB:shared_process": [],
+    "2BW4C93EQ:shared_process": [],
+    "2BTQ56YYE:shared_process": [],
+    "2BWS3REHU:shared_process": [],
+    "2BU8YU5X5:shared_process": [],
+    "2BWT8PFVZ:shared_process": [],
+    "2BW8C4HR9:shared_process": [],
+    "2BUMK7JZT:shared_process": [],
+    "2BUJCTNVW:shared_process": [],
+    "2BU64FZ47:shared_process": [],
+    "2BWTVUHVY:shared_process": [],
+    "2BV3FRB79:shared_process": [],
+    "2BW34G6WV:shared_process": [],
+    "2BUGPUMNM:shared_process": [],
+    "2BWCDEKJ6:shared_process": [],
+    "2BV8G4H13:shared_process": [],
+    "2BVPETWWP:shared_process": [],
+    "2BVJ1FH7C:shared_process": []
   },
   "config": {},
   "info": {}

@@ -5,7 +5,9 @@ RUN yum install -y java-1.8.0-openjdk-devel net-tools wget unzip
 
 RUN wget -nv ${NIFI_URL} -O /nifi.tgz
 RUN tar -xzvf /nifi.tgz
-RUN mv ${NIFI_SUBFOLDER}/nifi /nifi
+# HDF is shipped as ${NIFI_SUBFOLDER/nifi}, Apache NiFi is shipped with no subfolder
+#RUN mv ${NIFI_SUBFOLDER}/nifi /nifi
+RUN mv ${NIFI_SUBFOLDER} /nifi
 
 RUN mkdir /etc/consul.d
 ADD bin/consul /usr/bin/consul
