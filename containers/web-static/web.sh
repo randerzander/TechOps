@@ -7,6 +7,5 @@ mkdir -p $DIR
 touch $TAILFILE
 
 sed -ie "s@TAILFILE@$TAILFILE@g" /minifi/conf/flow.yml
-sed -ie "s@HOSTNAME@$HOSTNAME@g" /minifi/conf/flow.yml
 
-python /server.py 8000 $TAILFILE &
+python /server.py 8000 $TAILFILE

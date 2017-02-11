@@ -1,0 +1,200 @@
+Flow Controller:
+  name: full
+  comment: ''
+Core Properties:
+  flow controller graceful shutdown period: 10 sec
+  flow service write delay interval: 500 ms
+  administrative yield duration: 30 sec
+  bored yield duration: 10 millis
+  max concurrent threads: 1
+FlowFile Repository:
+  partitions: 256
+  checkpoint interval: 2 mins
+  always sync: false
+  Swap:
+    threshold: 20000
+    in period: 5 sec
+    in threads: 1
+    out period: 5 sec
+    out threads: 4
+Content Repository:
+  content claim max appendable size: 10 MB
+  content claim max flow files: 100
+  always sync: false
+Provenance Repository:
+  provenance rollover time: 1 min
+Component Status Repository:
+  buffer size: 1440
+  snapshot frequency: 1 min
+Security Properties:
+  keystore: ''
+  keystore type: ''
+  keystore password: ''
+  key password: ''
+  truststore: ''
+  truststore type: ''
+  truststore password: ''
+  ssl protocol: ''
+  Sensitive Props:
+    key:
+    algorithm: PBEWITHMD5AND256BITAES-CBC-OPENSSL
+    provider: BC
+Processors:
+- name: ExecuteSoftflowctl
+  class: org.apache.nifi.processors.standard.ExecuteProcess
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 5 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list:
+  - success
+  Properties:
+    Argument Delimiter: ' '
+    Batch Duration: 60s
+    Command: softflowctl
+    Command Arguments: expire-all
+    Redirect Error Stream: 'false'
+- name: ExecutePs
+  class: org.apache.nifi.processors.standard.ExecuteProcess
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 5 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list:
+  - success
+  Properties:
+    Argument Delimiter: ' '
+    Batch Duration:
+    Command: ps
+    Command Arguments: aux
+    Redirect Error Stream: 'false'
+- name: ExecuteNetstat
+  class: org.apache.nifi.processors.standard.ExecuteProcess
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 5 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list:
+  - success
+  Properties:
+    Argument Delimiter: ' '
+    Batch Duration: 5 sec
+    Command: netstat
+    Command Arguments: -Wape
+    Redirect Error Stream: 'false'
+- name: ExecuteNmon
+  class: org.apache.nifi.processors.standard.ExecuteProcess
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 15 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list:
+  - success
+  Properties:
+    Argument Delimiter: ' '
+    Batch Duration:
+    Command: nmon
+    Command Arguments: -f -s1 -c1 -m /host-data/metrics/nmon
+    Redirect Error Stream: 'false'
+- name: GetFile
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 1 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size: '10'
+    File Filter: '.*'
+    Ignore Hidden Files: 'true'
+    Input Directory: /host-data/metrics/nmon
+    Keep Source File: 'false'
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 10 sec
+    Minimum File Size: 0 B
+    Path Filter:
+    Polling Interval: 0 sec
+    Recurse Subdirectories: 'true'
+- name: TailFile
+  class: org.apache.nifi.processors.standard.TailFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    File Location:
+    File to Tail: TAILFILE
+    State File: state.log
+    Initial Start Position:
+    Rolling Filename Pattern:
+Connections:
+- name: GetFile/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: GetFile
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- name: ExecutePs/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: ExecutePs
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- name: ExecuteNetstat/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: ExecuteNetstat
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- name: TailFile/success/f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  source name: TailFile
+  source relationship name: success
+  destination name: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+Remote Processing Groups:
+- name: http://monitor.dev:8080/nifi
+  url: http://monitor.dev:8080/nifi
+  comment: ''
+  timeout: 30 sec
+  yield period: 10 sec
+  Output Ports:
+  - id: e0b161a8-0158-1000-b2e5-a99542b7e99c
+    name: ToMiNiFi
+    comment: ''
+    max concurrent tasks: 1
+    use compression: false
+    Properties: # Deviates from spec and will later be removed when this is autonegotiated		
+        Port: 1026		
+        Host Name: monitor.dev
+  Input Ports:
+  - id: f25b1117-9c24-4230-a52c-b3c8d9e4d587
+    name: MiNiFi-files
+    comment: ''
+    max concurrent tasks: 1
+    use compression: false
+    Properties: # Deviates from spec and will later be removed when this is autonegotiated		
+        Port: 1026		
+        Host Name: monitor.dev

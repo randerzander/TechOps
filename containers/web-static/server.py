@@ -15,7 +15,7 @@ def do_GET(self):
 
 def log_message(self, format, *args): 
   t2 = current_milli_time()
-  open(LOGFILE, "a").write("%s\t%s\t%s\t%s\n" %  (self.log_date_time_string(), str(current_milli_time() - self.t1), self.client_address[0],  format%args)) 
+  open(LOGFILE, "a").write("%s\t%s\t%s\t%s\t%s\n" %  (self.log_date_time_string(), 'web-static', str(current_milli_time() - self.t1), self.client_address[0],  format%args)) 
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 Handler.do_GET = do_GET

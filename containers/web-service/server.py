@@ -38,7 +38,7 @@ def do_GET(self):
   self.wfile.write("<html>Your balance is: "+str(1000*random.randint(0,9))+"</html>")
 
 def log_message(self, format, *args): 
-  open(LOGFILE, "a").write("%s\t%s\t%s\t%s\n" %  (self.log_date_time_string(), str(current_milli_time() - self.t1), self.client_address[0],  format%args)) 
+  open(LOGFILE, "a").write("%s\t%s\t%s\t%s\t%s\n" %  (self.log_date_time_string(), 'web-service', str(current_milli_time() - self.t1), self.client_address[0],  format%args)) 
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 Handler.log_message = log_message

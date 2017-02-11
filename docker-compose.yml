@@ -1,44 +1,36 @@
-version: '2'
+version: '3'
 services:
   monitor.dev:
     build:
-     context: containers/base
+     context: containers/monitor
      args:
       - NIFI_URL=${NIFI_URL}
       - NIFI_SUBFOLDER=${NIFI_SUBFOLDER}
-    image: base
+    image: monitor
     networks:
      - dev
     hostname: monitor
     domainname: dev
-    environment:
-     - MODE=master
     ports:
      - "8080:8080"
      - "8500:8500"
     volumes:
      - ./data:/data
   web-static.dev:
-    depends_on:
-     - monitor.dev
     build: 
       context: containers/web-static
     image: web-static
     networks:
      - dev
     environment:
-     - MODE=slave
      - SCRIPT=web.sh
   web-service.dev:
-    depends_on:
-     - monitor.dev
     build: 
       context: containers/web-service
     image: web-service
     networks:
      - dev
     environment:
-     - MODE=slave
      - SCRIPT=web.sh
   zeppelin.dev:
     build:

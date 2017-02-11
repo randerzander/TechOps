@@ -1,2 +1,4 @@
 *.swp
 data/
+*.tar.gz
+*.tgz
