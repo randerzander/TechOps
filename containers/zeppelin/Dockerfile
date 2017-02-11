@@ -5,16 +5,16 @@ RUN yum install -y git
 # Spark bits
 ARG SPARK_URL
 ARG SPARK_SUBFOLDER
-#RUN wget -nv ${SPARK_URL} -O /spark.tgz
-COPY ${SPARK_URL} /spark.tgz
+RUN wget -nv ${SPARK_URL} -O /spark.tgz
+#COPY ${SPARK_URL} /spark.tgz
 RUN tar -xzvf /spark.tgz
 RUN mv ${SPARK_SUBFOLDER} /spark
 
 # Zeppelin bits
 ARG ZEPPELIN_URL
 ARG ZEPPELIN_SUBFOLDER
-#RUN wget -nv ${ZEPPELIN_URL} -O /zeppelin.tgz
-COPY ${ZEPPELIN_URL} /zeppelin.tgz
+RUN wget -nv ${ZEPPELIN_URL} -O /zeppelin.tgz
+#COPY ${ZEPPELIN_URL} /zeppelin.tgz
 RUN tar -xzvf /zeppelin.tgz
 RUN mv ${ZEPPELIN_SUBFOLDER} /zeppelin
 

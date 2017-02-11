@@ -11,13 +11,21 @@ Overview Diagram:
 
 ![overview](/screenshots/overview.jpg?raw=true)
 
-Run containers and start generating data:
+This project uses features from unreleased NiFi 1.2.0. To run this yourself, you'll need to build it from master:
+```
+git clone https://github.com/apache/nifi
+cd nifi
+mvn clean package -DskipTests
+cp nifi-assembly/target/nifi-1.2.0-SNAPSHOT-bin.tar.gz ~/projects/TechOps/containers/monitor
+```
+
+Build and run containers:
 ```
 docker build -t app containers/app
 docker-compose up
 ```
 
-Build will likely take 20ish minutes. About 30 seconds after successful start, the following web UIs should be accessible:
+Build will take 20ish minutes. About 30 seconds after successful start, the following web UIs should be accessible:
 
 1. NiFi at localhost:8080/nifi
 2. Zeppelin at localhost:8081
